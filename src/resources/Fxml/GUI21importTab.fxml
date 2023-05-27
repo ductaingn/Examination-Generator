@@ -16,35 +16,31 @@
 
         <Label fx:id="SW_lbl" styleClass="questionBank" text="Import questions from file" />
     </HBox>
-   <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="30.0" prefHeight="12.0" prefWidth="850.0">
-      <children>
-         <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="20.0">
-            <children>
-               <SVGPath content="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z" fill="#273c75" scaleX="0.04" scaleY="0.04" />
-            </children>
-         </VBox>
-         <Label fx:id="SW_lbl1" prefHeight="30.0" prefWidth="230.0" styleClass="subTitle" text="File fomat">
-            <HBox.margin>
-               <Insets left="5.0" />
-            </HBox.margin>
-         </Label>
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aiken format" />
-      </children>
-   </HBox>
-   <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="83.0" prefHeight="12.0" prefWidth="850.0">
-      <children>
-         <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="20.0">
-            <children>
-               <SVGPath content="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z" fill="#273c75" scaleX="0.04" scaleY="0.04" />
-            </children>
-         </VBox>
-         <Label fx:id="SW_lbl12" styleClass="subTitle" text="Import questions from file">
-            <HBox.margin>
-               <Insets left="5.0" />
-            </HBox.margin>
-         </Label>
-      </children>
-   </HBox>
+    <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="30.0" prefHeight="12.0" prefWidth="850.0">
+        <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="20.0">
+            <SVGPath
+                    content="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                    fill="#273c75" scaleX="0.04" scaleY="0.04"/>
+        </VBox>
+        <Label fx:id="SW_lbl1" prefHeight="30.0" prefWidth="230.0" styleClass="subTitle" text="File fomat">
+           <HBox.margin>
+               <Insets left="5.0"/>
+           </HBox.margin>
+        </Label>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aiken format"/>
+    </HBox>
+    <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="83.0" prefHeight="12.0" prefWidth="850.0">
+        <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="20.0">
+            <SVGPath
+                    content="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
+                    fill="#273c75" scaleX="0.04" scaleY="0.04"/>
+        </VBox>
+        <Label fx:id="SW_lbl12" styleClass="subTitle" text="Import questions from file">
+           <HBox.margin>
+               <Insets left="5.0"/>
+           </HBox.margin>
+        </Label>
+    </HBox>
     <VBox prefHeight="130.0" prefWidth="850.0" spacing="15.0">
         <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="780.0">
             <Label prefHeight="22.0" prefWidth="150.0" text="Import">
@@ -70,20 +66,14 @@
          </Text>
         </HBox>
         <HBox prefWidth="850.0">
-         <children>
             <VBox prefHeight="102.0" prefWidth="358.0" style="-fx-border-color: #7f8fa6;">
-               <HBox.margin>
-                  <Insets left="250.0" />
-               </HBox.margin>
-               <children>
-                  <ImageView fitHeight="100.0" fitWidth="376.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Image/dragNdrop.png" />
-                     </image>
-                  </ImageView>
-               </children>
+                <HBox.margin>
+                    <Insets left="250.0"/>
+                </HBox.margin>
+                <ImageView fitHeight="100.0" fitWidth="376.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../Image/dragNdrop.png"/>
+                </ImageView>
             </VBox>
-         </children>
         </HBox>
     </VBox>
     <Button fx:id="addCategory_btn" mnemonicParsing="false" prefHeight="38.0" prefWidth="116.0" style="-fx-background-color: #c23616;" text="IMPORT" />
