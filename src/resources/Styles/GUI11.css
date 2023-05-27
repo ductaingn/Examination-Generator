@@ -1,0 +1,69 @@
+.tab_bar {
+    -fx-background-color: #192a56;
+    -fx-fill: #FFFFFF;
+    -fx-spacing: 10;
+}
+.tab_bar SVGPath {
+    -fx-fill: #FFFFFF;
+}
+.tab_bar Label {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 1.4em;
+}
+ .tab_bar SVGPath:hover {
+     -fx-cursor: hand;
+ }
+ .tab_bar Label:hover {
+     -fx-cursor: hand;
+ }
+
+ .container1 {
+     -fx-border-width: 0 1 1 1;
+     -fx-border-color: #dcdde1;
+     -fx-padding: 10 30 10 30;
+     -fx-spacing: 30;
+ }
+ .it_lbl {
+     -fx-font-family: "Times New Roman";
+ }
+ .container1 Label {
+     -fx-font-size: 1.2em;
+ }
+ .container1 Label:hover {
+     -fx-cursor: hand;
+ }
+ .container1 SVGPath:hover {
+     -fx-cursor: hand;
+ }
+ .container1 Text {
+     -fx-font-size: 1.2em;
+ }
+.container1 Button {
+     -fx-text-fill: #FFFFFF;
+     -fx-font-size: 1.1em;
+     -fx-background-color: #192a56;
+     -fx-background-radius: 5;
+ }
+.container1 Button:hover {
+     -fx-cursor: hand;
+ }
+
+.container2 {
+     -fx-border-width: 1;
+     -fx-border-color: #dcdde1;
+     -fx-padding: 30 30 10 70;
+     -fx-spacing: 40;
+ }
+.container2 Label {
+     -fx-font-size: 1.3em;
+     -fx-opacity: .5;
+ }
+.container2 Label:hover {
+    -fx-cursor: hand;
+    -fx-padding: 0 0 10 0;
+    -fx-opacity: 1;
+}
+
+.menu-item {
+    -fx-font-size: 1.1em;
+}
