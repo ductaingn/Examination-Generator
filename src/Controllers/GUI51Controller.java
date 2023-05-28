@@ -48,7 +48,6 @@ public class GUI51Controller implements Initializable {
     private ComboBox<String> timeLimit_comb;
     @FXML
     private TextField timeLimit_fld;
-    int[] dayInMonth = new int[31];
 
     public void showGUI11() {
         Stage stage = (Stage)switch_lbl.getScene().getWindow();
