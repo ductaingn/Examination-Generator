@@ -16,30 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `category`
+-- Table structure for table `quiz`
 --
 
-DROP TABLE IF EXISTS `category`;
+DROP TABLE IF EXISTS `quiz`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `category` (
-  `category_id` int(3) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `lft` int(3) NOT NULL,
-  `rgt` int(3) NOT NULL,
-  PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `quiz` (
+  `quiz_id` int(5) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `timeOpen` datetime NOT NULL,
+  `timeClose` datetime NOT NULL,
+  `timeLimit` time NOT NULL,
+  PRIMARY KEY (`quiz_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `category`
+-- Dumping data for table `quiz`
 --
 
-LOCK TABLES `category` WRITE;
-/*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'IT3100','lập trình hướng đối tượng',1,20),(2,'Bài 1','Tổng quan OOP',2,9),(3,'Mục tiêu bài học','tìm hiểu, cài đặt',3,4),(4,'Nội dung','công nghệ hướng đối tượng, hướng đối tượng và lớp',5,6),(5,'kỹ thuật lập trình','kỹ thuật thực hiện giải pháp phần mềm',7,8),(6,'Bài 2','Cú pháp JAVA cơ bản',10,19),(7,'Bài giảng E-Learning','link các trang web cho học sinh tự học',11,14),(8,'Udacity','web học miễn phí',12,13),(9,'Mục tiêu bài học','nắm được quy trình bơ bản',15,16),(10,'Nội dung','cơ bản về JAVA',17,18);
-/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+LOCK TABLES `quiz` WRITE;
+/*!40000 ALTER TABLE `quiz` DISABLE KEYS */;
+INSERT INTO `quiz` VALUES (1,'kiểm tra giữa kì','huuhuhuhu','2023-01-23 12:45:00','2023-01-24 13:45:00','01:00:00'),(2,'cuối kì','agdsgadsf','2023-02-02 03:03:00','2023-04-07 03:04:00','02:30:00'),(3,'gasdgsdagas','agdsgadsf','2023-02-02 03:03:00','2023-10-07 03:04:00','01:30:00'),(4,'gsaads','dsgafsadgsadgsadfs','2023-01-02 03:05:00','2024-12-02 04:18:00','01:30:00'),(5,'gsaadsadsfasfasd','dsgafsadgsadgsadfs','2023-03-02 03:05:00','2024-12-02 04:18:00','01:30:00'),(6,'FS','sfSFSfSFsf','2023-01-08 03:03:00','2023-04-02 02:02:00','00:43:00');
+/*!40000 ALTER TABLE `quiz` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-28 14:06:47
+-- Dump completed on 2023-05-29 23:55:57
