@@ -96,5 +96,16 @@
       </HBox>
       <Separator prefWidth="200.0" />
    </VBox>
-    <Button fx:id="addCategory_btn" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="38.0" prefWidth="166.0" style="-fx-background-color: #c23616;" text="ADD CATEGORY" />
+   <HBox alignment="CENTER">
+      <Button fx:id="addCategory_btn" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="38.0" prefWidth="166.0" style="-fx-background-color: #273c75;" text="ADD CATEGORY">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="delCategory_btn" layoutX="352.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="38.0" prefWidth="175.0" style="-fx-background-color: #c23616;" text="DELETE CATEGORY">
+         <HBox.margin>
+            <Insets left="20.0" />
+         </HBox.margin>
+      </Button>
+   </HBox>
 </VBox>

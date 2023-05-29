@@ -1,5 +1,5 @@
 package Controllers;
 
-public class GUI21Controller {
+public class GUI21Controller  {
 
 }
