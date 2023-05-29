@@ -73,10 +73,10 @@
             <fx:include source="GUI21questionTab.fxml" />
         </Tab>
         <Tab text="Categories">
-            <fx:include source="GUI21categoriesTab.fxml"/>
+            <fx:include source="GUI21categoriesTab.fxml" />
         </Tab>
         <Tab text="Import">
-            <fx:include source="GUI21importTab.fxml"/>
+            <fx:include source="GUI21importTab.fxml" />
         </Tab>
         <Tab text="Export">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />

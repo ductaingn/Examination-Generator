@@ -12,6 +12,18 @@ UNLOCK TABLES;
 
 UPDATE category SET rgt = rgt + 2 WHERE name = 'Nội dunggg';
 
+//DELETE NODE
+
+LOCK TABLE nested_category WRITE;
+
+SELECT @myLeft := lft, @myRight := rgt, @myWidth := rgt - lft + 1 FROM category WHERE name = 'FASGSDGS';
+
+DELETE FROM category WHERE lft BETWEEN @myLeft AND @myRight;
+
+UPDATE category SET rgt = rgt - @myWidth WHERE rgt > @myRight;
+UPDATE category SET lft = lft - @myWidth WHERE lft > @myRight;
+
+UNLOCK TABLES;
 
 
 //DUYET CAY
