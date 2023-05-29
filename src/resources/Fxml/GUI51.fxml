@@ -121,7 +121,7 @@
                <Insets left="10.0" />
             </HBox.margin>
          </ComboBox>
-         <ComboBox fx:id="opnMonth_comb" layoutX="260.0" layoutY="11.0" prefHeight="32.0" prefWidth="120.0" promptText="month" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
+         <ComboBox fx:id="opnMonth_comb" layoutX="260.0" layoutY="11.0" prefHeight="32.0" prefWidth="130.0" promptText="month" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
             <HBox.margin>
                <Insets left="10.0" />
             </HBox.margin>
@@ -157,7 +157,7 @@
                <Insets left="110.0" />
             </HBox.margin>
          </ComboBox>
-         <ComboBox fx:id="clsMonth_comb" prefHeight="32.0" prefWidth="120.0" promptText="month" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
+         <ComboBox fx:id="clsMonth_comb" prefHeight="32.0" prefWidth="130.0" promptText="month" style="-fx-background-color: #FFFFFF; -fx-border-color: #bdc3c7;" visibleRowCount="5">
             <HBox.margin>
                <Insets left="10.0" />
             </HBox.margin>
@@ -199,7 +199,7 @@
                     <Insets left="10.0" />
                 </HBox.margin>
             </TextField>
-         <ComboBox fx:id="timeLimit_comb" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #dcdde1;">
+         <ComboBox prefHeight="34.0" prefWidth="120.0" promptText="minutes" style="-fx-background-color: #FFFFFF; -fx-border-color: #dcdde1;">
             <HBox.margin>
                <Insets left="10.0" />
             </HBox.margin>
