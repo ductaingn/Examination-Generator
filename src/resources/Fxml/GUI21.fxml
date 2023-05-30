@@ -85,7 +85,7 @@
             <graphic>
                 <Region prefHeight="26.0" prefWidth="274.0" />
             </graphic>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="374.0" prefWidth="770.0" />
         </Tab>
     </TabPane>
 </AnchorPane>

@@ -1,6 +1,6 @@
 .container2 {
-    -fx-padding: 20 30 10 0;
-    -fx-spacing: 10 ;
+    -fx-padding: 10 0 0 0;
+    -fx-spacing: 5 ;
 }
 
 .container2 Button {
@@ -30,4 +30,16 @@
 .subTitle {
     -fx-font-size: 1.4em;
     -fx-text-fill: #c23616;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-view .filler {
+    -fx-background-color: transparent;
 }
