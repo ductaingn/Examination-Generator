@@ -18,6 +18,8 @@ import java.util.ResourceBundle;
 
 public class GUI51Controller implements Initializable {
     @FXML
+    private Button delete_btn;
+    @FXML
     private Button cancel_btn;
     @FXML
     private Button create_btn;
@@ -98,11 +100,21 @@ public class GUI51Controller implements Initializable {
             e.printStackTrace();
         }
     }
+    public void deleteQuiz() {
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("DELETE FROM quiz WHERE name = '" + name_fld.getText() + "'");
+            System.out.println("Quiz deleted");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cancel_btn.setOnAction(event -> showGUI11());
         create_btn.setOnAction(event -> insertQuiz());
-
+        delete_btn.setOnAction(event -> deleteQuiz());
 
         opnDay_comb.getItems().addAll(generator(31));
         clsDay_comb.getItems().addAll(generator(31));
