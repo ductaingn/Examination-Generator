@@ -69,11 +69,11 @@
     -fx-padding: 2 0 2 10px;
 }
 .table-row-cell:hover {
-
+    -fx-cursor: hand;
 }
 .table-row-cell{
     -fx-background-color: #FFFFFF;
-    -fx-padding: 10;
+    -fx-padding: 0 0 15 50;
 }
 
 .table-view:focused{
