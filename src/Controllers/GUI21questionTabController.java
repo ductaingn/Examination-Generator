@@ -71,6 +71,10 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
             comboBox.setItems(categoryName);
         } catch (Exception e) {e.printStackTrace();}
     }
+
+    public void clickEdit(MouseEvent event) {
+        System.out.println("edit");
+    }
     private void loadQuestion() {
         try {
             ObservableList<Question> questionsList = FXCollections.observableArrayList();
@@ -98,6 +102,10 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
                                     "-fx-text-fill: blue; -fx-font-size: 1em;"
                             );
 //                            adding edit function
+                            edit_lbl.setOnMouseClicked(e -> {
+                                System.out.println("edit question");
+                            });
+//
                             HBox hBox = new HBox(edit_lbl);
                             setGraphic(hBox);
                             setText(null);

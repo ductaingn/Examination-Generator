@@ -21,7 +21,14 @@ public class ViewFactory {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI51.fxml"));
         createStage(loader);
     }
-
+    public void showGUI61() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI61.fxml"));
+        createStage(loader);
+    }
+    public void showGUI62a() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI62a.fxml"));
+        createStage(loader);
+    }
 
     public void createStage(FXMLLoader loader) {
         Scene scene = null;
