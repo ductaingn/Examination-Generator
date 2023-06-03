@@ -85,7 +85,6 @@ public class GUI51Controller implements Initializable {
         try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
-            int minutes = Integer.parseInt(timeLimit_fld.getText());
             int monthOpn = MyMonth.valueOf(opnMonth_comb.getValue()).ordinal() + 1;
             int monthCls = MyMonth.valueOf(clsMonth_comb.getValue()).ordinal() + 1;
             statement.executeUpdate("insert into quiz (name, description, timeOpen, timeClose, timeLimit) " +
@@ -94,7 +93,7 @@ public class GUI51Controller implements Initializable {
                     " " + opnHour_comb.getValue() + ":" + opnMin_comb.getValue() + "', '" +
                     clsYear_comb.getValue() + "-" + monthCls + "-" + clsDay_comb.getValue() +
                     " " + clsHour_comb.getValue() + ":" + clsMin_comb.getValue() + "', '" +
-                    minutes/60 + ":" + minutes%60 + "');");
+                    timeLimit_fld.getText() + "');");
             System.out.println("Quiz Created");
         } catch (Exception e) {
             e.printStackTrace();

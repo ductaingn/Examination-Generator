@@ -96,10 +96,11 @@
          </VBox.margin>
       </Button>
    </VBox>
-   <TableView fx:id="tableView" editable="true" layoutX="30.0" layoutY="312.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #e8eaed;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="300.0">
+   <TableView fx:id="tableView" editable="true" layoutX="30.0" layoutY="312.0" onMouseClicked="#getItem" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #e8eaed;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="300.0">
      <columns>
        <TableColumn fx:id="tv_icon" editable="false" sortable="false" />
        <TableColumn fx:id="tv_name" editable="false" prefWidth="700.0" />
+         <TableColumn fx:id="tv_time" editable="false" prefWidth="700.0" visible="false" />
      </columns>
    </TableView>
 </AnchorPane>

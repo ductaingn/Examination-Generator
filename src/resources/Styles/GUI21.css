@@ -68,3 +68,13 @@
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
     -fx-border-color: transparent;
 }
+
+.Button {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 1.1em;
+    -fx-background-color: #192a56;
+    -fx-background-radius: 5;
+}
+.Button:hover{
+    -fx-cursor: hand;
+}
