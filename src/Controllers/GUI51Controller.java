@@ -59,10 +59,18 @@ public class GUI51Controller implements Initializable {
     }
 
 //    generate array number from 1 to k
-    private Integer[] generator(int k) {
+    private Integer[] generatorFrom1(int k) {
         Integer[] result = new Integer[k];
         for (int i = 0; i < k; i++) {
             result[i] = i + 1;
+        }
+        return result;
+    }
+
+    private Integer[] generatorFrom0(int k) {
+        Integer[] result = new Integer[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = i;
         }
         return result;
     }
@@ -115,15 +123,15 @@ public class GUI51Controller implements Initializable {
         create_btn.setOnAction(event -> insertQuiz());
         delete_btn.setOnAction(event -> deleteQuiz());
 
-        opnDay_comb.getItems().addAll(generator(31));
-        clsDay_comb.getItems().addAll(generator(31));
+        opnDay_comb.getItems().addAll(generatorFrom1(31));
+        clsDay_comb.getItems().addAll(generatorFrom1(31));
         opnMonth_comb.getItems().addAll(month);
         clsMonth_comb.getItems().addAll(month);
         opnYear_comb.getItems().addAll(2022, 2023, 2024, 2025);
         clsYear_comb.getItems().addAll(2022, 2023, 2024, 2025);
-        opnHour_comb.getItems().addAll(generator(23));
-        clsHour_comb.getItems().addAll(generator(23));
-        opnMin_comb.getItems().addAll(generator(60));
-        clsMin_comb.getItems().addAll(generator(60));
+        opnHour_comb.getItems().addAll(generatorFrom0(24));
+        clsHour_comb.getItems().addAll(generatorFrom0(24));
+        opnMin_comb.getItems().addAll(generatorFrom0(60));
+        clsMin_comb.getItems().addAll(generatorFrom0(60));
     }
 }
