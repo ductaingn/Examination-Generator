@@ -3,12 +3,14 @@ package Controllers;
 import Models.QQuestion;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GUI63aItemController implements Initializable {
+public class GUI63aItemController extends GUI63aController implements Initializable {
+    public CheckBox question_cbx;
     @FXML
     private Label name_lb;
     @FXML
@@ -20,6 +22,15 @@ public class GUI63aItemController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        
+        question_cbx.setOnAction(event -> {
+            if (question_cbx.isSelected()) {
+                System.out.println("da chon");
+                numData++;
+            }
+            else {
+                System.out.println("da huy chon");
+                numData--;
+            }
+        });
     }
 }

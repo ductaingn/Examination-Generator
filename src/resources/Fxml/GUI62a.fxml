@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../Styles/GUI62.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI62aController">
+<AnchorPane prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../Styles/GUI62.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI62aController">
     <HBox prefHeight="60.0" prefWidth="900.0" styleClass="tab_bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="40.0">
             <HBox.margin>
@@ -34,7 +43,7 @@
             </SVGPath>
         </VBox>
     </HBox>
-    <VBox layoutX="30.0" layoutY="79.0" prefHeight="134.0" prefWidth="840.0" styleClass="container1" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="80.0">
+    <VBox layoutX="30.0" layoutY="79.0" prefHeight="120.0" prefWidth="840.0" styleClass="container1" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="80.0">
         <HBox alignment="CENTER" prefHeight="45.0" prefWidth="778.0">
             <Label fx:id="switch_lbl" style="-fx-font-size: 3em;" styleClass="it_lbl" text="IT" textFill="#c23616">
                 <HBox.margin>
@@ -88,7 +97,7 @@
          <Label layoutX="400.0" layoutY="10.0" text="Edit quiz" textFill="#c23616" />
         </HBox>
     </VBox>
-    <VBox layoutX="30.0" layoutY="240.0" prefHeight="432.0" prefWidth="840.0" spacing="10.0" style="-fx-border-color: #dcdde1;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="240.0">
+    <VBox layoutX="30.0" layoutY="221.0" prefHeight="449.0" prefWidth="840.0" spacing="10.0" style="-fx-border-color: #dcdde1;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="220.0">
         <padding>
             <Insets left="30.0" right="30.0" top="10.0" />
         </padding>
@@ -128,7 +137,9 @@
             </VBox>
         </HBox>
         <HBox alignment="CENTER_LEFT" spacing="5.0">
-         <Label text="Question: 0 | This quiz is open" />
+         <Label text="Question:" />
+         <Label fx:id="numOfQues_lbl" layoutX="10.0" layoutY="16.0" text="0" />
+         <Label layoutX="10.0" layoutY="16.0" text="| This quiz is open" />
             <Region prefHeight="32.0" prefWidth="126.0" HBox.hgrow="ALWAYS" />
          <Label layoutX="10.0" layoutY="22.0" text="Maximum grade" />
          <TextField prefHeight="35.0" prefWidth="63.0" promptText="10.00" />
@@ -138,23 +149,24 @@
             <Button mnemonicParsing="false" prefHeight="34.0" styleClass="Button" text="REPAGINATE" />
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" styleClass="Button" text="SELECT MULTIPLE ITEMS" />
             <Region prefHeight="32.0" prefWidth="126.0" HBox.hgrow="ALWAYS" />
-            <Label layoutX="10.0" layoutY="22.0" text="Total of marks: 0.00" />
+            <Label layoutX="10.0" layoutY="22.0" text="Total of marks:" />
+         <Label layoutX="693.0" layoutY="16.0" text="0.00" />
         </HBox>
         <VBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="778.0" spacing="5.0" style="-fx-background-color: #ecf0f1;">
+            <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="778.0" spacing="5.0" style="-fx-background-color: #ecf0f1;">
                 <padding>
                     <Insets left="20.0" right="20.0" />
                 </padding>
                 <VBox alignment="CENTER" layoutX="280.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="20.0">
                     <SVGPath content="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z&#10;" fill="#273c75" scaleX="0.03" scaleY="0.03" />
                 </VBox>
-                <Region prefHeight="42.0" prefWidth="6.0" HBox.hgrow="ALWAYS" />
-                <CheckBox mnemonicParsing="false" text="Shuffle" />
+                <Region prefHeight="0.0" prefWidth="613.0" HBox.hgrow="ALWAYS" />
+                <CheckBox mnemonicParsing="false" stylesheets="@../Styles/CheckBox.css" text="Shuffle" />
                 <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="20.0">
                     <SVGPath content="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3h58.3c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24V250.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1H222.6c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" fill="#273c75" scaleX="0.03" scaleY="0.03" />
                 </VBox>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="778.0" style="-fx-background-color: #ecf0f1;">
+            <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="778.0" style="-fx-background-color: #ecf0f1;">
                 <padding>
                     <Insets left="20.0" right="20.0" />
                 </padding>
@@ -169,12 +181,5 @@
             </HBox>
         </VBox>
         <HBox layoutX="41.0" layoutY="70.0" prefHeight="40.0" prefWidth="778.0" />
-        <HBox alignment="CENTER" layoutX="41.0" layoutY="255.0">
-            <ComboBox prefHeight="35.0" prefWidth="142.0" promptText="Jump to..." style="-fx-background-color: white; -fx-border-color: grey;">
-                <HBox.margin>
-                    <Insets right="30.0" />
-                </HBox.margin>
-            </ComboBox>
-        </HBox>
     </VBox>
 </AnchorPane>

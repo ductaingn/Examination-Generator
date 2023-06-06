@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<VBox fillWidth="false" prefHeight="700.0" prefWidth="900.0" spacing="15.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI51Controller">
+<VBox fillWidth="false" prefHeight="700.0" prefWidth="900.0" spacing="15.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../Styles/CheckBox.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI51Controller">
     <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="804.0">
         <VBox alignment="CENTER" layoutX="448.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="14.0" prefWidth="50.0">
             <SVGPath content="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM112 256H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z" fill="#273c75" scaleX="0.06" scaleY="0.06" />
@@ -146,7 +146,7 @@
             </VBox>
             <CheckBox mnemonicParsing="false" text="Enable" />
         </HBox>
-        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="55.0" prefHeight="5.0" prefWidth="800.0">
+        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="55.0" prefHeight="5.0" prefWidth="800.0" styleClass="check-box">
             <Label prefHeight="22.0" prefWidth="140.0" text="Close the quiz">
                 <font>
                     <Font size="15.0" />
