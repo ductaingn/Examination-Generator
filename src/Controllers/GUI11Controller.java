@@ -2,7 +2,6 @@ package Controllers;
 
 import Models.Model;
 import Models.Quiz;
-import com.mysql.cj.conf.RuntimeProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -110,7 +109,7 @@ public class GUI11Controller implements Initializable{
                             setGraphic(hBox);
                             setText(null);
                         }
-                    };
+                    }
                 };
                 return cell;
             };

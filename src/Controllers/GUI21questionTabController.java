@@ -104,6 +104,7 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
 //                            adding edit function
                             edit_lbl.setOnMouseClicked(e -> {
                                 System.out.println("edit question");
+                                
                             });
 //
                             HBox hBox = new HBox(edit_lbl);
