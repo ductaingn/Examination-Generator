@@ -5,7 +5,9 @@ import Models.Quiz;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -25,6 +27,8 @@ import java.util.ResourceBundle;
 
 public class GUI61Controller implements Initializable{
     @FXML
+    private Button home_btn;
+    @FXML
     private Button gear_btn;
     @FXML
     private Label switch_lbl;
@@ -34,10 +38,22 @@ public class GUI61Controller implements Initializable{
     private Label title2_lbl;
     @FXML
     private Label title_lbl;
-    public void showGUI62a() {
+    public void showGUI11() {
         Stage stage = (Stage)switch_lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
-        Model.getInstance().getViewFactory().showGUI62a();
+        Model.getInstance().getViewFactory().showGUI11();
+    }
+    public void showGUI62a() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI62a.fxml"));
+            Parent root = loader.load();
+            GUI62aController gui62aController = loader.getController();
+            gui62aController.getTitle(nameData);
+
+            Stage stage = (Stage) switch_lbl.getScene().getWindow();
+            Model.getInstance().getViewFactory().closeStage(stage);
+            Model.getInstance().getViewFactory().showGUI62a();
+        } catch (Exception e) {e.printStackTrace();}
     }
     public Connection getConnection() {
         Connection connection;
@@ -63,6 +79,7 @@ public class GUI61Controller implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getAllLabel(nameData, timeData);
+        home_btn.setOnAction(event -> showGUI11());
         gear_btn.setOnAction(event -> showGUI62a());
     }
 }

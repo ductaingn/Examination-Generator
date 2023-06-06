@@ -56,7 +56,6 @@ public class GUI11Controller implements Initializable{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI61.fxml"));
             Parent root = loader.load();
             GUI61Controller gui61Controller = loader.getController();
-//            Quiz quiz = tableView.getSelectionModel().getSelectedItem();
             index = tableView.getSelectionModel().getSelectedIndex();
             String quizName = tv_name.getCellData(index);
             String quizTime = tv_time.getCellData(index);
