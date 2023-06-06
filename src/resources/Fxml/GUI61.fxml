@@ -49,14 +49,14 @@
             <Region prefHeight="50.0" prefWidth="564.0" HBox.hgrow="ALWAYS" />
         </HBox>
         <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="778.0">
-            <Label text="Home" textFill="#c23616">
-                <HBox.margin>
-                    <Insets />
-                </HBox.margin>
-            </Label>
+         <Button fx:id="home_btn" mnemonicParsing="false" style="-fx-background-color: #FFFFFF;">
+            <graphic>
+                  <Label text="Home" textFill="#c23616" />
+            </graphic>
+         </Button>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="/">
                 <HBox.margin>
-                    <Insets left="10.0" right="10.0" />
+                    <Insets right="10.0" />
                 </HBox.margin>
             </Text>
             <Label layoutX="44.0" layoutY="10.0" text="My Course" />
@@ -85,7 +85,7 @@
             <Insets left="30.0" right="30.0" top="10.0" />
         </padding>
         <HBox alignment="CENTER_LEFT" prefHeight="9.0" prefWidth="838.0">
-            <Label fx:id="title_lbl" prefHeight="22.0" prefWidth="700.0" style="-fx-text-fill: #c23616; -fx-font-size: 2em;" text="to be gettext and set label">
+            <Label fx:id="title_lbl" style="-fx-text-fill: #c23616; -fx-font-size: 2em;" text="to be gettext and set label">
                 <HBox.margin>
                     <Insets />
                 </HBox.margin>

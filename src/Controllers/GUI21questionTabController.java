@@ -38,10 +38,7 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
         Model.getInstance().getViewFactory().closeStage(stage);
         Model.getInstance().getViewFactory().showGUI32();
     }
-    private Connection connection;
-    private PreparedStatement preparedStatement;
-    private ResultSet resultSet;
-//    connect database
+    //    connect database
     public Connection getConnection() {
         try {
 //            Class.forName("com.mysql.jdbc.Driver");
@@ -59,10 +56,10 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
                 "category AS parent " +
                 "WHERE node.lft BETWEEN parent.lft AND parent.rgt " +
                 "GROUP BY node.category_id ORDER BY node.lft;";
-        connection = getConnection();
+        Connection connection = getConnection();
         try {
-            preparedStatement = connection.prepareStatement(queryCategoryName);
-            resultSet = preparedStatement.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement(queryCategoryName);
+            ResultSet resultSet = preparedStatement.executeQuery();
             ObservableList<String> categoryName = FXCollections.observableArrayList();
             while (resultSet.next()) {
                 String item = resultSet.getString("name");
@@ -104,6 +101,7 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
 //                            adding edit function
                             edit_lbl.setOnMouseClicked(e -> {
                                 System.out.println("edit question");
+                                
                             });
 //
                             HBox hBox = new HBox(edit_lbl);
