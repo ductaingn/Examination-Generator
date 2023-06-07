@@ -28,7 +28,7 @@ CREATE TABLE `quiz` (
   `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `timeOpen` datetime NOT NULL,
   `timeClose` datetime NOT NULL,
-  `timeLimit` time NOT NULL,
+  `timeLimit` varchar(3) NOT NULL,
   PRIMARY KEY (`quiz_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
