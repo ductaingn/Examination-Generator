@@ -13,6 +13,8 @@ import java.util.ResourceBundle;
 
 public class GUI62aController implements Initializable{
     @FXML
+    private Label numOfQues_lbl;
+    @FXML
     private Button quiz_btn;
     @FXML
     private Button home_btn;
@@ -46,10 +48,16 @@ public class GUI62aController implements Initializable{
         title_lbl.setText("Editting quiz: " + quizName);
         title2_lbl.setText(quizName);
     }
+    public static Integer numData;
+    public void getNumOfQues(Integer numOfQues) {
+        numData = numOfQues;
+        numOfQues_lbl.setText("" + numOfQues);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getTitle(nameData);
+        getNumOfQues(numData);
         home_btn.setOnAction(event -> showGUI11());
         quiz_btn.setOnAction(event -> showGUI61());
         fromQuesBank_mit.setOnAction(event -> showGUI63a());

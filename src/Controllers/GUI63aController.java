@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -25,7 +26,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class GUI63aController implements Initializable {
-    public VBox listQues;
+    @FXML
+    private VBox listQues;
+    @FXML
+    private Button add_btn;
     @FXML
     private ComboBox<String> comboBox;
     @FXML
@@ -60,10 +64,22 @@ public class GUI63aController implements Initializable {
             comboBox.setItems(categoryName);
         } catch (Exception e) {e.printStackTrace();}
     }
-    public void showGUI62a() {
-        Stage stage = (Stage)switch_lbl.getScene().getWindow();
+    public void showGUI62a(){
+        Stage stage = (Stage) switch_lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
         Model.getInstance().getViewFactory().showGUI62a();
+    }
+    public void showGUI62a_add() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI62a.fxml"));
+            Parent root = loader.load();
+            GUI62aController gui62aController = loader.getController();
+            gui62aController.getNumOfQues(numData);
+
+            Stage stage = (Stage) switch_lbl.getScene().getWindow();
+            Model.getInstance().getViewFactory().closeStage(stage);
+            Model.getInstance().getViewFactory().showGUI62a();
+        } catch (Exception e) {e.printStackTrace();}
     }
     private List<QQuestion> qQuestionList(){
         Connection connection = getConnection();
@@ -82,10 +98,17 @@ public class GUI63aController implements Initializable {
         } catch (Exception e) {e.printStackTrace();}
         return list;
     }
+    public static Integer numData = 0;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getComboBox();
         close_btn.setOnAction(event -> showGUI62a());
+        add_btn.setOnAction(event -> {
+//            TODO
+//            dùng database !!!
+//            ý là nếu click close button thì sẽ không tăng numData
+            showGUI62a_add();
+        });
 
         List<QQuestion> qQuestionList = new ArrayList<>(qQuestionList());
         for (int i = 0; i < qQuestionList.size(); i++) {
