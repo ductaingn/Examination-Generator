@@ -80,7 +80,7 @@ public class GUI51Controller implements Initializable {
         Connection connection;
         try {
 //            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
             return connection;
         } catch (Exception e) {
             e.printStackTrace();
