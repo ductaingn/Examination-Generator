@@ -24,9 +24,13 @@ import java.util.ResourceBundle;
 
 public class GUI62aController implements Initializable{
     @FXML
+    private MenuItem aRandomQues_mit;
+    @FXML
     private VBox listQues;
     @FXML
     private Label numOfQues_lbl;
+    @FXML
+    private Label totalMark_lbl;
     @FXML
     private Button quiz_btn;
     @FXML
@@ -55,6 +59,11 @@ public class GUI62aController implements Initializable{
         Stage stage = (Stage)switch_lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
         Model.getInstance().getViewFactory().showGUI63a();
+    }
+    public void showGUI65() {
+        Stage stage = (Stage)switch_lbl.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeStage(stage);
+        Model.getInstance().getViewFactory().showGUI65();
     }
    //show question list
     public Connection getConnection() {
@@ -86,6 +95,8 @@ public class GUI62aController implements Initializable{
     public void getQuestionList(String quizId){
         idData = quizId;
         List<QQuestion> qQuestionList = new ArrayList<>(qQuestionList());
+        numOfQues_lbl.setText(""+qQuestionList.size());
+        totalMark_lbl.setText(qQuestionList.size()+".00");
         for (int i = 0; i < qQuestionList.size(); i++) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/resources/Fxml/GUI62aItem.fxml"));
@@ -111,6 +122,6 @@ public class GUI62aController implements Initializable{
         home_btn.setOnAction(event -> showGUI11());
         quiz_btn.setOnAction(event -> showGUI61());
         fromQuesBank_mit.setOnAction(event -> showGUI63a());
-
+        aRandomQues_mit.setOnAction(event -> showGUI65());
     }
 }
