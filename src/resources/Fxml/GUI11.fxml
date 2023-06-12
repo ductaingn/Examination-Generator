@@ -100,7 +100,8 @@
      <columns>
        <TableColumn fx:id="tv_icon" editable="false" sortable="false" />
        <TableColumn fx:id="tv_name" editable="false" prefWidth="700.0" />
-         <TableColumn fx:id="tv_time" editable="false" prefWidth="700.0" visible="false" />
+        <TableColumn fx:id="tv_time" editable="false" prefWidth="0" visible="false" />
+        <TableColumn fx:id="tv_id" editable="false" prefWidth="0" visible="false" />
      </columns>
    </TableView>
 </AnchorPane>

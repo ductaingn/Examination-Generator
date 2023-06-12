@@ -30,6 +30,8 @@ public class GUI11Controller implements Initializable{
     @FXML
     private TableColumn<Quiz, String> tv_time;
     @FXML
+    private TableColumn<Quiz, String> tv_id;
+    @FXML
     private Button turnEditingOn_btn;
     @FXML
     private Label it_lbl;
@@ -59,7 +61,8 @@ public class GUI11Controller implements Initializable{
             index = tableView.getSelectionModel().getSelectedIndex();
             String quizName = tv_name.getCellData(index);
             String quizTime = tv_time.getCellData(index);
-            gui61Controller.getAllLabel(quizName, quizTime);
+            String quizId = tv_id.getCellData(index);
+            gui61Controller.getAllLabel(quizName, quizTime, quizId);
 
             Stage stage = (Stage)it_lbl.getScene().getWindow();
             Model.getInstance().getViewFactory().closeStage(stage);
@@ -71,7 +74,7 @@ public class GUI11Controller implements Initializable{
     public Connection getConnection() {
         Connection connection;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
             return connection;
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,17 +84,19 @@ public class GUI11Controller implements Initializable{
     private void loadQuiz() {
         try {
             ObservableList<Quiz> quizList = FXCollections.observableArrayList();
-            String query = "SELECT name, timeLimit FROM quiz";
+            String query = "SELECT quiz_id, name, timeLimit FROM quiz";
             Connection connection = getConnection();
             ResultSet resultSet = connection.createStatement().executeQuery(query);
             while (resultSet.next()) {
                 Quiz quiz = new Quiz();
                 quiz.setQuizName(resultSet.getString("name"));
                 quiz.setQuizTime(resultSet.getString("timeLimit"));
+                quiz.setQuizId(resultSet.getString("quiz_id"));
                 quizList.add(quiz);
             }
             tv_time.setCellValueFactory((new PropertyValueFactory<>("quizTime")));
             tv_name.setCellValueFactory((new PropertyValueFactory<>("quizName")));
+            tv_id.setCellValueFactory((new PropertyValueFactory<>("quizId")));
             Callback<TableColumn<Quiz, String>, TableCell<Quiz, String>> cellFactory = (param) -> {
                 final TableCell<Quiz, String> cell = new TableCell<Quiz, String>(){
                     @Override

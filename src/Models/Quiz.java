@@ -6,6 +6,7 @@ import javafx.beans.property.StringProperty;
 public class Quiz {
     private final StringProperty quizTime = new SimpleStringProperty();
     private final StringProperty quizName = new SimpleStringProperty();
+    private final StringProperty quizId = new SimpleStringProperty();
 
     public String getQuizTime() {
         return quizTime.get();
@@ -29,5 +30,17 @@ public class Quiz {
 
     public void setQuizName(String quizName) {
         this.quizName.set(quizName);
+    }
+
+    public String getQuizId() {
+        return quizId.get();
+    }
+
+    public StringProperty quizIdProperty() {
+        return quizId;
+    }
+
+    public void setQuizId(String quizId) {
+        this.quizId.set(quizId);
     }
 }

@@ -36,7 +36,6 @@ public class GUI63aController implements Initializable {
     private Button close_btn;
     @FXML
     private Label switch_lbl;
-
     public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
@@ -71,11 +70,6 @@ public class GUI63aController implements Initializable {
     }
     public void showGUI62a_add() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI62a.fxml"));
-            Parent root = loader.load();
-            GUI62aController gui62aController = loader.getController();
-            gui62aController.getNumOfQues(numData);
-
             Stage stage = (Stage) switch_lbl.getScene().getWindow();
             Model.getInstance().getViewFactory().closeStage(stage);
             Model.getInstance().getViewFactory().showGUI62a();
@@ -98,7 +92,11 @@ public class GUI63aController implements Initializable {
         } catch (Exception e) {e.printStackTrace();}
         return list;
     }
-    public static Integer numData = 0;
+//    TODO
+//    GET QUIZ_ID
+//    GET QUESTION_ID(S)
+//    INSERT TO QUES_QUIZ
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getComboBox();

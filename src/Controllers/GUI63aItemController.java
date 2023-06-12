@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GUI63aItemController extends GUI63aController implements Initializable {
+public class GUI63aItemController implements Initializable {
     public CheckBox question_cbx;
     @FXML
     private Label name_lb;
@@ -25,11 +25,9 @@ public class GUI63aItemController extends GUI63aController implements Initializa
         question_cbx.setOnAction(event -> {
             if (question_cbx.isSelected()) {
                 System.out.println("da chon");
-                numData++;
             }
             else {
                 System.out.println("da huy chon");
-                numData--;
             }
         });
     }
