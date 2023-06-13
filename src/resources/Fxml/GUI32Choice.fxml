@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -13,7 +13,7 @@
    <children>
       <VBox prefHeight="200.0" prefWidth="780.0">
          <children>
-            <ImageView fx:id="image" fitHeight="300.0" fitWidth="780.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageView" fitHeight="300.0" fitWidth="780.0" pickOnBounds="true" preserveRatio="true">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
@@ -28,7 +28,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="text" prefHeight="25.0" prefWidth="597.0" />
+                  <TextArea fx:id="textArea" prefHeight="39.0" prefWidth="525.0" />
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" />
@@ -44,7 +44,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
-                  <ComboBox fx:id="grade" prefWidth="150.0" />
+                  <ComboBox fx:id="gradeComboBox" prefWidth="150.0" />
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" />
