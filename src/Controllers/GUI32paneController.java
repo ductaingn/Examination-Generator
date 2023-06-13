@@ -10,6 +10,7 @@ import javafx.scene.LightBase;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -44,7 +45,7 @@ public class GUI32paneController implements Initializable {
     public Connection getConnection() {
         try {
 //            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
             return conn;
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,8 +77,8 @@ public class GUI32paneController implements Initializable {
         Model.getInstance().getViewFactory().showGUI21();
     }
 
-    public void insert3MoreChoices(){
-        for(int i=1;i<=3;i++){
+    public void insertKMoreChoices(int k){
+        for(int i=1;i<=k;i++){
             FXMLLoader loader= new FXMLLoader();
             loader.setLocation(getClass().getResource("/resources/Fxml/GUI32Choice.fxml"));
             try {
@@ -95,17 +96,8 @@ public class GUI32paneController implements Initializable {
         getComboBox();
         cancel_btn.setOnAction(event -> showGUI21());
         saveChanges_btn.setOnAction(event -> showGUI21());
-        blanks_btn.setOnAction(event -> insert3MoreChoices());
-
-//        FXMLLoader loader= new FXMLLoader();
-//        loader.setLocation(getClass().getResource("/resources/Fxml/GUI32Choice.fxml"));
-//        try {
-//            HBox hBox = loader.load();
-//            GUI32ChoiceController controller;
-//            choicesLayout.getChildren().add(hBox);
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }
+        blanks_btn.setOnAction(event -> insertKMoreChoices(3));
+        insertKMoreChoices(2);
 
     }
 }
