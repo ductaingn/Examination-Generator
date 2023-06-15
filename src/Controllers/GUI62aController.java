@@ -19,8 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Vector;
-
-public class GUI62aController implements Initializable{
+public class GUI62aController extends GUI62aItemController implements Initializable{
     @FXML
     private MenuItem aRandomQues_mit;
     @FXML
@@ -95,13 +94,13 @@ public class GUI62aController implements Initializable{
         List<QQuestion> qQuestionList = new ArrayList<>(qQuestionList());
         numOfQues_lbl.setText(""+qQuestionList.size());
         totalMark_lbl.setText(qQuestionList.size()+".00");
-        for (int i = 0; i < qQuestionList.size(); i++) {
+        for (rank = 0; rank < qQuestionList.size(); rank++) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/resources/Fxml/GUI62aItem.fxml"));
             try {
                 HBox hBox = loader.load();
                 GUI62aItemController itemController62 = loader.getController();
-                itemController62.setData(qQuestionList.get(i));
+                itemController62.setData(qQuestionList.get(rank));
                 listQues.getChildren().add(hBox);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -114,7 +113,6 @@ public class GUI62aController implements Initializable{
         title2_lbl.setText(quizName);
     }
     public void insertQuesToQuiz(Vector<String> quesList){
-
         Connection connection = getConnection();
         try {
             Statement statement = connection.createStatement();
@@ -128,7 +126,6 @@ public class GUI62aController implements Initializable{
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         getTitle(nameData);
         getQuestionList(idData);
         home_btn.setOnAction(event -> showGUI11());

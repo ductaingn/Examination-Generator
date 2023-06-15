@@ -10,13 +10,14 @@ import java.util.ResourceBundle;
 
 public class GUI62aItemController implements Initializable {
     @FXML
-    private Label id_lbl;
+    private Label rank_lbl;
     @FXML
     private Label name_lb;
     @FXML
     private Label text_lbl;
-
+    public static int rank = 0;
     public void setData(QQuestion qQuestion){
+        rank_lbl.setText(rank+1 +"");
         name_lb.setText(qQuestion.getName());
         text_lbl.setText(qQuestion.getText());
     }
