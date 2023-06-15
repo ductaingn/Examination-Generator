@@ -183,7 +183,7 @@
             </HBox>
         </VBox>
         <ScrollPane hbarPolicy="NEVER" prefWidth="778.0" style="-fx-border-color: white;" vbarPolicy="NEVER">
-            <VBox fx:id="listQues" prefWidth="770.0" />
+            <VBox fx:id="listQues" prefWidth="770.0" spacing="5.0" />
         </ScrollPane>
     </VBox>
 </AnchorPane>

@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -16,15 +17,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
-public class GUI63aController implements Initializable {
+public class GUI63aController extends GUI63aItemController implements Initializable {
     @FXML
     private VBox listQues;
     @FXML
@@ -69,6 +68,12 @@ public class GUI63aController implements Initializable {
     }
     public void showGUI62a_add() {
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI62a.fxml"));
+            Parent root = loader.load();
+            GUI62aController gui62aController = loader.getController();
+            Vector<String> quesList = prepareToAdd;
+            gui62aController.insertQuesToQuiz(quesList);
+
             Stage stage = (Stage) switch_lbl.getScene().getWindow();
             Model.getInstance().getViewFactory().closeStage(stage);
             Model.getInstance().getViewFactory().showGUI62a();
@@ -86,25 +91,24 @@ public class GUI63aController implements Initializable {
                 qQuestion = new QQuestion();
                 qQuestion.setName(resultSet.getString("name"));
                 qQuestion.setText(resultSet.getString("text"));
+                qQuestion.setQuestion_id(resultSet.getInt("question_id"));
                 list.add(qQuestion);
             }
         } catch (Exception e) {e.printStackTrace();}
         return list;
     }
-//    TODO
-//    GET QUIZ_ID
-//    GET QUESTION_ID(S)
-//    INSERT TO QUES_QUIZ
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getComboBox();
-        close_btn.setOnAction(event -> showGUI62a());
+        close_btn.setOnAction(event -> {
+            showGUI62a();
+            prepareToAdd.clear();
+        });
         add_btn.setOnAction(event -> {
-//            TODO
-//            dùng database !!!
-//            ý là nếu click close button thì sẽ không tăng numData
             showGUI62a_add();
+            System.out.println(prepareToAdd.size());
+            prepareToAdd.clear();
         });
 
         List<QQuestion> qQuestionList = new ArrayList<>(qQuestionList());

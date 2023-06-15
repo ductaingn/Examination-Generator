@@ -14,13 +14,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
 public class GUI62aController implements Initializable{
     @FXML
@@ -43,7 +41,7 @@ public class GUI62aController implements Initializable{
     private Label title_lbl;
     @FXML
     private Label title2_lbl;
-    public static String nameData;
+    private static String nameData;
     private static String idData;
     public void showGUI11() {
         Stage stage = (Stage)switch_lbl.getScene().getWindow();
@@ -115,8 +113,22 @@ public class GUI62aController implements Initializable{
         title_lbl.setText("Editting quiz: " + quizName);
         title2_lbl.setText(quizName);
     }
+    public void insertQuesToQuiz(Vector<String> quesList){
+
+        Connection connection = getConnection();
+        try {
+            Statement statement = connection.createStatement();
+            for (int i = 0; i < quesList.size(); i++) {
+                statement.executeUpdate("INSERT INTO ques_quiz(question_id, quiz_id) VALUES (" + quesList.get(i) + ", " + idData + ")");
+            }
+            System.out.println(quesList.size()+" question added to quiz "+ idData);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         getTitle(nameData);
         getQuestionList(idData);
         home_btn.setOnAction(event -> showGUI11());
