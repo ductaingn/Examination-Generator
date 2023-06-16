@@ -43,7 +43,7 @@
       <Separator prefWidth="200.0" />
       <HBox alignment="CENTER_LEFT" prefWidth="879.0">
          <Label style="-fx-font-size: 1.2em;" text="Select a category: " />
-         <ComboBox fx:id="comboBox" prefHeight="32.0" prefWidth="200.0" promptText="Default" style="-fx-background-color: #FFFFFF; -fx-border-color: #7f8fa6;">
+         <ComboBox fx:id="comboBox" prefHeight="34.0" prefWidth="240.0" promptText="Default" style="-fx-background-color: #FFFFFF; -fx-border-color: #7f8fa6;">
             <HBox.margin>
                <Insets left="10.0" />
             </HBox.margin>

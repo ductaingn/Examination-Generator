@@ -41,7 +41,6 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
     //    connect database
     public Connection getConnection() {
         try {
-//            Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
             return conn;
         } catch (Exception e) {
@@ -50,10 +49,11 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
         }
     }
     public void getComboBox() {
-        String queryCategoryName = "" +
-                "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1), node.name) AS name " +
-                "FROM category AS node," +
-                "category AS parent " +
+        String queryCategoryName = ""+
+                "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1),' ' ,node.name,' (', " +
+                "(SELECT COUNT(question_id) FROM question " +
+                "WHERE question.category_id=node.category_id),') '  ) AS name " +
+                "FROM category AS node,category AS parent " +
                 "WHERE node.lft BETWEEN parent.lft AND parent.rgt " +
                 "GROUP BY node.category_id ORDER BY node.lft;";
         Connection connection = getConnection();
@@ -62,7 +62,7 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
             ResultSet resultSet = preparedStatement.executeQuery();
             ObservableList<String> categoryName = FXCollections.observableArrayList();
             while (resultSet.next()) {
-                String item = resultSet.getString("name");
+                String item = (resultSet.getString("name"));
                 categoryName.add(item);
             }
             comboBox.setItems(categoryName);
