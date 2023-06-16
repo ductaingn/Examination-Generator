@@ -61,18 +61,20 @@ public class GUI21categoriesTabController implements Initializable {
     }
     private void insertCategory() {
         try {
+            String parentCategory = parentCategory_comb.getValue().trim();
+            parentCategory = parentCategory.substring(0, parentCategory.indexOf("(") - 1);
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
             statement.executeQuery("LOCK TABLES category WRITE; ");
             statement.executeQuery("SELECT @myRight := rgt FROM category " +
-                    "WHERE name = '" + parentCategory_comb.getValue().trim() + "'; ");
+                    "WHERE name = '" + parentCategory + "'; ");
             statement.executeUpdate("UPDATE category SET rgt = rgt + 2 WHERE rgt > @myRight; ");
             statement.executeUpdate("UPDATE category SET lft = lft + 2 WHERE lft > @myRight;");
             if (Objects.equals(id_fld.getText(), "")) {
                 statement.executeUpdate("INSERT INTO category(category_id, name, info, lft, rgt) VALUES(null, '" + name_fld.getText() + "', '" + info_fld.getText() + "', @myRight, @myRight + 1); ");
             } else statement.executeUpdate("INSERT INTO category(category_id, name, info, lft, rgt) VALUES(" + id_fld.getText() + ", '" + name_fld.getText() + "', '" + info_fld.getText() + "', @myRight, @myRight + 1); ");
             statement.executeQuery("UNLOCK TABLES;");
-            statement.executeUpdate("UPDATE category SET rgt = rgt + 2 WHERE name = '" + parentCategory_comb.getValue().trim() + "';");
+            statement.executeUpdate("UPDATE category SET rgt = rgt + 2 WHERE name = '" + parentCategory + "';");
             getComboBox();
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,9 +100,11 @@ public class GUI21categoriesTabController implements Initializable {
     private void handleButtonAction(ActionEvent event) {
         if (event.getSource() == addCategory_btn) {
             insertCategory();
+            System.out.println("Inserted Category");
         }
         else if (event.getSource() == delCategory_btn) {
             deleteCategory();
+            System.out.println("Deleted Category");
         }
     }
     @Override
