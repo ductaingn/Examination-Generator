@@ -39,26 +39,25 @@
             </Button>
         </HBox>
         <Separator prefWidth="200.0" />
-      <VBox prefWidth="100.0" spacing="20.0">
-         <children>
-            <Label style="-fx-text-fill: #c23616; -fx-font-size: 1.8em;" text="Time limit" />
-            <Label text="Your attempt will have a time of limit of X minutes. When you start, the timer will begin to count down and cannot be paused. You must finish your attempt before it expires. Are you sure you wish to start now?" wrapText="true">
-               <font>
-                  <Font size="17.0" />
-               </font>
+        <VBox prefWidth="100.0" spacing="20.0">
+            <padding>
+                <Insets bottom="20.0" left="40.0" right="40.0" top="10.0"/>
+            </padding>
+            <Label style="-fx-text-fill: #c23616; -fx-font-size: 1.8em;" text="Time limit"/>
+            <Label text="Your attempt will have a time of limit of X minutes. When you start, the timer will begin to count down and cannot be paused. You must finish your attempt before it expires. Are you sure you wish to start now?"
+                   wrapText="true">
+                <font>
+                    <Font size="17.0"/>
+                </font>
             </Label>
-         </children>
-         <padding>
-            <Insets bottom="20.0" left="40.0" right="40.0" top="10.0" />
-         </padding>
-      </VBox>
+        </VBox>
       <Separator layoutX="20.0" layoutY="68.0" prefWidth="200.0" />
-      <HBox alignment="CENTER" prefWidth="200.0" spacing="30.0">
-         <children>
-              <Button fx:id="start_btn" mnemonicParsing="false" style="-fx-background-color: #c23616;" styleClass="Button" text="START ATTEMPT" />
-            <Button fx:id="cancel_btn" mnemonicParsing="false" styleClass="Button" text="CANCEL" />
-            <Button fx:id="export_btn" layoutX="494.0" layoutY="10.0" mnemonicParsing="false" styleClass="Button" text="EXPORT" />
-         </children>
-      </HBox>
+        <HBox alignment="CENTER" prefWidth="200.0" spacing="30.0">
+            <Button fx:id="start_btn" mnemonicParsing="false" style="-fx-background-color: #c23616;" styleClass="Button"
+                    text="START ATTEMPT"/>
+            <Button fx:id="cancel_btn" mnemonicParsing="false" styleClass="Button" text="CANCEL"/>
+            <Button fx:id="export_btn" layoutX="494.0" layoutY="10.0" mnemonicParsing="false" styleClass="Button"
+                    text="EXPORT"/>
+        </HBox>
     </VBox>
 </AnchorPane>
