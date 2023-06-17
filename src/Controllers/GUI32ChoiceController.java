@@ -29,6 +29,9 @@ public class GUI32ChoiceController implements Initializable {
         }
         gradeComboBox.setItems(grades);
     }
+    public void insertChoice(){
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getGradeComboBox();
