@@ -12,7 +12,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -38,7 +37,7 @@ public class GUI11Controller implements Initializable{
     @FXML
     private MenuItem questions_btn;
     Integer index;
-    public void getItem(MouseEvent mouseEvent) {
+    public void getItem() {
         index = tableView.getSelectionModel().getSelectedIndex();
         System.out.println(tv_name.getCellData(index));
         showGUI61();
@@ -98,16 +97,15 @@ public class GUI11Controller implements Initializable{
             tv_name.setCellValueFactory((new PropertyValueFactory<>("quizName")));
             tv_id.setCellValueFactory((new PropertyValueFactory<>("quizId")));
             Callback<TableColumn<Quiz, String>, TableCell<Quiz, String>> cellFactory = (param) -> {
-                final TableCell<Quiz, String> cell = new TableCell<Quiz, String>(){
+                final TableCell<Quiz, String> cell = new TableCell<>() {
                     @Override
                     public void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
                         if (empty) {
                             setGraphic(null);
                             setText(null);
-                        }
-                        else {
-                            Image image = new Image("/resources/Image/notes.png",25, 25, true, true);
+                        } else {
+                            Image image = new Image("/resources/Image/notes.png", 25, 25, true, true);
                             ImageView imageView = new ImageView(image);
                             HBox hBox = new HBox(imageView);
                             setGraphic(hBox);
@@ -128,6 +126,5 @@ public class GUI11Controller implements Initializable{
         loadQuiz();
         questions_btn.setOnAction(event -> showGUI21());
         turnEditingOn_btn.setOnAction(event -> showGUI51());
-//        RuntimeProperty.RuntimePropertyListener runtimePropertyListener = mouseEvent -> showGUI61();
     }
 }

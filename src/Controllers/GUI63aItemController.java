@@ -7,6 +7,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
@@ -37,7 +38,7 @@ public class GUI63aItemController implements Initializable {
                 System.out.println("da huy chon");
                 System.out.println(id_lbl.getText());
                 for (int i = 0; i < prepareToAdd.size(); i++)
-                    if (id_lbl.getText() == prepareToAdd.get(i).toString()) {
+                    if (Objects.equals(id_lbl.getText(), prepareToAdd.get(i))) {
                         prepareToAdd.remove(i);
                         break;
                     }
