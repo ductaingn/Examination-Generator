@@ -22,6 +22,8 @@ public class GUI61Controller implements Initializable{
     @FXML
     private Label switch_lbl;
     @FXML
+    private Button preview_btn;
+    @FXML
     private Label timeLimit_lbl;
     @FXML
     private Label title2_lbl;
@@ -49,6 +51,11 @@ public class GUI61Controller implements Initializable{
             Model.getInstance().getViewFactory().showGUI62a();
         } catch (Exception e) {e.printStackTrace();}
     }
+    public void showGUI72() {
+        Stage stage = (Stage)switch_lbl.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeStage(stage);
+        Model.getInstance().getViewFactory().showGUI72();
+    }
     public Connection getConnection() {
         Connection connection;
         try {
@@ -73,5 +80,6 @@ public class GUI61Controller implements Initializable{
         getAllLabel(nameData, timeData, idData);
         home_btn.setOnAction(event -> showGUI11());
         gear_btn.setOnAction(event -> showGUI62a());
+        preview_btn.setOnAction(event -> showGUI72());
     }
 }

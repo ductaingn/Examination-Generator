@@ -151,7 +151,7 @@
         </VBox>
         <HBox layoutX="41.0" layoutY="70.0" prefHeight="40.0" prefWidth="778.0">
             <Region prefHeight="42.0" prefWidth="588.0" HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="160.0" style="-fx-background-color: #192a56; -fx-text-fill: WHITE; -fx-cursor: hand; -fx-border-radius: 5;" text="PREVIEW QUIZ NOW">
+            <Button fx:id="preview_btn" mnemonicParsing="false" prefHeight="40.0" prefWidth="160.0" style="-fx-background-color: #192a56; -fx-text-fill: WHITE; -fx-cursor: hand; -fx-border-radius: 5;" text="PREVIEW QUIZ NOW">
                 <HBox.margin>
                     <Insets right="30.0" />
                 </HBox.margin>
