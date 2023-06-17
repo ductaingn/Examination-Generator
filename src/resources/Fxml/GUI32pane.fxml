@@ -45,7 +45,7 @@
          </ComboBox>
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="5.0" prefWidth="800.0">
-         <Label fx:id="test_label" prefHeight="22.0" prefWidth="120.0" text="Question name">
+         <Label prefHeight="22.0" prefWidth="120.0" text="Question name">
             <font>
                <Font size="15.0" />
             </font>
@@ -56,7 +56,7 @@
             </HBox.margin>
             <SVGPath content="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" fill="#c23616" scaleX="0.03" scaleY="0.03" />
          </VBox>
-         <TextField prefHeight="32.0" prefWidth="323.0">
+         <TextField fx:id="questionNameTextField" prefHeight="32.0" prefWidth="323.0">
             <HBox.margin>
                <Insets left="10.0" />
             </HBox.margin>
@@ -85,7 +85,7 @@
                </HBox>
             </VBox>
          </VBox>
-         <TextArea prefHeight="126.0" prefWidth="356.0" />
+         <TextArea fx:id="questionTextTextArea" prefHeight="126.0" prefWidth="356.0" />
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="780.0">
          <Label prefHeight="22.0" prefWidth="120.0" text="Default mark">
@@ -99,7 +99,7 @@
             </HBox.margin>
             <SVGPath content="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" fill="#c23616" scaleX="0.03" scaleY="0.03" />
          </VBox>
-         <TextField prefHeight="32.0" prefWidth="66.0">
+         <TextField fx:id="questionMarkTextField" prefHeight="32.0" prefWidth="66.0">
             <HBox.margin>
                <Insets left="10.0" />
             </HBox.margin>
