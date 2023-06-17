@@ -1,7 +1,6 @@
 package Controllers;
 
 import Models.QuestionChoice;
-import com.sun.javafx.binding.StringFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

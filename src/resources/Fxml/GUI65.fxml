@@ -47,37 +47,37 @@
             <Tab text="Existing Category">
                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                     <HBox alignment="CENTER_LEFT" prefWidth="879.0">
-                        <Label style="-fx-font-size: 1.2em;" text="Category"/>
-                        <ComboBox fx:id="comboBox" prefHeight="32.0" prefWidth="200.0" promptText="Default"
-                                  style="-fx-background-color: #FFFFFF; -fx-border-color: #7f8fa6;">
+                        <Label style="-fx-font-size: 1.2em;" text="Category" />
+                        <ComboBox fx:id="comboBox" prefHeight="34.0" prefWidth="250.0" promptText="Default" style="-fx-background-color: #FFFFFF; -fx-border-color: #7f8fa6;">
                             <HBox.margin>
-                                <Insets left="10.0"/>
+                                <Insets left="230.0" />
                             </HBox.margin>
                         </ComboBox>
                     </HBox>
-                    <CheckBox mnemonicParsing="false" stylesheets="@../Styles/CheckBox.css"
-                              text="Include questions from sub category too"/>
+                    <CheckBox mnemonicParsing="false" stylesheets="@../Styles/CheckBox.css" text="Include questions from sub category too" />
                     <HBox alignment="CENTER_LEFT" prefWidth="879.0">
-                        <Label style="-fx-font-size: 1.2em;" text="Number of random questions"/>
-                        <ComboBox fx:id="comboBox1" prefHeight="34.0" prefWidth="80.0" promptText="0"
-                                  style="-fx-background-color: #FFFFFF; -fx-border-color: #7f8fa6;">
+                        <Label style="-fx-font-size: 1.2em;" text="Number of random questions" />
+                        <ComboBox fx:id="comboBox1" prefHeight="34.0" prefWidth="80.0" promptText="0" style="-fx-background-color: #FFFFFF; -fx-border-color: #7f8fa6;">
                             <HBox.margin>
-                                <Insets left="10.0"/>
+                                <Insets left="10.0" />
                             </HBox.margin>
                         </ComboBox>
                     </HBox>
-                    <Label text="Questions matching this filter"/>
-                    <Pagination pageCount="5" prefHeight="72.0" prefWidth="879.0" VBox.vgrow="ALWAYS"/>
+                    <Label text="Questions matching this filter" />
+                    <Pagination pageCount="5" prefHeight="72.0" prefWidth="879.0" VBox.vgrow="ALWAYS" />
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
                 </VBox>
             </Tab>
-            <Tab text="New category"/>
+            <Tab text="New category" />
             <Tab>
                 <graphic>
                     <HBox prefHeight="26.0" prefWidth="477.0">
-                        <Region prefHeight="26.0" prefWidth="490.0" HBox.hgrow="ALWAYS"/>
+                        <Region prefHeight="26.0" prefWidth="490.0" HBox.hgrow="ALWAYS" />
                     </HBox>
                 </graphic>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0"/>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" />
             </Tab>
         </TabPane>
     </VBox>

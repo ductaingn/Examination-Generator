@@ -46,7 +46,7 @@ public class GUI32paneController implements Initializable {
     public Connection getConnection() {
         try {
 //            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
             return conn;
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,10 +54,11 @@ public class GUI32paneController implements Initializable {
         }
     }
     public void getComboBox() {
-        String queryCategoryName = "" +
-                "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1), node.name) AS name " +
-                "FROM category AS node," +
-                "category AS parent " +
+        String queryCategoryName = ""+
+                "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1),' ' ,node.name,' (', " +
+                "(SELECT COUNT(question_id) FROM question " +
+                "WHERE question.category_id=node.category_id),') '  ) AS name " +
+                "FROM category AS node,category AS parent " +
                 "WHERE node.lft BETWEEN parent.lft AND parent.rgt " +
                 "GROUP BY node.category_id ORDER BY node.lft;";
         Connection connection = getConnection();
