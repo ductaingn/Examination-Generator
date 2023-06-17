@@ -7,9 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.LightBase;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -18,10 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class GUI32paneController implements Initializable {
@@ -38,9 +33,15 @@ public class GUI32paneController implements Initializable {
     @FXML
     private Button cancel_btn;
     @FXML
-    private Label test_label;
-    @FXML
     private VBox choicesLayout;
+    @FXML
+    private TextField questionMarkTextField;
+
+    @FXML
+    private TextField questionNameTextField;
+
+    @FXML
+    private TextArea questionTextTextArea;
 
     public Connection getConnection() {
         try {
@@ -91,13 +92,29 @@ public class GUI32paneController implements Initializable {
         }
     }
 
+    public void insertQuestion(){
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("insert into question (name,text,mark,category_id)"
+                + "value ('" + questionNameTextField.getText() + "','"
+                + questionTextTextArea.getText() + "','"
+                + Integer.parseInt(questionMarkTextField.getText()) + "','"
+                + "2" +"');" );//Chua lay duoc Category_id nen de tam bang 0
+            System.out.println("Inserted Successfully");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getComboBox();
-        cancel_btn.setOnAction(event -> showGUI21());
-        saveChanges_btn.setOnAction(event -> showGUI21());
-        blanks_btn.setOnAction(event -> insertKMoreChoices(3));
         insertKMoreChoices(2);
+
+        cancel_btn.setOnAction(event -> showGUI21());
+        saveChanges_btn.setOnAction(event -> insertQuestion());
+        blanks_btn.setOnAction(event -> insertKMoreChoices(3));
 
     }
 }
