@@ -6,11 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.LightBase;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -21,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class GUI32paneController implements Initializable {
     @FXML
-    private ComboBox comboBox;
+    private ComboBox<String> comboBox;
     @FXML
     private Label switch_lbl;
     @FXML
@@ -45,7 +42,6 @@ public class GUI32paneController implements Initializable {
 
     public Connection getConnection() {
         try {
-//            Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
             return conn;
         } catch (Exception e) {

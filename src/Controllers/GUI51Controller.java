@@ -91,18 +91,18 @@ public class GUI51Controller implements Initializable {
         }
     }
     public enum MyMonth {January, February, March, April, May,
-            June, July, August, September, October, November, December};
+            June, July, August, September, October, November, December}
     public void insertQuiz() {
         try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
             String monthOpn, monthCls;
-            if (opn_ckb.isSelected() == false) {
+            if (!opn_ckb.isSelected()) {
                 monthOpn = null;
             } else {
                 monthOpn = String.valueOf(MyMonth.valueOf(opnMonth_comb.getValue()).ordinal() + 1);
             }
-            if (cls_ckb.isSelected() == false){
+            if (!cls_ckb.isSelected()){
                 monthCls = null;
             } else {
                 monthCls = String.valueOf(MyMonth.valueOf(clsMonth_comb.getValue()).ordinal() + 1);

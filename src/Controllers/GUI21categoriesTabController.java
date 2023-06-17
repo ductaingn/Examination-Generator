@@ -29,7 +29,6 @@ public class GUI21categoriesTabController implements Initializable {
     public Connection getConnection() {
         Connection connection;
         try {
-//            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
             return connection;
         } catch (Exception e) {

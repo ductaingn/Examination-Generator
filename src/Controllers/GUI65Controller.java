@@ -23,7 +23,7 @@ public class GUI65Controller implements Initializable {
     @FXML
     private Button close_btn;
     @FXML
-    private ComboBox comboBox;
+    private ComboBox<String> comboBox;
     @FXML
     private ComboBox comboBox1;
     public Connection getConnection() {
