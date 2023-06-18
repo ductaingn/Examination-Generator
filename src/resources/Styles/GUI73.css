@@ -1,0 +1,19 @@
+.container1 {
+    -fx-border-width: 1;
+    -fx-border-color: #dcdde1;
+    -fx-padding: 10 30 10 30;
+    -fx-spacing: 10;
+}
+.it_lbl {
+    -fx-font-family: "Times New Roman";
+}
+.container1 Label {
+    -fx-font-size: 1.2em;
+}
+.container1 Label:hover {
+    -fx-cursor: hand;
+}
+
+.container1 Text {
+    -fx-font-size: 1.2em;
+}
