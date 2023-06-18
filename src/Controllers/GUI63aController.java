@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -24,6 +25,8 @@ import java.util.ResourceBundle;
 import java.util.Vector;
 
 public class GUI63aController extends GUI63aItemController implements Initializable {
+    @FXML
+    private CheckBox alsoShow_ckb;
     @FXML
     private VBox listQues;
     @FXML
@@ -80,13 +83,14 @@ public class GUI63aController extends GUI63aItemController implements Initializa
             Model.getInstance().getViewFactory().showGUI62a();
         } catch (Exception e) {e.printStackTrace();}
     }
-    private List<QQuestion> qQuestionList(){
+
+    private static String query;
+    private List<QQuestion> qQuestionList(String queryy){
         Connection connection = getConnection();
-        String query = "SELECT * FROM question";
         List<QQuestion> list = new ArrayList<>();
         QQuestion qQuestion;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(queryy);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 qQuestion = new QQuestion();
@@ -99,6 +103,29 @@ public class GUI63aController extends GUI63aItemController implements Initializa
         return list;
     }
 
+    private List<QQuestion> sQuestionList(String dad){
+        Connection connection = getConnection();
+        List<QQuestion> list = new ArrayList<>();
+        QQuestion qQuestion;
+        try {
+//            PreparedStatement preparedStatement = connection.prepareStatement(queryy, proc);
+            CallableStatement callableStatement = connection.prepareCall("{call subCategory(?)}");
+//            ResultSet resultSet = preparedStatement.executeQuery();
+            callableStatement.setString(1, dad);
+            callableStatement.execute();
+            ResultSet resultSet = callableStatement.getResultSet();
+            while (resultSet.next()) {
+                qQuestion = new QQuestion();
+                qQuestion.setName(resultSet.getString("name"));
+                qQuestion.setText(resultSet.getString("text"));
+                qQuestion.setQuestion_id(resultSet.getInt("question_id"));
+                list.add(qQuestion);
+            }
+        } catch (Exception e) {e.printStackTrace();}
+        return list;
+    }
+
+    private String categoryName;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getComboBox();
@@ -111,8 +138,7 @@ public class GUI63aController extends GUI63aItemController implements Initializa
             System.out.println(prepareToAdd.size());
             prepareToAdd.clear();
         });
-
-        List<QQuestion> qQuestionList = new ArrayList<>(qQuestionList());
+        List<QQuestion> qQuestionList = new ArrayList<>(qQuestionList("SELECT * FROM question"));
         for (int i = 0; i < qQuestionList.size(); i++) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/resources/Fxml/GUI63aItem.fxml"));
@@ -125,5 +151,47 @@ public class GUI63aController extends GUI63aItemController implements Initializa
                 throw new RuntimeException(e);
             }
         }
+        //TODO
+        comboBox.setOnAction(event -> {
+            listQues.getChildren().clear();
+            categoryName = comboBox.getValue().trim();
+            categoryName = categoryName.substring(0, categoryName.indexOf('(') - 1);
+            query = "SELECT qs.name, qs.text, qs.question_id FROM question qs, category ct " +
+                    "WHERE qs.category_id=ct.category_id and ct.name = '" + categoryName + "';";
+            List<QQuestion> qQuestionList2 = new ArrayList<>(qQuestionList(query));
+            for (int i = 0; i < qQuestionList2.size(); i++) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/resources/Fxml/GUI63aItem.fxml"));
+                try {
+                    HBox hBox = loader.load();
+                    GUI63aItemController itemController = loader.getController();
+                    itemController.setData(qQuestionList2.get(i));
+                    listQues.getChildren().add(hBox);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        alsoShow_ckb.setOnAction(event -> {
+            if (alsoShow_ckb.isSelected()) {
+                System.out.println("also show questions from sub categories");
+                listQues.getChildren().clear();
+                categoryName = comboBox.getValue().trim();
+                categoryName = categoryName.substring(0, categoryName.indexOf('(') - 1);
+                List<QQuestion> qQuestionList3 = new ArrayList<>(sQuestionList(categoryName));
+                for (int i = 0; i < qQuestionList3.size(); i++) {
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/resources/Fxml/GUI63aItem.fxml"));
+                    try {
+                        HBox hBox = loader.load();
+                        GUI63aItemController itemController = loader.getController();
+                        itemController.setData(qQuestionList3.get(i));
+                        listQues.getChildren().add(hBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
     }
 }
