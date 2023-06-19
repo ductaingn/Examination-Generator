@@ -3,14 +3,17 @@ package Controllers;
 import javafx.scene.input.DragEvent;
 import java.util.Vector;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.security.sasl.RealmChoiceCallback;
-
+import javafx.scene.control.Button;
 import Models.QQuestion;
 import Models.QuestionChoice;
 import javafx.scene.input.Dragboard;
@@ -20,19 +23,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 
-//class Question{
-//	String name;
-//	Vector <String> choice = new Vector<>();
-//	String answer;
-//}
 
 public class GUI21importTabController implements Initializable {
     @FXML
     private ImageView image;
+    @FXML 
+    private Button button;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -76,7 +80,7 @@ public class GUI21importTabController implements Initializable {
                 alert.setTitle("Thông báo");
                 alert.setHeaderText(null);
                 alert.setContentText("File không đúng cú pháp Aiken!");
-                alert.showAndWait();
+                alert.show();
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Thông báo");
@@ -88,8 +92,51 @@ public class GUI21importTabController implements Initializable {
             event.consume();
             event.setDropCompleted(success);
         });
+ 
+        button.setOnAction(e -> {
+        	String filePath = null;
+        	FileChooser fileChooser = new FileChooser();
 
+            // Đặt tiêu đề của cửa sổ FileChooser
+            fileChooser.setTitle("Open File");
+
+            // Hiển thị cửa sổ FileChooser và lấy đường dẫn đến file đã chọn
+            File selectedFile = fileChooser.showOpenDialog(null);
+
+            if (selectedFile != null) {
+                filePath = selectedFile.getAbsolutePath();
+            }
+            try {
+                if (checkAndAddAikenStructure(filePath)) {
+                	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Thông báo");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Import File thành công!");
+                    alert.show();
+                }else {
+                	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Thông báo");
+                    alert.setHeaderText(null);
+                    alert.setContentText("File không đúng cú pháp Aiken!");
+                    alert.show();
+                }
+            } catch (IOException m) {
+                // TODO Auto-generated catch block
+                m.printStackTrace();
+            }
+        });    
     }
+    
+    
+   
+    
+    
+    
+    
+    
+    
+    
+    
 
     // The global varible.
     // QQuestion qs = new QQuestion();
