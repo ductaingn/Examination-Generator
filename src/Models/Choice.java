@@ -1,16 +1,17 @@
 package Models;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionChoice {
+public class Choice {
     private String choiceText;
     private Integer choiceId;
-    private String choiceImageSource;
+    private Image choiceImage;
     private Double choiceGrade;
     public List<Double> listGrade=new ArrayList<>();
 
-    public QuestionChoice(){
+    public Choice(){
         double[] grade={100,90,500/6.0,80,75,70,400/6.0,60,50,40,200/6.0,30,25,20,100/6.0,100/7.0,100/8.0,100/9.0,10,5};
         for(int i=0;i<grade.length;i++){
             listGrade.add(grade[i]);
@@ -36,12 +37,12 @@ public class QuestionChoice {
         this.choiceId = choiceId;
     }
 
-    public String getChoiceImageSource() {
-        return choiceImageSource;
+    public Image getChoiceImage() {
+        return choiceImage;
     }
 
-    public void setChoiceImageSource(String choiceImageSource) {
-        this.choiceImageSource = choiceImageSource;
+    public void setChoiceImage(Image choiceImage) {
+        this.choiceImage = choiceImage;
     }
 
     public Double getChoiceGrade() {

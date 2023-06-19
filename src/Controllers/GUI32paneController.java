@@ -6,22 +6,23 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.LightBase;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
 public class GUI32paneController implements Initializable {
     @FXML
-    private ComboBox comboBox;
+    private ComboBox<String> categoryComboBox;
     @FXML
     private Label switch_lbl;
     @FXML
@@ -42,6 +43,7 @@ public class GUI32paneController implements Initializable {
 
     @FXML
     private TextArea questionTextTextArea;
+    private Vector<GUI32ChoiceController> choicesControllers=new Vector<GUI32ChoiceController>();
 
     public Connection getConnection() {
         try {
@@ -53,7 +55,7 @@ public class GUI32paneController implements Initializable {
             return null;
         }
     }
-    public void getComboBox() {
+    public void getCategoryComboBox() {
         String queryCategoryName = "" +
                 "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1), node.name) AS name " +
                 "FROM category AS node," +
@@ -69,7 +71,7 @@ public class GUI32paneController implements Initializable {
                 String item = resultSet.getString("name");
                 categoryName.add(item);
             }
-            comboBox.setItems(categoryName);
+            categoryComboBox.setItems(categoryName);
         } catch (Exception e) {e.printStackTrace();}
     }
     public void showGUI21() {
@@ -84,7 +86,8 @@ public class GUI32paneController implements Initializable {
             loader.setLocation(getClass().getResource("/resources/Fxml/GUI32Choice.fxml"));
             try {
                 HBox hBox = loader.load();
-                GUI32ChoiceController controller;
+                GUI32ChoiceController controller=loader.getController();
+                choicesControllers.add(controller);
                 choicesLayout.getChildren().add(hBox);
             }catch (IOException e){
                 e.printStackTrace();
@@ -96,20 +99,36 @@ public class GUI32paneController implements Initializable {
         try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
+
+            ResultSet categorySet = statement.executeQuery("select * from test.category " +
+                    "where name = '" + categoryComboBox.getValue().trim() + "';");
+            categorySet.next();
+            Integer categoryId = Integer.parseInt(categorySet.getString("category_id"));
+
             statement.executeUpdate("insert into question (name,text,mark,category_id)"
                 + "value ('" + questionNameTextField.getText() + "','"
                 + questionTextTextArea.getText() + "','"
                 + Integer.parseInt(questionMarkTextField.getText()) + "','"
-                + "2" +"');" );//Chua lay duoc Category_id nen de tam bang 0
-            System.out.println("Inserted Successfully");
+                + categoryId +"');" );
+
+            ResultSet questionIdSet = statement.executeQuery("select last_insert_id();");
+            questionIdSet.next();
+            Integer questionId= Integer.parseInt(questionIdSet.getString("last_insert_id()"));
+            System.out.println("Inserted Successfully, Question ID: " + questionId);
+
+            for(int i=0;i<choicesControllers.size();i++){
+                choicesControllers.get(i).insertChoice(questionId);
+            }
+
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        getComboBox();
+        getCategoryComboBox();
         insertKMoreChoices(2);
 
         cancel_btn.setOnAction(event -> showGUI21());
