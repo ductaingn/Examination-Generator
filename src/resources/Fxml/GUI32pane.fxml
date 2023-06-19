@@ -38,7 +38,7 @@
                <Font size="15.0" />
             </font>
          </Label>
-         <ComboBox fx:id="comboBox" prefHeight="32.0" prefWidth="200.0">
+         <ComboBox fx:id="categoryComboBox" prefHeight="32.0" prefWidth="200.0">
             <HBox.margin>
                <Insets left="130.0" />
             </HBox.margin>
@@ -85,7 +85,7 @@
                </HBox>
             </VBox>
          </VBox>
-         <TextArea fx:id="questionTextTextArea" prefHeight="126.0" prefWidth="356.0" />
+         <TextArea fx:id="questionTextTextArea" prefHeight="126.0" prefWidth="356.0" wrapText="true" />
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="780.0">
          <Label prefHeight="22.0" prefWidth="120.0" text="Default mark">
@@ -105,9 +105,9 @@
             </HBox.margin>
          </TextField>
       </HBox>
-      <VBox fx:id="choicesLayout" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+      <VBox fx:id="choicesLayout" prefWidth="100.0" spacing="10.0">
          <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
