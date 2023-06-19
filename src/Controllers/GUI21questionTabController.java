@@ -2,15 +2,12 @@ package Controllers;
 
 import Models.Model;
 import Models.Question;
-import Models.Quiz;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -41,7 +38,6 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
     //    connect database
     public Connection getConnection() {
         try {
-//            Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
             return conn;
         } catch (Exception e) {
@@ -50,10 +46,11 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
         }
     }
     public void getComboBox() {
-        String queryCategoryName = "" +
-                "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1), node.name) AS name " +
-                "FROM category AS node," +
-                "category AS parent " +
+        String queryCategoryName = ""+
+                "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1),' ' ,node.name,' (', " +
+                "(SELECT COUNT(question_id) FROM question " +
+                "WHERE question.category_id=node.category_id),') '  ) AS name " +
+                "FROM category AS node,category AS parent " +
                 "WHERE node.lft BETWEEN parent.lft AND parent.rgt " +
                 "GROUP BY node.category_id ORDER BY node.lft;";
         Connection connection = getConnection();
@@ -62,7 +59,7 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
             ResultSet resultSet = preparedStatement.executeQuery();
             ObservableList<String> categoryName = FXCollections.observableArrayList();
             while (resultSet.next()) {
-                String item = resultSet.getString("name");
+                String item = (resultSet.getString("name"));
                 categoryName.add(item);
             }
             comboBox.setItems(categoryName);
@@ -85,15 +82,14 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
             }
             tv_question.setCellValueFactory((new PropertyValueFactory<>("questionName")));
             Callback<TableColumn<Question, String>, TableCell<Question, String>> cellFactory = (param) -> {
-                final TableCell<Question, String> cell = new TableCell<Question, String>(){
+                final TableCell<Question, String> cell = new TableCell<>() {
                     @Override
                     public void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
                         if (empty) {
                             setGraphic(null);
                             setText(null);
-                        }
-                        else {
+                        } else {
                             Label edit_lbl = new Label("Edit");
                             edit_lbl.setStyle(
                                     "-fx-text-fill: blue; -fx-font-size: 1em;"
@@ -101,14 +97,15 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
 //                            adding edit function
                             edit_lbl.setOnMouseClicked(e -> {
                                 System.out.println("edit question");
-                                
+                                //TODO
                             });
 //
                             HBox hBox = new HBox(edit_lbl);
                             setGraphic(hBox);
                             setText(null);
                         }
-                    };
+                    }
+
                 };
                 return cell;
             };

@@ -60,13 +60,6 @@ public class GUI32ChoiceController implements Initializable{
             Double grade = Double.parseDouble(gradeString.substring(0,gradeString.length()-1));
             grade=grade/100.0;
 
-//            FileChooser fileChooser = new FileChooser();
-//            File file = fileChooser.showOpenDialog(null);
-//            if (file!=null){
-//                Image image = new Image(file.toURI().toString());
-//                imageView.setImage(image);
-//            }
-
             statement.setInt(1, questionId);
             statement.setString(2,textArea.getText());
             statement.setDouble(3,grade);

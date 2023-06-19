@@ -1,6 +1,7 @@
 package Models;
 
 public class QQuestion {
+    private int question_id;
     private int category_id;
     private String name;
     private String text;
@@ -45,5 +46,13 @@ public class QQuestion {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public int getQuestion_id() {
+        return question_id;
+    }
+
+    public void setQuestion_id(int question_id) {
+        this.question_id = question_id;
     }
 }

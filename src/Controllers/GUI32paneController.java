@@ -6,8 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,7 +20,7 @@ import java.util.Vector;
 
 public class GUI32paneController implements Initializable {
     @FXML
-    private ComboBox<String> categoryComboBox;
+    private ComboBox<String> comboBox;
     @FXML
     private Label switch_lbl;
     @FXML
@@ -47,19 +45,20 @@ public class GUI32paneController implements Initializable {
 
     public Connection getConnection() {
         try {
-//            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
             return conn;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-    public void getCategoryComboBox() {
-        String queryCategoryName = "" +
-                "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1), node.name) AS name " +
-                "FROM category AS node," +
-                "category AS parent " +
+
+    public void getComboBox() {
+        String queryCategoryName = ""+
+                "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1),' ' ,node.name,' (', " +
+                "(SELECT COUNT(question_id) FROM question " +
+                "WHERE question.category_id=node.category_id),') '  ) AS name " +
+                "FROM category AS node,category AS parent " +
                 "WHERE node.lft BETWEEN parent.lft AND parent.rgt " +
                 "GROUP BY node.category_id ORDER BY node.lft;";
         Connection connection = getConnection();
