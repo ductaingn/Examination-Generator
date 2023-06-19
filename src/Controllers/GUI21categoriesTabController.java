@@ -14,8 +14,6 @@ import java.util.ResourceBundle;
 
 public class GUI21categoriesTabController implements Initializable {
     @FXML
-    private Button delCategory_btn;
-    @FXML
     private Button addCategory_btn;
     @FXML
     private TextField id_fld;
@@ -79,31 +77,12 @@ public class GUI21categoriesTabController implements Initializable {
             e.printStackTrace();
         }
     }
-    private void deleteCategory() {
-        try {
-            Connection connection = getConnection();
-            Statement statement = connection.createStatement();
-            statement.executeQuery("LOCK TABLES category WRITE; ");
-            statement.executeQuery("SELECT @myLeft := lft, @myRight := rgt, @myWidth := rgt - lft + 1 FROM category " +
-                    "WHERE name = '" + name_fld.getText() + "';");
-            statement.executeUpdate("DELETE FROM category WHERE lft BETWEEN @myLeft AND @myRight;");
-            statement.executeUpdate("UPDATE category SET rgt = rgt - @myWidth WHERE rgt > @myRight;");
-            statement.executeUpdate("UPDATE category SET lft = lft - @myWidth WHERE lft > @myRight;");
-            statement.executeQuery("UNLOCK TABLES;");
-            getComboBox();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
     @FXML
     private void handleButtonAction(ActionEvent event) {
         if (event.getSource() == addCategory_btn) {
             insertCategory();
             System.out.println("Inserted Category");
-        }
-        else if (event.getSource() == delCategory_btn) {
-            deleteCategory();
-            System.out.println("Deleted Category");
         }
     }
     @Override

@@ -191,6 +191,26 @@ public class GUI63aController extends GUI63aItemController implements Initializa
                         throw new RuntimeException(e);
                     }
                 }
+            } else {
+                System.out.println("don't show questions from sub categories");
+                listQues.getChildren().clear();
+                categoryName = comboBox.getValue().trim();
+                categoryName = categoryName.substring(0, categoryName.indexOf('(') - 1);
+                query = "SELECT qs.name, qs.text, qs.question_id FROM question qs, category ct " +
+                        "WHERE qs.category_id=ct.category_id and ct.name = '" + categoryName + "';";
+                List<QQuestion> qQuestionList2 = new ArrayList<>(qQuestionList(query));
+                for (int i = 0; i < qQuestionList2.size(); i++) {
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/resources/Fxml/GUI63aItem.fxml"));
+                    try {
+                        HBox hBox = loader.load();
+                        GUI63aItemController itemController = loader.getController();
+                        itemController.setData(qQuestionList2.get(i));
+                        listQues.getChildren().add(hBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
         });
     }
