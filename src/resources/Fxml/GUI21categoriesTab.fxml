@@ -74,7 +74,7 @@
                </HBox>
             </VBox>
          </VBox>
-         <TextArea fx:id="info_fld" prefHeight="126.0" prefWidth="356.0" />
+         <TextArea fx:id="info_fld" prefHeight="126.0" prefWidth="356.0" wrapText="true" />
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="780.0">
          <Label prefHeight="22.0" prefWidth="120.0" text="ID number">
@@ -97,15 +97,10 @@
       <Separator prefWidth="200.0" />
    </VBox>
    <HBox alignment="CENTER">
-      <Button fx:id="addCategory_btn" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="38.0" prefWidth="166.0" style="-fx-background-color: #273c75;" text="ADD CATEGORY">
+      <Button fx:id="addCategory_btn" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="38.0" prefWidth="166.0" style="-fx-background-color: #c23616;" text="ADD CATEGORY">
          <font>
             <Font size="14.0" />
          </font>
-      </Button>
-      <Button fx:id="delCategory_btn" layoutX="352.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="38.0" prefWidth="175.0" style="-fx-background-color: #c23616;" text="DELETE CATEGORY">
-         <HBox.margin>
-            <Insets left="20.0" />
-         </HBox.margin>
       </Button>
    </HBox>
 </VBox>
