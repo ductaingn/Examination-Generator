@@ -34,8 +34,7 @@ public class GUI32ChoiceController implements Initializable{
     private FileInputStream fileInputStream;
     public Connection getConnection() {
         try {
-//            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
             return conn;
         } catch (Exception e) {
             e.printStackTrace();

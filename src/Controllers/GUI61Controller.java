@@ -30,9 +30,9 @@ public class GUI61Controller implements Initializable{
     @FXML
     private Label title_lbl;
     //    static để data không bị trả về null
-    private static String nameData;
+    public static String nameData;
     private static String timeData;
-    private static String idData;
+    public static String idData;
     public void showGUI11() {
         Stage stage = (Stage)switch_lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
@@ -74,6 +74,11 @@ public class GUI61Controller implements Initializable{
         title_lbl.setText(quizName);
         title2_lbl.setText(quizName);
         timeLimit_lbl.setText(quizTime);
+    }
+    public void getAllLabel(String quizName, String quizId) {
+        idData = quizId;
+        nameData = quizName;
+        title2_lbl.setText(quizName);
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

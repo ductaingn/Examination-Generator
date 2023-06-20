@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 import javax.security.sasl.RealmChoiceCallback;
 import javafx.scene.control.Button;
 import Models.QQuestion;
-import Models.QuestionChoice;
+import Models.Choice;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.control.Label;
@@ -140,9 +140,9 @@ public class GUI21importTabController implements Initializable {
 
     // The global varible.
     // QQuestion qs = new QQuestion();
-    // QuestionChoice choice = new QuestionChoice();
+    // Choice choice = new Choice();
     // Vector<QQuestion> questionList = new Vector<>();
-    // Vector<QuestionChoice> choiceList = new Vector<>();
+    // Vector<Choice> choiceList = new Vector<>();
     // -------------------//
 
     // Check Aiken format
@@ -159,9 +159,9 @@ public class GUI21importTabController implements Initializable {
 
         // Liên kết với cơ sở dữ liệu :))
         QQuestion qs = new QQuestion();
-        QuestionChoice choice = new QuestionChoice();
+        Choice choice = new Choice();
         Vector<QQuestion> questionList = new Vector<>();
-        Vector<QuestionChoice> choiceList = new Vector<>();
+        Vector<Choice> choiceList = new Vector<>();
         // --------------------//
 
         while ((line = reader.readLine()) != null) {
@@ -193,7 +193,7 @@ public class GUI21importTabController implements Initializable {
                     } else {
                         choice.setChoiceText(line); // Các lựa chọn được add
                         choiceList.add(choice);
-                        choice = new QuestionChoice();
+                        choice = new Choice();
                     }
                 }
             }

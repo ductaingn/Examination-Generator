@@ -27,9 +27,15 @@ public class GUI72Controller implements Initializable {
         Model.getInstance().getViewFactory().closeStage(stage);
         Model.getInstance().getViewFactory().showGUI61();
     }
+    public void showGUI73() {
+        Stage stage = (Stage)switch_lbl.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeStage(stage);
+        Model.getInstance().getViewFactory().showGUI73();
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cancel_btn.setOnAction(event -> showGUI61());
         close_btn.setOnAction(event -> showGUI61());
+        start_btn.setOnAction(event -> showGUI73());
     }
 }
