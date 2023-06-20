@@ -34,7 +34,6 @@ public class GUI32ChoiceController implements Initializable{
     private FileInputStream fileInputStream;
     public Connection getConnection() {
         try {
-//            Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
             return conn;
         } catch (Exception e) {
@@ -45,6 +44,8 @@ public class GUI32ChoiceController implements Initializable{
     public void getGradeComboBox(){
         Choice choice = new Choice();
         ObservableList<String> grades = FXCollections.observableArrayList();
+        String none = new String("None");
+        grades.add(none);
         for(int i = 0; i< choice.listGrade.size(); i++){
             String gradeString=String.format("%.5f", choice.listGrade.get(i));
             grades.add(gradeString+"%");
@@ -57,15 +58,14 @@ public class GUI32ChoiceController implements Initializable{
             PreparedStatement statement = connection.prepareStatement("insert into choice (question_id,content,grade,image) values (?,?,?,?);");
 
             String gradeString = new String(gradeComboBox.getValue());
-            Double grade = Double.parseDouble(gradeString.substring(0,gradeString.length()-1));
-            grade=grade/100.0;
-
-//            FileChooser fileChooser = new FileChooser();
-//            File file = fileChooser.showOpenDialog(null);
-//            if (file!=null){
-//                Image image = new Image(file.toURI().toString());
-//                imageView.setImage(image);
-//            }
+            Double grade;
+            if(gradeString.equals("None")){
+                grade=0.00000;
+            }
+            else{
+                grade = Double.parseDouble(gradeString.substring(0,gradeString.length()-1));
+                grade=grade/100.0;
+            }
 
             statement.setInt(1, questionId);
             statement.setString(2,textArea.getText());
