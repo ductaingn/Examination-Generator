@@ -11,113 +11,97 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../Styles/GUI73.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI61Controller">
+<AnchorPane prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../Styles/GUI73.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI73Controller">
    <BorderPane prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <top>
-         <AnchorPane prefHeight="49.0" prefWidth="900.0" BorderPane.alignment="CENTER">
-            <children>
-                <VBox prefHeight="119.0" prefWidth="840.0" styleClass="container1" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                    <HBox alignment="CENTER" prefHeight="45.0" prefWidth="778.0">
-                        <Label fx:id="switch_lbl" style="-fx-font-size: 3em;" styleClass="it_lbl" text="IT" textFill="#c23616">
-                            <HBox.margin>
-                                <Insets />
-                            </HBox.margin>
-                        </Label>
-                        <Region prefHeight="50.0" prefWidth="564.0" HBox.hgrow="ALWAYS" />
-                    </HBox>
-                    <HBox alignment="CENTER_LEFT" prefWidth="778.0">
-                        <Button fx:id="home_btn" mnemonicParsing="false" style="-fx-background-color: #FFFFFF;">
-                            <graphic>
-                                <Label text="Home" textFill="#c23616" />
-                            </graphic>
-                        </Button>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="/">
-                            <HBox.margin>
-                                <Insets right="10.0" />
-                            </HBox.margin>
-                        </Text>
-                        <Label layoutX="44.0" layoutY="10.0" text="My Course" />
-                        <Text layoutX="44.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
-                            <HBox.margin>
-                                <Insets left="10.0" right="10.0" />
-                            </HBox.margin>
-                        </Text>
-                        <Label layoutX="77.0" layoutY="10.0" text="THI CUỐI KÌ" textFill="#c23616" />
-                        <Text layoutX="177.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
-                            <HBox.margin>
-                                <Insets left="10.0" right="10.0" />
-                            </HBox.margin>
-                        </Text>
-                        <Label layoutX="195.0" layoutY="10.0" text="General" textFill="#c23616" />
-                        <Text layoutX="296.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
-                            <HBox.margin>
-                                <Insets left="10.0" right="10.0" />
-                            </HBox.margin>
-                        </Text>
-                        <Label fx:id="title2_lbl" layoutX="313.0" layoutY="10.0" text="to be gettext and set label" textFill="#c23616" />
-                     <Text layoutX="392.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
-                        <HBox.margin>
-                           <Insets left="10.0" right="10.0" />
-                        </HBox.margin>
-                     </Text>
-                     <Label fx:id="title2_lbl1" layoutX="409.0" layoutY="15.0" text="Preview" textFill="#c23616" />
-                    </HBox>
-                </VBox>
-            </children>
-         </AnchorPane>
+          <AnchorPane prefHeight="49.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+              <VBox prefHeight="119.0" prefWidth="840.0" styleClass="container1" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                  <HBox alignment="CENTER" prefHeight="45.0" prefWidth="778.0">
+                      <Label fx:id="switch_lbl" style="-fx-font-size: 3em;" styleClass="it_lbl" text="IT" textFill="#c23616">
+                          <HBox.margin>
+                              <Insets />
+                          </HBox.margin>
+                      </Label>
+                      <Region prefHeight="50.0" prefWidth="564.0" HBox.hgrow="ALWAYS" />
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefWidth="778.0">
+                      <Button fx:id="home_btn" mnemonicParsing="false" style="-fx-background-color: #FFFFFF;">
+                          <graphic>
+                              <Label text="Home" textFill="#c23616" />
+                          </graphic>
+                      </Button>
+                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="/">
+                          <HBox.margin>
+                              <Insets right="10.0" />
+                          </HBox.margin>
+                      </Text>
+                      <Label layoutX="44.0" layoutY="10.0" text="My Course" />
+                      <Text layoutX="44.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
+                          <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                          </HBox.margin>
+                      </Text>
+                      <Label layoutX="77.0" layoutY="10.0" text="THI CUỐI KÌ" textFill="#c23616" />
+                      <Text layoutX="177.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
+                          <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                          </HBox.margin>
+                      </Text>
+                      <Label layoutX="195.0" layoutY="10.0" text="General" textFill="#c23616" />
+                      <Text layoutX="296.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
+                          <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                          </HBox.margin>
+                      </Text>
+                      <Label fx:id="title2_lbl" layoutX="313.0" layoutY="10.0" text="to be gettext and set label" textFill="#c23616" />
+                      <Text layoutX="392.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
+                          <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                          </HBox.margin>
+                      </Text>
+                      <Label layoutX="409.0" layoutY="15.0" text="Preview" textFill="#c23616" />
+                  </HBox>
+              </VBox>
+          </AnchorPane>
       </top>
       <center>
-         <AnchorPane prefHeight="562.0" prefWidth="660.0" BorderPane.alignment="CENTER">
-            <children>
-               <VBox layoutX="101.0" layoutY="216.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: #dcdde1;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
-                  <children>
-                     <HBox alignment="CENTER_RIGHT" prefWidth="200.0">
-                        <children>
-                           <HBox spacing="5.0" style="-fx-border-color: #c23616;">
-                              <children>
-                                 <Label text="Time left:">
-                                    <font>
-                                       <Font size="16.0" />
-                                    </font>
-                                 </Label>
-                                 <Label layoutX="10.0" layoutY="10.0" text="0:54:39">
-                                    <font>
-                                       <Font size="16.0" />
-                                    </font>
-                                 </Label>
-                              </children>
-                              <padding>
-                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                              </padding>
-                           </HBox>
-                        </children>
-                     </HBox>
-                  </children>
+          <AnchorPane prefHeight="562.0" prefWidth="660.0" BorderPane.alignment="CENTER">
+              <VBox layoutX="101.0" layoutY="216.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: #dcdde1;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
                   <padding>
-                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                   </padding>
-               </VBox>
-            </children>
-         </AnchorPane>
+                  <HBox alignment="CENTER_RIGHT" prefWidth="200.0">
+                      <HBox spacing="5.0" style="-fx-border-color: #c23616;">
+                          <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                          </padding>
+                          <Label text="Time left:">
+                              <font>
+                                  <Font size="16.0" />
+                              </font>
+                          </Label>
+                          <Label layoutX="10.0" layoutY="10.0" text="0:54:39">
+                              <font>
+                                  <Font size="16.0" />
+                              </font>
+                          </Label>
+                      </HBox>
+                  </HBox>
+              </VBox>
+          </AnchorPane>
       </center>
       <right>
-         <AnchorPane prefHeight="562.0" prefWidth="240.0" BorderPane.alignment="CENTER">
-            <children>
-               <VBox layoutX="24.0" layoutY="81.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: #dcdde1;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
-                  <children>
-                     <VBox alignment="CENTER_LEFT" prefHeight="50.0" style="-fx-background-color: #fbfafb;">
-                        <children>
-                           <Label style="-fx-font-size: 1.4em;" text="Quiz navigation" textFill="#c23616">
-                              <VBox.margin>
-                                 <Insets left="10.0" />
-                              </VBox.margin>
-                           </Label>
-                        </children>
-                     </VBox>
-                  </children>
-               </VBox>
-            </children>
-         </AnchorPane>
+          <AnchorPane prefHeight="562.0" prefWidth="240.0" BorderPane.alignment="CENTER">
+              <VBox layoutX="24.0" layoutY="81.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: #dcdde1;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                  <VBox alignment="CENTER_LEFT" prefHeight="50.0" style="-fx-background-color: #fbfafb;">
+                      <Label style="-fx-font-size: 1.4em;" text="Quiz navigation" textFill="#c23616">
+                          <VBox.margin>
+                              <Insets left="10.0" />
+                          </VBox.margin>
+                      </Label>
+                  </VBox>
+              </VBox>
+          </AnchorPane>
       </right>
    </BorderPane>
 </AnchorPane>

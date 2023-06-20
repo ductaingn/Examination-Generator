@@ -108,9 +108,7 @@ public class GUI63aController extends GUI63aItemController implements Initializa
         List<QQuestion> list = new ArrayList<>();
         QQuestion qQuestion;
         try {
-//            PreparedStatement preparedStatement = connection.prepareStatement(queryy, proc);
             CallableStatement callableStatement = connection.prepareCall("{call subCategory(?)}");
-//            ResultSet resultSet = preparedStatement.executeQuery();
             callableStatement.setString(1, dad);
             callableStatement.execute();
             ResultSet resultSet = callableStatement.getResultSet();

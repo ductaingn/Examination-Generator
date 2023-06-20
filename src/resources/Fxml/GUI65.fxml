@@ -64,7 +64,7 @@
                         </ComboBox>
                     </HBox>
                     <Label text="Questions matching this filter" />
-                    <Pagination pageCount="5" prefHeight="72.0" prefWidth="879.0" VBox.vgrow="ALWAYS" />
+                    <Pagination fx:id="pagination" pageCount="10" prefHeight="72.0" prefWidth="879.0" VBox.vgrow="ALWAYS" />
                <padding>
                   <Insets top="20.0" />
                </padding>

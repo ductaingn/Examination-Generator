@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
@@ -41,7 +40,7 @@ public class GUI32paneController implements Initializable {
 
     @FXML
     private TextArea questionTextTextArea;
-    private Vector<GUI32ChoiceController> choicesControllers=new Vector<GUI32ChoiceController>();
+    private Vector<GUI32ChoiceController> choicesControllers = new Vector<GUI32ChoiceController>();
 
     public Connection getConnection() {
         try {
@@ -54,7 +53,7 @@ public class GUI32paneController implements Initializable {
     }
 
     public void getComboBox() {
-        String queryCategoryName = ""+
+        String queryCategoryName =""+
                 "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1),' ' ,node.name,' (', " +
                 "(SELECT COUNT(question_id) FROM question " +
                 "WHERE question.category_id=node.category_id),') '  ) AS name " +
@@ -70,8 +69,10 @@ public class GUI32paneController implements Initializable {
                 String item = resultSet.getString("name");
                 categoryName.add(item);
             }
-            categoryComboBox.setItems(categoryName);
-        } catch (Exception e) {e.printStackTrace();}
+            comboBox.setItems(categoryName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void showGUI21() {
         Stage stage = (Stage)switch_lbl.getScene().getWindow();
@@ -99,8 +100,11 @@ public class GUI32paneController implements Initializable {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
+            String categoryName = comboBox.getValue().trim();
+            categoryName = categoryName.substring(0, categoryName.indexOf('(') - 1);
+
             ResultSet categorySet = statement.executeQuery("select * from test.category " +
-                    "where name = '" + categoryComboBox.getValue().trim() + "';");
+                    "where name = '" + categoryName + "';");
             categorySet.next();
             Integer categoryId = Integer.parseInt(categorySet.getString("category_id"));
 
@@ -127,7 +131,7 @@ public class GUI32paneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        getCategoryComboBox();
+        getComboBox();
         insertKMoreChoices(2);
 
         cancel_btn.setOnAction(event -> showGUI21());
