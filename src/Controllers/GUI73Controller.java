@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class GUI73Controller extends GUI61Controller implements Initializable {
@@ -26,7 +27,9 @@ public class GUI73Controller extends GUI61Controller implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        getAllLabel(nameData, idData);
+        System.out.println("time: " + timeData);
+        System.out.println("quizID: " + idData);
+        title2_lbl.setText(nameData);
         home_btn.setOnAction(event -> showGUI11());
     }
 }
