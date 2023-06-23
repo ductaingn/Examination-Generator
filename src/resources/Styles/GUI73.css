@@ -17,3 +17,8 @@
 .container1 Text {
     -fx-font-size: 1.2em;
 }
+
+.scroll-pane {
+    -fx-background: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+}

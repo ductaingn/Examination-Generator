@@ -34,13 +34,11 @@ public class GUI32paneController implements Initializable {
     private VBox choicesLayout;
     @FXML
     private TextField questionMarkTextField;
-
     @FXML
     private TextField questionNameTextField;
-
     @FXML
     private TextArea questionTextTextArea;
-    private Vector<GUI32ChoiceController> choicesControllers = new Vector<GUI32ChoiceController>();
+    private Vector<GUI32ChoiceController> choicesControllers = new Vector<>();
 
     public Connection getConnection() {
         try {
@@ -51,7 +49,6 @@ public class GUI32paneController implements Initializable {
             return null;
         }
     }
-
     public void getComboBox() {
         String queryCategoryName =""+
                 "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1),' ' ,node.name,' (', " +
@@ -127,8 +124,6 @@ public class GUI32paneController implements Initializable {
             e.printStackTrace();
         }
     }
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getComboBox();
