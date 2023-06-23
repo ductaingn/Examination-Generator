@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -52,9 +53,18 @@ public class GUI61Controller implements Initializable{
         } catch (Exception e) {e.printStackTrace();}
     }
     public void showGUI72() {
-        Stage stage = (Stage)switch_lbl.getScene().getWindow();
-        Model.getInstance().getViewFactory().closeStage(stage);
-        Model.getInstance().getViewFactory().showGUI72();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI72.fxml"));
+            Parent root = loader.load();
+            GUI72Controller gui72Controller = loader.getController();
+            gui72Controller.getInfo(idData, nameData, timeData);
+
+            Stage stage = (Stage)switch_lbl.getScene().getWindow();
+            Model.getInstance().getViewFactory().closeStage(stage);
+            Model.getInstance().getViewFactory().showGUI72();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     public Connection getConnection() {
         Connection connection;
@@ -66,7 +76,6 @@ public class GUI61Controller implements Initializable{
             return null;
         }
     }
-
     public void getAllLabel(String quizName, String quizTime, String quizId) {
         idData = quizId;
         nameData = quizName;
