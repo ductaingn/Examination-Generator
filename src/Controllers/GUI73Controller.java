@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -22,6 +21,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class GUI73Controller extends GUI73questionController implements Initializable {
+    @FXML
+    private Button quiz_btn;
+    @FXML
+    private VBox quizNavigation_vbox;
     @FXML
     private Button home_btn;
     @FXML
@@ -32,6 +35,8 @@ public class GUI73Controller extends GUI73questionController implements Initiali
     private Label title2_lbl;
     @FXML
     private Label time_lbl;
+    @FXML
+    private Button finishAttempt_btn;
 //    private Vector<GUI73questionController> questionControllers = new Vector<>();
     public static String nameData, timeData;
     public void getInfo(String quiz_id, String quiz_name, String quiz_time) {
@@ -44,9 +49,14 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         Model.getInstance().getViewFactory().closeStage(stage);
         Model.getInstance().getViewFactory().showGUI11();
     }
+    public void showGUI61() {
+        Stage stage = (Stage)switch_lbl.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeStage(stage);
+        Model.getInstance().getViewFactory().showGUI61();
+    }
     private List<QQuestion> qQuestionList() {
         Connection connection = getConnection();
-        String query = "SELECT text FROM question q, ques_quiz qq " +
+        String query = "SELECT text, q.question_id FROM question q, ques_quiz qq " +
                 "WHERE q.question_id = qq.question_id AND qq.quiz_id = " + idData;
         List<QQuestion> list = new ArrayList<>();
         QQuestion qQuestion;
@@ -56,6 +66,7 @@ public class GUI73Controller extends GUI73questionController implements Initiali
             while (resultSet.next()) {
                 qQuestion = new QQuestion();
                 qQuestion.setText(resultSet.getString("text"));
+                qQuestion.setQuestion_id(resultSet.getInt("question_id"));
                 list.add(qQuestion);
             }
         } catch (Exception e) {
@@ -67,26 +78,51 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         question_layout.getChildren().clear();
         idData = quizID;
         List<QQuestion> qQuestionList = new ArrayList<>(qQuestionList());
-        for(rank = 0; rank < qQuestionList.size(); rank++){
+        for(quesRank = 0; quesRank < qQuestionList.size(); quesRank++){
             FXMLLoader loader= new FXMLLoader();
             loader.setLocation(getClass().getResource("/resources/Fxml/GUI73question.fxml"));
             try {
                 HBox hBox = loader.load();
                 GUI73questionController controller = loader.getController();
-                controller.setData(qQuestionList.get(rank));
+                controller.setQuesData(qQuestionList.get(quesRank));
+                controller.getChoiceList(qQuestionList.get(quesRank).getQuestion_id());
                 question_layout.getChildren().add(hBox);
             }catch (IOException e){
                 throw new RuntimeException(e);
             }
         }
     }
+
+    public void showNavi(int k){
+        System.out.println(k);
+        int dem = 0;
+        while (dem*5 <= k) {
+            HBox hBox = new HBox(5);
+            for (int i = 1; i <= 5 && dem*5 + i <= k; i++){
+                FXMLLoader loader= new FXMLLoader();
+                loader.setLocation(getClass().getResource("/resources/Fxml/GUI73itemNavi.fxml"));
+                try {
+                    VBox vBox = loader.load();
+                    GUI73itemNaviController controller = loader.getController();
+                    controller.setQuesNo_navi_lbl(dem*5+i);
+                    hBox.getChildren().add(vBox);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+            quizNavigation_vbox.getChildren().add(hBox);
+            dem++;
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("ac " + idData);
         getQuestionList(idData);
-
+        showNavi(qQuestionList().size());
         title2_lbl.setText(nameData);
         time_lbl.setText(timeData);
+        finishAttempt_btn.setOnAction(event -> System.out.println("finish attempt"));
+
         home_btn.setOnAction(event -> showGUI11());
+        quiz_btn.setOnAction(event -> showGUI61());
     }
 }
