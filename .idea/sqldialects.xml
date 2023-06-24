@@ -10,5 +10,6 @@
     <file url="file://$PROJECT_DIR$/src/Controllers/GUI62aItemController.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/Controllers/GUI63aController.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/Controllers/GUI65Controller.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/resources/Database/Dump20230616/test_question.sql" dialect="MariaDB" />
   </component>
 </project>

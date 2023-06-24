@@ -29,3 +29,21 @@
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
     -fx-border-color: transparent;
 }
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+.Button {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 1.1em;
+    -fx-background-color: #192a56;
+    -fx-background-radius: 5;
+}
+.Button:hover {
+    -fx-cursor: hand;
+}
