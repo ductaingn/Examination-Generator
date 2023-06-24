@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="40.0" prefWidth="458.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Controllers.GUI73choiceController">
-    <RadioButton layoutX="14.0" layoutY="7.0" mnemonicParsing="false" text="RadioButton">
-        <font>
-          <Font size="16.0"/>
-        </font>
-    </RadioButton>
-</AnchorPane>
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="1010.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI73choiceController">
+   <RadioButton fx:id="choice_content_rbt" mnemonicParsing="false" text="choice" wrapText="true">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </RadioButton>
+</HBox>
