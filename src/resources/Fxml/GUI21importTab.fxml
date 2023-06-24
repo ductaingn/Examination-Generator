@@ -72,5 +72,5 @@
             </VBox>
         </HBox>
     </VBox>
-    <Button fx:id="addCategory_btn" mnemonicParsing="false" prefHeight="38.0" prefWidth="116.0" style="-fx-background-color: #c23616;" text="IMPORT" />
+    <Button fx:id="import_btn" mnemonicParsing="false" prefHeight="38.0" prefWidth="116.0" style="-fx-background-color: #c23616;" text="IMPORT" />
 </VBox>
