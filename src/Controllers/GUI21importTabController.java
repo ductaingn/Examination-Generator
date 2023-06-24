@@ -16,6 +16,7 @@ import javax.security.sasl.RealmChoiceCallback;
 import javafx.scene.control.Button;
 import Models.QQuestion;
 import Models.Choice;
+import Models.Model;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.control.Label;
@@ -37,6 +38,14 @@ public class GUI21importTabController implements Initializable {
     private ImageView image;
     @FXML 
     private Button button;
+    @FXML 
+    private Button import_btn;
+ // Liên kết với cơ sở dữ liệu :))
+    QQuestion qs = new QQuestion();
+    Choice choice = new Choice();
+    Vector<QQuestion> questionList = new Vector<>();
+    Vector<Choice> choiceList = new Vector<>();
+    // --------------------//
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -65,7 +74,12 @@ public class GUI21importTabController implements Initializable {
                 label.setText("File path: " + filePath);
                 try {
                     if (checkAndAddAikenStructure(filePath)) {
+                    	Image img = new Image("resources//Image//file.png");
+                    	image.setImage(img);
                         success = true;
+                    }else {
+                    	Image img = new Image("resources//Image//file.png");
+                    	image.setImage(img);
                     }
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
@@ -76,17 +90,38 @@ public class GUI21importTabController implements Initializable {
 
             // Tạo một massageBox để thông báo File ó đúng cấu trúc Aiken hay không
             if (success == false) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thông báo");
-                alert.setHeaderText(null);
-                alert.setContentText("File không đúng cú pháp Aiken!");
-                alert.show();
+            	import_btn.setOnAction(e->{
+            		 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                     alert.setTitle("Thông báo");
+                     alert.setHeaderText(null);
+                     alert.setContentText("File không đúng cú pháp Aiken!");
+                     alert.showAndWait();
+                     
+                     Stage stage = (Stage)import_btn.getScene().getWindow();
+                     Model.getInstance().getViewFactory().closeStage(stage);
+                     Model.getInstance().getViewFactory().showGUI21();
+                     
+            	});
             } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thông báo");
-                alert.setHeaderText(null);
-                alert.setContentText("Import File thành công!");
-                alert.show();
+            	import_btn.setOnAction(e->{
+           		 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Thông báo");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Import File thành công!");
+                    alert.showAndWait();
+                   
+                	Stage stage = (Stage)import_btn.getScene().getWindow();
+                    Model.getInstance().getViewFactory().closeStage(stage);
+                    Model.getInstance().getViewFactory().showGUI21();
+                    
+                    for(int i = 0; i < questionList.size(); i++) {
+                		System.out.println(questionList.elementAt(i).getText());
+                	}
+                    for(int i = 0 ; i < choiceList.size(); i++) {
+                		System.out.println(choiceList.elementAt(i).getChoiceText());
+                	}
+                    
+           	});
             }
 
             event.consume();
@@ -112,13 +147,30 @@ public class GUI21importTabController implements Initializable {
                     alert.setTitle("Thông báo");
                     alert.setHeaderText(null);
                     alert.setContentText("Import File thành công!");
-                    alert.show();
+                    alert.showAndWait();
+                 
+                	Stage stage = (Stage)button.getScene().getWindow();
+                    Model.getInstance().getViewFactory().closeStage(stage);
+                    Model.getInstance().getViewFactory().showGUI21();
+                    
+                    for(int i = 0; i < questionList.size(); i++) {
+                		System.out.println(questionList.elementAt(i).getText());
+                	}
+                	for(int i = 0 ; i < choiceList.size(); i++) {
+                		System.out.println(choiceList.elementAt(i).getChoiceText());
+                	}
+                    
                 }else {
                 	Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Thông báo");
                     alert.setHeaderText(null);
                     alert.setContentText("File không đúng cú pháp Aiken!");
-                    alert.show();
+                    alert.showAndWait();
+                    
+                    Stage stage = (Stage)button.getScene().getWindow();
+                    Model.getInstance().getViewFactory().closeStage(stage);
+                    Model.getInstance().getViewFactory().showGUI21();
+                    
                 }
             } catch (IOException m) {
                 // TODO Auto-generated catch block
@@ -127,23 +179,9 @@ public class GUI21importTabController implements Initializable {
         });    
     }
     
+        
     
-   
-    
-    
-    
-    
-    
-    
-    
-    
-
-    // The global varible.
-    // QQuestion qs = new QQuestion();
-    // Choice choice = new Choice();
-    // Vector<QQuestion> questionList = new Vector<>();
-    // Vector<Choice> choiceList = new Vector<>();
-    // -------------------//
+ 
 
     // Check Aiken format
     public boolean checkAndAddAikenStructure(String filePath) throws IOException {
@@ -156,13 +194,6 @@ public class GUI21importTabController implements Initializable {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher;
         // --------//
-
-        // Liên kết với cơ sở dữ liệu :))
-        QQuestion qs = new QQuestion();
-        Choice choice = new Choice();
-        Vector<QQuestion> questionList = new Vector<>();
-        Vector<Choice> choiceList = new Vector<>();
-        // --------------------//
 
         while ((line = reader.readLine()) != null) {
             if (!line.isEmpty()) {
@@ -200,7 +231,7 @@ public class GUI21importTabController implements Initializable {
         }
 
         reader.close();
-
+        
         return isValid;
     }
 
