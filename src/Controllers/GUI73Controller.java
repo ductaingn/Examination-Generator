@@ -4,8 +4,6 @@ import Models.Model;
 import javafx.animation.KeyFrame;
 import Models.QQuestion;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -121,7 +118,7 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         }
     }
 
-  public Integer starttime;
+    public Integer starttime;
 	public Integer count;
 	public Integer hour;
 	public Integer seconds;
@@ -138,48 +135,20 @@ public class GUI73Controller extends GUI73questionController implements Initiali
       
         home_btn.setOnAction(event -> showGUI11());
         quiz_btn.setOnAction(event -> showGUI61());
-        
-        starttime = Integer.parseInt(timeData);
-        count = starttime*60;
-        hour = starttime/60;
-        seconds = 0;
-        minute = starttime%60;
-        if(seconds < 10) {
-	    	if(minute < 10) {
-	    		time_lbl.setText(hour + ":0"+ minute +":0" + seconds.toString());
-	    	}else {
-	    		time_lbl.setText(hour + ":"+ minute +":0" + seconds.toString());
-	    	}
-	    }else{
-	    	if(minute < 10) {
-	    		time_lbl.setText(hour + ":0"+ minute +":" + seconds.toString());
-	    	}else {
-	    		time_lbl.setText(hour + ":"+ minute +":" + seconds.toString());
-	    	}
-	    }
-        time_lbl.setTextFill(Color.RED);
-        doTime();
-    }
-  
-    private void doTime() {
-        Timeline time = new Timeline();
-        KeyFrame frame = new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                seconds--;
-                count--;
-                if (seconds <= 0) {
-                    minute--;
-                    seconds = 60;
-                }
-                if (minute == 0 && hour > 0) {
-                    hour--;
-                }
+
+        System.out.println(timeData);
+        {
+            if (timeData!=null) {
+                starttime = Integer.parseInt(timeData);
+                count = starttime * 60;
+                hour = starttime / 60;
+                seconds = 0;
+                minute = starttime % 60;
                 if (seconds < 10) {
                     if (minute < 10) {
-                        time_lbl.setText(hour + ":0" + minute + ":0" + seconds.toString());
+                        time_lbl.setText(hour + ":0" + minute + ":0" + seconds);
                     } else {
-                        time_lbl.setText(hour + ":" + minute + ":0" + seconds.toString());
+                        time_lbl.setText(hour + ":" + minute + ":0" + seconds);
                     }
                 } else {
                     if (minute < 10) {
@@ -188,10 +157,38 @@ public class GUI73Controller extends GUI73questionController implements Initiali
                         time_lbl.setText(hour + ":" + minute + ":" + seconds.toString());
                     }
                 }
-                if (count <= 0) {
-                    time_lbl.setText("Time Limit  ");
-                    time.stop();
+                doTime();
+            }
+        }
+    }
+    private void doTime() {
+        Timeline time = new Timeline();
+        KeyFrame frame = new KeyFrame(Duration.seconds(1), event -> {
+            seconds--;
+            count--;
+            if (seconds <= 0) {
+                minute--;
+                seconds = 60;
+            }
+            if (minute == 0 && hour > 0) {
+                hour--;
+            }
+            if (seconds < 10) {
+                if (minute < 10) {
+                    time_lbl.setText(hour + ":0" + minute + ":0" + seconds);
+                } else {
+                    time_lbl.setText(hour + ":" + minute + ":0" + seconds);
                 }
+            } else {
+                if (minute < 10) {
+                    time_lbl.setText(hour + ":0" + minute + ":" + seconds);
+                } else {
+                    time_lbl.setText(hour + ":" + minute + ":" + seconds);
+                }
+            }
+            if (count <= 0) {
+                time_lbl.setText("Time Limit  ");
+                time.stop();
             }
         });
         time.setCycleCount(Timeline.INDEFINITE);
@@ -200,6 +197,7 @@ public class GUI73Controller extends GUI73questionController implements Initiali
             time.stop();
         }
         time.play();
-
     }
 }
+
+
