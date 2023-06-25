@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../Styles/GUI73.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI74Controller">
+   <BorderPane prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <top>
+          <AnchorPane prefHeight="49.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+              <VBox prefHeight="119.0" prefWidth="840.0" styleClass="container1" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                  <HBox alignment="CENTER" prefHeight="45.0" prefWidth="778.0">
+                      <Label fx:id="switch_lbl" style="-fx-font-size: 3em;" styleClass="it_lbl" text="IT" textFill="#c23616">
+                          <HBox.margin>
+                              <Insets />
+                          </HBox.margin>
+                      </Label>
+                      <Region prefHeight="50.0" prefWidth="564.0" HBox.hgrow="ALWAYS" />
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefWidth="778.0">
+                      <Button fx:id="home_btn" mnemonicParsing="false" style="-fx-background-color: #FFFFFF;">
+                          <graphic>
+                              <Label text="Home" textFill="#c23616" />
+                          </graphic>
+                      </Button>
+                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="/">
+                          <HBox.margin>
+                              <Insets right="10.0" />
+                          </HBox.margin>
+                      </Text>
+                      <Label layoutX="44.0" layoutY="10.0" text="My Course" />
+                      <Text layoutX="44.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
+                          <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                          </HBox.margin>
+                      </Text>
+                      <Label layoutX="77.0" layoutY="10.0" text="THI CUỐI KÌ" textFill="#c23616" />
+                      <Text layoutX="177.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
+                          <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                          </HBox.margin>
+                      </Text>
+                      <Label layoutX="195.0" layoutY="10.0" text="General" textFill="#c23616" />
+                      <Text layoutX="296.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
+                          <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                          </HBox.margin>
+                      </Text>
+                      <Label fx:id="title2_lbl" layoutX="313.0" layoutY="10.0" text="to be gettext and set label" textFill="#c23616" />
+                      <Text layoutX="392.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
+                          <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                          </HBox.margin>
+                      </Text>
+                      <Label layoutX="409.0" layoutY="15.0" text="Preview" textFill="#c23616" />
+                  </HBox>
+              </VBox>
+          </AnchorPane>
+      </top>
+      <center>
+          <AnchorPane prefHeight="562.0" prefWidth="660.0" BorderPane.alignment="CENTER">
+              <VBox layoutX="101.0" layoutY="115.0" prefHeight="451.0" prefWidth="638.0" style="-fx-border-color: #dcdde1;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="115.0">
+                  <padding>
+                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  </padding>
+                  <HBox alignment="CENTER_RIGHT" prefWidth="200.0" />
+              </VBox>
+            <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="5.0" prefHeight="18.0" prefWidth="169.0" style="-fx-background-color: #fafafa;" text="Started on" textFill="#c23616">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="23.0" prefHeight="18.0" prefWidth="169.0" style="-fx-background-color: #f7f7f7;" text="State" textFill="#c23616">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="started_on" layoutX="189.0" layoutY="5.0" prefHeight="18.0" prefWidth="461.0" style="-fx-background-color: #fafafa;" text="Tuesday, 21 March 2023, 8:33 PM" />
+            <Label fx:id="state" layoutX="189.0" layoutY="23.0" prefHeight="18.0" prefWidth="461.0" text="Finished" />
+            <Label fx:id="completed_on" layoutX="189.0" layoutY="41.0" prefHeight="18.0" prefWidth="461.0" style="-fx-background-color: #fafafa;" text="Tuesday, 21 March 2023, 8:34 PM" />
+            <Label fx:id="timeTaken" layoutX="189.0" layoutY="59.0" prefHeight="18.0" prefWidth="461.0" text="1 min 27 secs" />
+            <Label fx:id="marks" layoutX="189.0" layoutY="77.0" prefHeight="18.0" prefWidth="461.0" style="-fx-background-color: #fafafa;" text="0.00/67.00" />
+            <Label fx:id="grade" layoutX="189.0" layoutY="95.0" prefHeight="18.0" prefWidth="461.0" text="0.00 out of 10.00 (0%)" />
+            <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="41.0" prefHeight="18.0" prefWidth="169.0" style="-fx-background-color: #fafafa;" text="Completed on" textFill="#c23616">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="59.0" prefHeight="18.0" prefWidth="169.0" style="-fx-background-color: #f7f7f7;" text="Time taken" textFill="#c23616">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="77.0" prefHeight="18.0" prefWidth="169.0" style="-fx-background-color: #fafafa;" text="Marks" textFill="#c23616">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="95.0" prefHeight="18.0" prefWidth="169.0" style="-fx-background-color: #f7f7f7;" text="Grade" textFill="#c23616">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+          </AnchorPane>
+      </center>
+      <right>
+          <AnchorPane prefHeight="562.0" prefWidth="240.0" BorderPane.alignment="CENTER">
+              <VBox layoutX="24.0" layoutY="81.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: #dcdde1;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                  <VBox alignment="CENTER_LEFT" prefHeight="50.0" style="-fx-background-color: #fbfafb;">
+                      <Label style="-fx-font-size: 1.4em;" text="Quiz navigation" textFill="#c23616">
+                          <VBox.margin>
+                              <Insets left="10.0" />
+                          </VBox.margin>
+                      </Label>
+                  </VBox>
+              </VBox>
+          </AnchorPane>
+      </right>
+   </BorderPane>
+</AnchorPane>
