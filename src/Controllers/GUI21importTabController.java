@@ -16,6 +16,7 @@ import javax.security.sasl.RealmChoiceCallback;
 import javafx.scene.control.Button;
 import Models.QQuestion;
 import Models.Choice;
+import Models.Model;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.control.Label;
@@ -37,6 +38,23 @@ public class GUI21importTabController implements Initializable {
     private ImageView image;
     @FXML 
     private Button button;
+    @FXML 
+    private Button import_btn;
+ // Liên kết với cơ sở dữ liệu :))
+    QQuestion qs = new QQuestion();
+    Choice choice = new Choice();
+    Vector<QQuestion> questionList = new Vector<>();
+    Vector<Choice> choiceList = new Vector<>();
+    // --------------------//
+    
+    //---------------
+    class Question{
+    	public String questionText;
+    	public String questionAnwser;
+    	public Vector<String> choiceList = new Vector<>();
+    }
+    
+    public Vector<Question> question_List = new Vector<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -65,7 +83,12 @@ public class GUI21importTabController implements Initializable {
                 label.setText("File path: " + filePath);
                 try {
                     if (checkAndAddAikenStructure(filePath)) {
+                    	Image img = new Image("resources//Image//file.png");
+                    	image.setImage(img);
                         success = true;
+                    }else {
+                    	Image img = new Image("resources//Image//file.png");
+                    	image.setImage(img);
                     }
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
@@ -76,17 +99,40 @@ public class GUI21importTabController implements Initializable {
 
             // Tạo một massageBox để thông báo File ó đúng cấu trúc Aiken hay không
             if (success == false) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thông báo");
-                alert.setHeaderText(null);
-                alert.setContentText("File không đúng cú pháp Aiken!");
-                alert.show();
+            	import_btn.setOnAction(e->{
+            		 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                     alert.setTitle("Thông báo");
+                     alert.setHeaderText(null);
+                     alert.setContentText("File không đúng cú pháp Aiken!");
+                     alert.showAndWait();
+                     
+                     Stage stage = (Stage)import_btn.getScene().getWindow();
+                     Model.getInstance().getViewFactory().closeStage(stage);
+                     Model.getInstance().getViewFactory().showGUI21();
+                     
+            	});
             } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thông báo");
-                alert.setHeaderText(null);
-                alert.setContentText("Import File thành công!");
-                alert.show();
+            	import_btn.setOnAction(e->{
+           		 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Thông báo");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Import File thành công!");
+                    alert.showAndWait();
+                   
+                	Stage stage = (Stage)import_btn.getScene().getWindow();
+                    Model.getInstance().getViewFactory().closeStage(stage);
+                    Model.getInstance().getViewFactory().showGUI21();
+                    
+                    for(int i = 0; i < question_List.size(); i++) {
+                 	   System.out.println(question_List.elementAt(i).questionText);
+                 	   for(int j = 0; j < question_List.elementAt(i).choiceList.size(); j++) {
+                 		   System.out.println(question_List.elementAt(i).choiceList.elementAt(j));
+                 	   }
+                 	   System.out.println(question_List.elementAt(i).questionAnwser);
+
+                    }
+                    
+           	});
             }
 
             event.consume();
@@ -112,13 +158,32 @@ public class GUI21importTabController implements Initializable {
                     alert.setTitle("Thông báo");
                     alert.setHeaderText(null);
                     alert.setContentText("Import File thành công!");
-                    alert.show();
+                    alert.showAndWait();
+                 
+                	Stage stage = (Stage)button.getScene().getWindow();
+                    Model.getInstance().getViewFactory().closeStage(stage);
+                    Model.getInstance().getViewFactory().showGUI21();
+                    
+                   for(int i = 0; i < question_List.size(); i++) {
+                	   System.out.println(question_List.elementAt(i).questionText);
+                	   for(int j = 0; j < question_List.elementAt(i).choiceList.size(); j++) {
+                		   System.out.println(question_List.elementAt(i).choiceList.elementAt(j));
+                	   }
+                	   System.out.println(question_List.elementAt(i).questionAnwser);
+
+                   }
+                    
                 }else {
                 	Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Thông báo");
                     alert.setHeaderText(null);
                     alert.setContentText("File không đúng cú pháp Aiken!");
-                    alert.show();
+                    alert.showAndWait();
+                    
+                    Stage stage = (Stage)button.getScene().getWindow();
+                    Model.getInstance().getViewFactory().closeStage(stage);
+                    Model.getInstance().getViewFactory().showGUI21();
+                    
                 }
             } catch (IOException m) {
                 // TODO Auto-generated catch block
@@ -127,23 +192,9 @@ public class GUI21importTabController implements Initializable {
         });
     }
     
+        
     
-   
-    
-    
-    
-    
-    
-    
-    
-    
-
-    // The global varible.
-    // QQuestion qs = new QQuestion();
-    // Choice choice = new Choice();
-    // Vector<QQuestion> questionList = new Vector<>();
-    // Vector<Choice> choiceList = new Vector<>();
-    // -------------------//
+ 
 
     // Check Aiken format
     public boolean checkAndAddAikenStructure(String filePath) throws IOException {
@@ -156,14 +207,9 @@ public class GUI21importTabController implements Initializable {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher;
         // --------//
-
-        // Liên kết với cơ sở dữ liệu :))
-        QQuestion qs = new QQuestion();
-        Choice choice = new Choice();
-        Vector<QQuestion> questionList = new Vector<>();
-        Vector<Choice> choiceList = new Vector<>();
-        // --------------------//
-
+        
+        Question qs = new Question();
+        
         while ((line = reader.readLine()) != null) {
             if (!line.isEmpty()) {
                 if (line.startsWith("Câu")) {
@@ -171,36 +217,31 @@ public class GUI21importTabController implements Initializable {
                         isValid = false;
                         break;
                     } else {
-                        qs.setText(line); // câu hỏi được add
-                        questionList.add(qs);
-                        qs = new QQuestion();
+                        qs.questionText = line;
                     }
                 } else if (line.startsWith("ANSWER:")) {
                     if (!isValidAnswerFormat(line)) {
                         isValid = false;
                         break;
                     } else {
-                        for (int i = 0; i < choiceList.size(); i++) {
-                            if (line == choiceList.elementAt(i).getChoiceText()) {
-                                choiceList.elementAt(i).setChoiceGrade((double) 100);
-                            }
-                        }
+                    	qs.questionAnwser = line;
+                        question_List.add(qs);
+                        qs = new Question();
+                        
                     }
                 } else {
                     if (!isValidChoiceFormat(line)) {
                         isValid = false;
                         break;
                     } else {
-                        choice.setChoiceText(line); // Các lựa chọn được add
-                        choiceList.add(choice);
-                        choice = new Choice();
+                        qs.choiceList.add(line);
                     }
                 }
             }
         }
 
         reader.close();
-
+        
         return isValid;
     }
 

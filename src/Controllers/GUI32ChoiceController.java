@@ -30,7 +30,6 @@ public class GUI32ChoiceController implements Initializable{
     private TextArea textArea;
     @FXML
     private Button insertPictureButton;
-
     private FileInputStream fileInputStream;
     public Connection getConnection() {
         try {
@@ -70,7 +69,6 @@ public class GUI32ChoiceController implements Initializable{
             e.printStackTrace();
         }
     }
-
     public void insertImage(){
         try {
             FileChooser fileChooser = new FileChooser();

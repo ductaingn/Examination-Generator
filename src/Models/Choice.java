@@ -16,6 +16,7 @@ public class Choice {
         for(int i=0;i<grade.length;i++){
             listGrade.add(grade[i]);
         }
+        listGrade.add((double) 0);
         for(int i=grade.length-1;i>=0;i--){
             listGrade.add(-grade[i]);
         }
