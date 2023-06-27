@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Vector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static Controllers.GUI63aItemController.prepareToAdd;
 
@@ -85,9 +87,26 @@ public class GUI65Controller implements Initializable {
     }
 
     public void getComboBox1() {
-        comboBox1.setItems(FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-        comboBox1.setValue(1);
+        comboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            String selectedItem = newValue.toString();
+            int max = Integer.parseInt(selectedItem.substring(selectedItem.lastIndexOf("(") + 1, selectedItem.lastIndexOf(")")));
+            comboBox1.getItems().clear();
+            if (max == 0) {
+                comboBox1.setDisable(true);
+            } else {
+                comboBox1.setDisable(false);
+                for (int i = 1; i <= max; i++) {
+                    comboBox1.getItems().add(i);
+                }
+                comboBox1.setValue(1);
+            }
+        });
     }
+
+
+
+
+
     public void showGUI62a(){
         Stage stage = (Stage) switch_lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
