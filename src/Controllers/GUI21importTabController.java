@@ -1,6 +1,10 @@
 package Controllers;
 
 import javafx.scene.input.DragEvent;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.Vector;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -11,8 +15,6 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.scene.control.Button;
-import Models.QQuestion;
-import Models.Choice;
 import Models.Model;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -26,7 +28,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 
-
 public class GUI21importTabController implements Initializable {
     @FXML
     private ImageView image;
@@ -35,19 +36,21 @@ public class GUI21importTabController implements Initializable {
     @FXML 
     private Button import_btn;
  // Liên kết với cơ sở dữ liệu :))
-    QQuestion qs = new QQuestion();
-    Choice choice = new Choice();
-    Vector<QQuestion> questionList = new Vector<>();
-    Vector<Choice> choiceList = new Vector<>();
-    // --------------------//
-    
+    public Connection getConnection() {
+        try {
+            return DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     //---------------
     class Question{
     	public String questionText;
     	public String questionAnwser;
     	public Vector<String> choiceList = new Vector<>();
     }
-    
+
     public Vector<Question> question_List = new Vector<>();
 
     @Override
@@ -59,7 +62,6 @@ public class GUI21importTabController implements Initializable {
             dragboard.setDragView(image.snapshot(null, null));
             event.consume();
         });
-
         // Xử lý sự kiện khi có file được kéo vào
         image.setOnDragOver(event -> {
             if (event.getDragboard().hasFiles()) {
@@ -67,7 +69,6 @@ public class GUI21importTabController implements Initializable {
             }
             event.consume();
         });
-
         // Xử lý sự kiện khi file được thả vào
         image.setOnDragDropped((DragEvent event) -> {
             Dragboard dragboard = event.getDragboard();
@@ -92,7 +93,7 @@ public class GUI21importTabController implements Initializable {
             }
 
             // Tạo một massageBox để thông báo File ó đúng cấu trúc Aiken hay không
-            if (success == false) {
+            if (!success) {
             	import_btn.setOnAction(e->{
             		 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                      alert.setTitle("Thông báo");
@@ -106,8 +107,8 @@ public class GUI21importTabController implements Initializable {
                      
             	});
             } else {
-            	import_btn.setOnAction(e->{
-           		 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                import_btn.setOnAction(e->{
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Thông báo");
                     alert.setHeaderText(null);
                     alert.setContentText("Import File thành công!");
@@ -116,19 +117,25 @@ public class GUI21importTabController implements Initializable {
                 	Stage stage = (Stage)import_btn.getScene().getWindow();
                     Model.getInstance().getViewFactory().closeStage(stage);
                     Model.getInstance().getViewFactory().showGUI21();
-                    
-                    for(int i = 0; i < question_List.size(); i++) {
-                 	   System.out.println(question_List.elementAt(i).questionText);
-                 	   for(int j = 0; j < question_List.elementAt(i).choiceList.size(); j++) {
-                 		   System.out.println(question_List.elementAt(i).choiceList.elementAt(j));
-                 	   }
-                 	   System.out.println(question_List.elementAt(i).questionAnwser);
 
+                    try {
+                        Connection connection = getConnection();
+                        Statement statement = connection.createStatement();
+                        for (int i = 0; i < question_List.size(); i++) {
+                            statement.executeUpdate("INSERT INTO question(category_id, mark,name, text) VALUES (1, 1, '" + question_List.elementAt(i).questionText +"','" + question_List.elementAt(i).questionText + "');");
+                            statement.executeUpdate("set @id = LAST_INSERT_ID();");
+                            for (int j = 0; j < question_List.elementAt(i).choiceList.size(); j++) {
+                                if (question_List.elementAt(i).choiceList.elementAt(j).charAt(0) == question_List.elementAt(i).questionAnwser.charAt(8))
+                                    statement.executeUpdate("INSERT INTO choice(question_id, grade, content) VALUES(@id, 100, '" + question_List.elementAt(i).choiceList.elementAt(j).substring(3) +"');");
+                                else
+                                    statement.executeUpdate("INSERT INTO choice(question_id, grade, content) VALUES(@id, 0, '" + question_List.elementAt(i).choiceList.elementAt(j).substring(3) +"');");
+                            }
+                        }
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
                     }
-                    
-           	});
+           	    });
             }
-
             event.consume();
             event.setDropCompleted(success);
         });
@@ -157,16 +164,23 @@ public class GUI21importTabController implements Initializable {
                 	Stage stage = (Stage)button.getScene().getWindow();
                     Model.getInstance().getViewFactory().closeStage(stage);
                     Model.getInstance().getViewFactory().showGUI21();
-                    
-                   for(int i = 0; i < question_List.size(); i++) {
-                	   System.out.println(question_List.elementAt(i).questionText);
-                	   for(int j = 0; j < question_List.elementAt(i).choiceList.size(); j++) {
-                		   System.out.println(question_List.elementAt(i).choiceList.elementAt(j));
-                	   }
-                	   System.out.println(question_List.elementAt(i).questionAnwser);
 
-                   }
-                    
+                    try {
+                        Connection connection = getConnection();
+                        Statement statement = connection.createStatement();
+                        for (int i = 0; i < question_List.size(); i++) {
+                            statement.executeUpdate("INSERT INTO question(category_id, mark,name, text) VALUES (1, 1, '" + question_List.elementAt(i).questionText +"','" + question_List.elementAt(i).questionText + "');");
+                            statement.executeUpdate("set @id = LAST_INSERT_ID();");
+                            for (int j = 0; j < question_List.elementAt(i).choiceList.size(); j++) {
+                                if (question_List.elementAt(i).choiceList.elementAt(j).charAt(0) == question_List.elementAt(i).questionAnwser.charAt(8))
+                                    statement.executeUpdate("INSERT INTO choice(question_id, grade, content) VALUES(@id, 100, '" + question_List.elementAt(i).choiceList.elementAt(j).substring(3) +"');");
+                                else
+                                    statement.executeUpdate("INSERT INTO choice(question_id, grade, content) VALUES(@id, 0, '" + question_List.elementAt(i).choiceList.elementAt(j).substring(3) +"');");
+                            }
+                        }
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
                 }else {
                 	Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Thông báo");
@@ -177,7 +191,6 @@ public class GUI21importTabController implements Initializable {
                     Stage stage = (Stage)button.getScene().getWindow();
                     Model.getInstance().getViewFactory().closeStage(stage);
                     Model.getInstance().getViewFactory().showGUI21();
-                    
                 }
             } catch (IOException m) {
                 // TODO Auto-generated catch block
@@ -206,7 +219,7 @@ public class GUI21importTabController implements Initializable {
                         isValid = false;
                         break;
                     } else {
-                        qs.questionText = line;
+                        qs.questionText = line;     //TODO
                     }
                 } else if (line.startsWith("ANSWER:")) {
                     if (!isValidAnswerFormat(line)) {
@@ -249,13 +262,10 @@ public class GUI21importTabController implements Initializable {
         return matcher.matches();
     }
     // --------------------//
-
     // Check choice format
     private static boolean isValidChoiceFormat(String line) {
         Pattern pattern = Pattern.compile("^[A-Z]\\..*");
         Matcher matcher = pattern.matcher(line);
         return matcher.matches();
     }
-    // --------------------//
-
 }
