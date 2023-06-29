@@ -2,17 +2,14 @@ package Controllers;
 
 import javafx.scene.input.DragEvent;
 import java.util.Vector;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.security.sasl.RealmChoiceCallback;
 import javafx.scene.control.Button;
 import Models.QQuestion;
 import Models.Choice;
@@ -25,11 +22,8 @@ import javafx.scene.image.ImageView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 
 
@@ -191,11 +185,6 @@ public class GUI21importTabController implements Initializable {
             }
         });
     }
-    
-        
-    
- 
-
     // Check Aiken format
     public boolean checkAndAddAikenStructure(String filePath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
