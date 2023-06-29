@@ -189,6 +189,7 @@ public class GUI73Controller extends GUI73questionController implements Initiali
             if (count <= 0) {
                 time_lbl.setText("Time Limit  ");
                 time.stop();
+                
             }
         });
         time.setCycleCount(Timeline.INDEFINITE);
