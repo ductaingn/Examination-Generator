@@ -14,4 +14,5 @@ public class Question {
     public StringProperty questionNameProperty() {
         return questionName;
     }
+
 }

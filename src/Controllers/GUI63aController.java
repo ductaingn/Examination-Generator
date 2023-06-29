@@ -84,7 +84,7 @@ public class GUI63aController extends GUI63aItemController implements Initializa
         } catch (Exception e) {e.printStackTrace();}
     }
 
-    private static String query;
+    static String query;
     private List<QQuestion> qQuestionList(String queryy){
         Connection connection = getConnection();
         List<QQuestion> list = new ArrayList<>();
@@ -170,6 +170,7 @@ public class GUI63aController extends GUI63aItemController implements Initializa
                 }
             }
         });
+
         alsoShow_ckb.setOnAction(event -> {
             if (alsoShow_ckb.isSelected()) {
                 System.out.println("also show questions from sub categories");

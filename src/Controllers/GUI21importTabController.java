@@ -46,6 +46,15 @@ public class GUI21importTabController implements Initializable {
     Vector<QQuestion> questionList = new Vector<>();
     Vector<Choice> choiceList = new Vector<>();
     // --------------------//
+    
+    //---------------
+    class Question{
+    	public String questionText;
+    	public String questionAnwser;
+    	public Vector<String> choiceList = new Vector<>();
+    }
+    
+    public Vector<Question> question_List = new Vector<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -114,12 +123,14 @@ public class GUI21importTabController implements Initializable {
                     Model.getInstance().getViewFactory().closeStage(stage);
                     Model.getInstance().getViewFactory().showGUI21();
                     
-                    for(int i = 0; i < questionList.size(); i++) {
-                		System.out.println(questionList.elementAt(i).getText());
-                	}
-                    for(int i = 0 ; i < choiceList.size(); i++) {
-                		System.out.println(choiceList.elementAt(i).getChoiceText());
-                	}
+                    for(int i = 0; i < question_List.size(); i++) {
+                 	   System.out.println(question_List.elementAt(i).questionText);
+                 	   for(int j = 0; j < question_List.elementAt(i).choiceList.size(); j++) {
+                 		   System.out.println(question_List.elementAt(i).choiceList.elementAt(j));
+                 	   }
+                 	   System.out.println(question_List.elementAt(i).questionAnwser);
+
+                    }
                     
            	});
             }
@@ -153,12 +164,14 @@ public class GUI21importTabController implements Initializable {
                     Model.getInstance().getViewFactory().closeStage(stage);
                     Model.getInstance().getViewFactory().showGUI21();
                     
-                    for(int i = 0; i < questionList.size(); i++) {
-                		System.out.println(questionList.elementAt(i).getText());
-                	}
-                	for(int i = 0 ; i < choiceList.size(); i++) {
-                		System.out.println(choiceList.elementAt(i).getChoiceText());
-                	}
+                   for(int i = 0; i < question_List.size(); i++) {
+                	   System.out.println(question_List.elementAt(i).questionText);
+                	   for(int j = 0; j < question_List.elementAt(i).choiceList.size(); j++) {
+                		   System.out.println(question_List.elementAt(i).choiceList.elementAt(j));
+                	   }
+                	   System.out.println(question_List.elementAt(i).questionAnwser);
+
+                   }
                     
                 }else {
                 	Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -176,7 +189,7 @@ public class GUI21importTabController implements Initializable {
                 // TODO Auto-generated catch block
                 m.printStackTrace();
             }
-        });    
+        });
     }
     
         
@@ -194,7 +207,9 @@ public class GUI21importTabController implements Initializable {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher;
         // --------//
-
+        
+        Question qs = new Question();
+        
         while ((line = reader.readLine()) != null) {
             if (!line.isEmpty()) {
                 if (line.startsWith("Câu")) {
@@ -202,29 +217,24 @@ public class GUI21importTabController implements Initializable {
                         isValid = false;
                         break;
                     } else {
-                        qs.setText(line); // câu hỏi được add
-                        questionList.add(qs);
-                        qs = new QQuestion();
+                        qs.questionText = line;
                     }
                 } else if (line.startsWith("ANSWER:")) {
                     if (!isValidAnswerFormat(line)) {
                         isValid = false;
                         break;
                     } else {
-                        for (int i = 0; i < choiceList.size(); i++) {
-                            if (line == choiceList.elementAt(i).getChoiceText()) {
-                                choiceList.elementAt(i).setChoiceGrade((double) 100);
-                            }
-                        }
+                    	qs.questionAnwser = line;
+                        question_List.add(qs);
+                        qs = new Question();
+                        
                     }
                 } else {
                     if (!isValidChoiceFormat(line)) {
                         isValid = false;
                         break;
                     } else {
-                        choice.setChoiceText(line); // Các lựa chọn được add
-                        choiceList.add(choice);
-                        choice = new Choice();
+                        qs.choiceList.add(line);
                     }
                 }
             }
