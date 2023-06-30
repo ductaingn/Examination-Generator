@@ -12,19 +12,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
-import java.security.cert.PolicyNode;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Vector;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static Controllers.GUI63aItemController.prepareToAdd;
 
@@ -182,6 +175,7 @@ public class GUI65Controller implements Initializable {
             System.out.println(prepareToAdd.size());
             prepareToAdd.clear();
         });
+        close_btn.setOnAction(event -> showGUI62a());
     }
 
     private Node createPage(int pageIndex) {
