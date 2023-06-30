@@ -47,7 +47,7 @@ public class GUI21importTabController implements Initializable {
     //---------------
     class Question{
     	public String questionText;
-    	public String questionAnwser;
+    	public String questionAnswer;
     	public Vector<String> choiceList = new Vector<>();
     }
 
@@ -125,7 +125,7 @@ public class GUI21importTabController implements Initializable {
                             statement.executeUpdate("INSERT INTO question(category_id, mark,name, text) VALUES (1, 1, '" + question_List.elementAt(i).questionText +"','" + question_List.elementAt(i).questionText + "');");
                             statement.executeUpdate("set @id = LAST_INSERT_ID();");
                             for (int j = 0; j < question_List.elementAt(i).choiceList.size(); j++) {
-                                if (question_List.elementAt(i).choiceList.elementAt(j).charAt(0) == question_List.elementAt(i).questionAnwser.charAt(8))
+                                if (question_List.elementAt(i).choiceList.elementAt(j).charAt(0) == question_List.elementAt(i).questionAnswer.charAt(8))
                                     statement.executeUpdate("INSERT INTO choice(question_id, grade, content) VALUES(@id, 100, '" + question_List.elementAt(i).choiceList.elementAt(j).substring(3) +"');");
                                 else
                                     statement.executeUpdate("INSERT INTO choice(question_id, grade, content) VALUES(@id, 0, '" + question_List.elementAt(i).choiceList.elementAt(j).substring(3) +"');");
@@ -172,7 +172,7 @@ public class GUI21importTabController implements Initializable {
                             statement.executeUpdate("INSERT INTO question(category_id, mark,name, text) VALUES (1, 1, '" + question_List.elementAt(i).questionText +"','" + question_List.elementAt(i).questionText + "');");
                             statement.executeUpdate("set @id = LAST_INSERT_ID();");
                             for (int j = 0; j < question_List.elementAt(i).choiceList.size(); j++) {
-                                if (question_List.elementAt(i).choiceList.elementAt(j).charAt(0) == question_List.elementAt(i).questionAnwser.charAt(8))
+                                if (question_List.elementAt(i).choiceList.elementAt(j).charAt(0) == question_List.elementAt(i).questionAnswer.charAt(8))
                                     statement.executeUpdate("INSERT INTO choice(question_id, grade, content) VALUES(@id, 100, '" + question_List.elementAt(i).choiceList.elementAt(j).substring(3) +"');");
                                 else
                                     statement.executeUpdate("INSERT INTO choice(question_id, grade, content) VALUES(@id, 0, '" + question_List.elementAt(i).choiceList.elementAt(j).substring(3) +"');");
@@ -226,7 +226,7 @@ public class GUI21importTabController implements Initializable {
                         isValid = false;
                         break;
                     } else {
-                    	qs.questionAnwser = line;
+                    	qs.questionAnswer = line;
                         question_List.add(qs);
                         qs = new Question();
                         

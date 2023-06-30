@@ -40,7 +40,6 @@ public class GUI73Controller extends GUI73questionController implements Initiali
     private Label time_lbl;
     @FXML
     private Button finishAttempt_btn;
-//    private Vector<GUI73questionController> questionControllers = new Vector<>();
     public static String nameData, timeData;
     public void getInfo(String quiz_id, String quiz_name, String quiz_time) {
         idData = quiz_id;
@@ -82,13 +81,14 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         idData = quizID;
         List<QQuestion> qQuestionList = new ArrayList<>(qQuestionList());
         for(quesRank = 0; quesRank < qQuestionList.size(); quesRank++){
-            FXMLLoader loader= new FXMLLoader();
+            FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/resources/Fxml/GUI73question.fxml"));
             try {
                 HBox hBox = loader.load();
                 GUI73questionController controller = loader.getController();
                 controller.setQuesData(qQuestionList.get(quesRank));
                 controller.getChoiceList(qQuestionList.get(quesRank).getQuestion_id());
+
                 question_layout.getChildren().add(hBox);
             }catch (IOException e){
                 throw new RuntimeException(e);
@@ -123,12 +123,11 @@ public class GUI73Controller extends GUI73questionController implements Initiali
 	public Integer hour;
 	public Integer seconds;
 	public Integer minute;
-    
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        getQuestionList(idData);
         showNavi(qQuestionList().size());
+        getQuestionList(idData);
         title2_lbl.setText(nameData);
         time_lbl.setText(timeData);
         finishAttempt_btn.setOnAction(event -> System.out.println("finish attempt"));

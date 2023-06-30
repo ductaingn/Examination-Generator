@@ -15,6 +15,6 @@ public class GUI73itemNaviController {
         quesNo_navi_lbl.setText(String.valueOf(i));
     }
     public void setIsSelected_vbox() {
-        isSelected_vbox.setBackground(Background.fill(Color.WHITE));
+        isSelected_vbox.setBackground(Background.fill(Color.valueOf("#fdcb6e")));
     }
 }
