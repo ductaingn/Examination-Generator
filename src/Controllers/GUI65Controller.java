@@ -103,10 +103,6 @@ public class GUI65Controller implements Initializable {
         });
     }
 
-
-
-
-
     public void showGUI62a(){
         Stage stage = (Stage) switch_lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
