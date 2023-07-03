@@ -14,13 +14,13 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<VBox fillWidth="false" prefWidth="804.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../Styles/GUI32pane.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI32paneController">
+<VBox fillWidth="false" prefHeight="540.0" prefWidth="760.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../Styles/GUI32pane.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI32paneController">
    <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="804.0">
       <Label fx:id="switch_lbl" prefHeight="66.0" prefWidth="438.0" styleClass="addingQuestion" text="Adding a Multiple choice question" />
    </HBox>
-   <VBox prefWidth="784.0" spacing="15.0">
+   <VBox prefWidth="810.0" spacing="10.0">
       <VBox.margin>
-         <Insets left="20.0" />
+         <Insets left="20.0" right="20.0" />
       </VBox.margin>
       <HBox alignment="CENTER_LEFT">
          <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="22.0">
@@ -99,22 +99,20 @@
             </HBox.margin>
             <SVGPath content="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" fill="#c23616" scaleX="0.03" scaleY="0.03" />
          </VBox>
-         <TextField fx:id="questionMarkTextField" prefHeight="32.0" prefWidth="66.0">
+         <TextField fx:id="questionMarkTextField" prefHeight="32.0" prefWidth="66.0" promptText="1">
             <HBox.margin>
                <Insets left="10.0" />
             </HBox.margin>
          </TextField>
       </HBox>
-      <VBox fx:id="choicesLayout" prefWidth="100.0" spacing="10.0">
-         <children>
-            <AnchorPane>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </AnchorPane>
-         </children>
+      <VBox fx:id="choicesLayout" prefWidth="740.0" spacing="10.0">
+         <AnchorPane>
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </AnchorPane>
       </VBox>
-      <VBox alignment="TOP_CENTER" prefHeight="198.0" prefWidth="784.0" spacing="15.0">
+      <VBox alignment="TOP_CENTER" prefHeight="154.0" prefWidth="720.0" spacing="15.0">
          <VBox.margin>
             <Insets />
          </VBox.margin>

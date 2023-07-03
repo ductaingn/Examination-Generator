@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
-public class GUI63aItemController implements Initializable {
+public class GUI65ItemController implements Initializable {
     public CheckBox question_cbx;
     @FXML
     private Label name_lb;
