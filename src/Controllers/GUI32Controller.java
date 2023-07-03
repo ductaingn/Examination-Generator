@@ -91,24 +91,39 @@ public class GUI32Controller implements Initializable {
 
             //Load Choices
             Vector<GUI32ChoiceController> choicesControllers = gui32paneController.getChoicesControllers();
-            for(int i=0;i<choicesControllers.size();i++){
-                try {
-                    Connection connection = getConnection();
-                    Statement statement=connection.createStatement();
-                    ResultSet choiceSet = statement.executeQuery("SELECT * FROM test.choice WHERE question_id = '" + questionId + "';");
-                    while(choiceSet.next()){
-                        choicesControllers.get(i).setTextArea(choiceSet.getString("content"));
-                        choicesControllers.get(i).setGradeComboBox(choiceSet.getDouble("grade"));
-                        InputStream imageInputStream = choiceSet.getBinaryStream("image");
+            try {
+                Connection connection = getConnection();
+                Statement statement=connection.createStatement();
+                ResultSet choiceSet = statement.executeQuery("SELECT * FROM test.choice WHERE question_id = '" + questionId + "';");
+
+                for(int i=0;i<choicesControllers.size();i++){
+                    choiceSet.next();
+                    choicesControllers.get(i).setTextArea(choiceSet.getString("content"));
+                    choicesControllers.get(i).setGradeComboBox(choiceSet.getDouble("grade"));
+                    InputStream imageInputStream = choiceSet.getBinaryStream("image");
+                    if(imageInputStream!=null){
                         Image image = new Image(imageInputStream);
                         choicesControllers.get(i).setImageView(image);
                     }
-                    statement.close();
-                    connection.close();
-                }catch (Exception e){
-                    e.printStackTrace();
                 }
+                while(choiceSet.next()){
+                    int controllerIndex=choicesControllers.size();
+                    gui32paneController.insertKMoreChoices(1);
+                    choicesControllers.get(controllerIndex).setTextArea(choiceSet.getString("content"));
+                    choicesControllers.get(controllerIndex).setGradeComboBox(choiceSet.getDouble("grade"));
+                    InputStream imageInputStream = choiceSet.getBinaryStream("image");
+                    if(imageInputStream!=null){
+                        Image image = new Image(imageInputStream);
+                        choicesControllers.get(controllerIndex).setImageView(image);
+                    }
+                    controllerIndex=controllerIndex+1;
+                }
+                statement.close();
+                connection.close();
+            }catch (Exception e){
+                e.printStackTrace();
             }
+
         }catch (Exception e){
             e.printStackTrace();
         }
