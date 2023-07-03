@@ -14,6 +14,7 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.ConnectException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,6 +23,9 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class GUI32ChoiceController implements Initializable{
+    public void setInsertPictureButton(Button insertPictureButton) {
+        this.insertPictureButton = insertPictureButton;
+    }
     @FXML
     private ComboBox<String> gradeComboBox;
     @FXML
@@ -30,7 +34,31 @@ public class GUI32ChoiceController implements Initializable{
     private TextArea textArea;
     @FXML
     private Button insertPictureButton;
+    public void setTextArea(String content){
+        textArea.setText(content);
+    }
 
+    public void setImageView(Image image) {
+        imageView.setImage(image);
+    }
+
+    public void setGradeComboBox(Double grade){
+        ObservableList<String> grades = gradeComboBox.getItems();
+        int index=-1;
+        if(grade==0){
+            gradeComboBox.getSelectionModel().select(0);
+            return;
+        }
+        for(int i=1;i<grades.size();i++){
+            String gradeString = grades.get(i);
+            gradeString = gradeString.substring(0,gradeString.indexOf('%'));
+            if(grade.equals(Double.parseDouble(gradeString)/100.0)){
+                index=i;
+                gradeComboBox.getSelectionModel().select(index);
+                return;
+            }
+        }
+    }
     private FileInputStream fileInputStream;
     public Connection getConnection() {
         try {
@@ -72,13 +100,22 @@ public class GUI32ChoiceController implements Initializable{
             statement.setDouble(3,grade);
             statement.setBlob(4,fileInputStream);
             statement.executeUpdate();
+            statement.close();
+            connection.close();
 
             System.out.println("Inserted Choice Successfully");
         }catch (Exception e){
             e.printStackTrace();
         }
     }
+    public void alterChoice(int questionId){
+        try {
+            Connection connection = getConnection();
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     public void insertImage(){
         try {
             FileChooser fileChooser = new FileChooser();

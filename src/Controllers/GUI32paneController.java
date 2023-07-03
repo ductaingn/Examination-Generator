@@ -6,8 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,7 +20,7 @@ import java.util.Vector;
 
 public class GUI32paneController implements Initializable {
     @FXML
-    private ComboBox<String> categoryComboBox;
+    private ComboBox<String> comboBox;
     @FXML
     private Label switch_lbl;
     @FXML
@@ -47,7 +45,6 @@ public class GUI32paneController implements Initializable {
 
     public Connection getConnection() {
         try {
-//            Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
             return conn;
         } catch (Exception e) {
@@ -55,11 +52,15 @@ public class GUI32paneController implements Initializable {
             return null;
         }
     }
-    public void getCategoryComboBox() {
-        String queryCategoryName = "" +
-                "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1), node.name) AS name " +
-                "FROM category AS node," +
-                "category AS parent " +
+    public Button getSaveChanges_btn() {
+        return saveChanges_btn;
+    }
+    public void getComboBox() {
+        String queryCategoryName = ""+
+                "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1),' ' ,node.name,' (', " +
+                "(SELECT COUNT(question_id) FROM question " +
+                "WHERE question.category_id=node.category_id),') '  ) AS name " +
+                "FROM category AS node,category AS parent " +
                 "WHERE node.lft BETWEEN parent.lft AND parent.rgt " +
                 "GROUP BY node.category_id ORDER BY node.lft;";
         Connection connection = getConnection();
@@ -71,7 +72,7 @@ public class GUI32paneController implements Initializable {
                 String item = resultSet.getString("name");
                 categoryName.add(item);
             }
-            categoryComboBox.setItems(categoryName);
+            comboBox.setItems(categoryName);
         } catch (Exception e) {e.printStackTrace();}
     }
     public void showGUI21() {
@@ -100,8 +101,10 @@ public class GUI32paneController implements Initializable {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
+            String categoryName = comboBox.getValue().trim();
+            categoryName = categoryName.substring(0,categoryName.indexOf('(')-1);
             ResultSet categorySet = statement.executeQuery("select * from test.category " +
-                    "where name = '" + categoryComboBox.getValue().trim() + "';");
+                    "where name = '" + categoryName + "';");
             categorySet.next();
             Integer categoryId = Integer.parseInt(categorySet.getString("category_id"));
 
@@ -110,6 +113,7 @@ public class GUI32paneController implements Initializable {
                 + questionTextTextArea.getText() + "','"
                 + Integer.parseInt(questionMarkTextField.getText()) + "','"
                 + categoryId +"');" );
+            statement.close();
 
             ResultSet questionIdSet = statement.executeQuery("select last_insert_id();");
             questionIdSet.next();
@@ -124,11 +128,66 @@ public class GUI32paneController implements Initializable {
             e.printStackTrace();
         }
     }
+    public void alterQuestion(Integer questionId){
+        try {
+            Connection connection = getConnection();
 
+            Statement statement = connection.createStatement();
+            String categoryName = comboBox.getValue().trim();
+            categoryName = categoryName.substring(0,categoryName.indexOf('(')-1);
+            ResultSet categorySet = statement.executeQuery("select * from test.category " +
+                    "where name = '" + categoryName + "';");
+            categorySet.next();
+            Integer categoryId = Integer.parseInt(categorySet.getString("category_id"));
+
+            String query = "UPDATE test.question SET category_id=?, name=?, text=?, mark=? WHERE question_id=?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,categoryId);
+            preparedStatement.setString(2,questionNameTextField.getText());
+            preparedStatement.setString(3,questionTextTextArea.getText());
+            preparedStatement.setInt(4,Integer.parseInt(questionMarkTextField.getText()));
+            preparedStatement.setInt(5,questionId);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+
+            System.out.println("Modified Successfully, Question ID: " + questionId);
+
+            for(int i=0;i<choicesControllers.size();i++){
+                choicesControllers.get(i).alterChoice(questionId);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void setCategory(String categoryString){
+        ObservableList<String> categoryNames=comboBox.getItems();
+        int index=-1;
+        for(int i=0;i<categoryNames.size();i++){
+            String categoryName = new String(categoryNames.get(i).trim());
+            categoryName=categoryName.substring(0,categoryName.indexOf('(')-1);
+            if (categoryString.equals(categoryName)){
+                index=i;
+            }
+        }
+        comboBox.getSelectionModel().select(index);
+    }
+    public void setQuestionNameTextField(String questionName){
+        this.questionNameTextField.setText(questionName);
+    }
+    public void setQuestionTextTextArea(String questionText){
+        this.questionTextTextArea.setText(questionText);
+    }
+    public void setQuestionMarkTextField(Integer questionMark){
+        this.questionMarkTextField.setText(questionMark.toString());
+    }
+
+    public Vector<GUI32ChoiceController> getChoicesControllers() {
+        return choicesControllers;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        getCategoryComboBox();
+        getComboBox();
         insertKMoreChoices(2);
 
         cancel_btn.setOnAction(event -> showGUI21());
