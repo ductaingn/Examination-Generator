@@ -52,7 +52,7 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
     //    connect database
     public Connection getConnection() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
             return conn;
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,15 +117,11 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
                                     "-fx-text-fill: blue; -fx-font-size: 1em;"
                             );
 //                            adding edit function
-//                            Integer questionID = -1;
-
                             edit_lbl.setOnMouseClicked(event -> {
                                 Integer index = tableView.getSelectionModel().getSelectedIndex();
                                 Integer questionID = tv_id.getCellData(index);
                                 preloadQuestion(questionID);
-
                             });
-//                            if(questionID!=-1)
 
                             HBox hBox = new HBox(edit_lbl);
                             setGraphic(hBox);

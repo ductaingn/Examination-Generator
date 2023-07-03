@@ -34,6 +34,7 @@ public class GUI32ChoiceController implements Initializable{
     private TextArea textArea;
     @FXML
     private Button insertPictureButton;
+
     public void setTextArea(String content){
         textArea.setText(content);
     }
@@ -62,7 +63,7 @@ public class GUI32ChoiceController implements Initializable{
     }
     public Connection getConnection() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
             return conn;
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,6 +89,7 @@ public class GUI32ChoiceController implements Initializable{
             PreparedStatement statement = connection.prepareStatement("insert into choice (question_id,content,grade,image) values (?,?,?,?);");
 
             String gradeString = new String(gradeComboBox.getValue());
+
             Double grade;
             if(gradeString.equals("None")){
                 grade=0.00000;

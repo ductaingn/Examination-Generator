@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
@@ -35,23 +34,22 @@ public class GUI32paneController implements Initializable {
     private VBox choicesLayout;
     @FXML
     private TextField questionMarkTextField;
-
     @FXML
     private TextField questionNameTextField;
-
     @FXML
     private TextArea questionTextTextArea;
-    private Vector<GUI32ChoiceController> choicesControllers=new Vector<GUI32ChoiceController>();
+    private Vector<GUI32ChoiceController> choicesControllers = new Vector<>();
 
     public Connection getConnection() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
             return conn;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
     public Button getSaveChanges_btn() {
         return saveChanges_btn;
     }
@@ -73,7 +71,9 @@ public class GUI32paneController implements Initializable {
                 categoryName.add(item);
             }
             comboBox.setItems(categoryName);
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void showGUI21() {
         Stage stage = (Stage)switch_lbl.getScene().getWindow();
@@ -103,7 +103,8 @@ public class GUI32paneController implements Initializable {
             Statement statement = connection.createStatement();
 
             String categoryName = comboBox.getValue().trim();
-            categoryName = categoryName.substring(0,categoryName.indexOf('(')-1);
+
+            categoryName = categoryName.substring(0,categoryName.indexOf('(') - 1);
             ResultSet categorySet = statement.executeQuery("select * from test.category " +
                     "where name = '" + categoryName + "';");
             categorySet.next();

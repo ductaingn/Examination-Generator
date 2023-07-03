@@ -43,7 +43,7 @@
       <Separator prefWidth="200.0" />
       <HBox alignment="CENTER_LEFT" prefWidth="879.0">
          <Label style="-fx-font-size: 1.2em;" text="Select a category: " />
-         <ComboBox fx:id="comboBox" prefHeight="32.0" prefWidth="200.0" promptText="Default" style="-fx-background-color: #FFFFFF; -fx-border-color: #7f8fa6;">
+         <ComboBox fx:id="comboBox" prefHeight="34.0" prefWidth="240.0" promptText="Default" style="-fx-background-color: #FFFFFF; -fx-border-color: #7f8fa6;">
             <HBox.margin>
                <Insets left="10.0" />
             </HBox.margin>
@@ -55,7 +55,7 @@
             <SVGPath content="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128zM137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z" scaleX="0.04" scaleY="0.04" style="-fx-fill: #192a56;" />
          </VBox>
       </HBox>
-      <CheckBox mnemonicParsing="false" stylesheets="@../Styles/CheckBox.css" text="Also show questions from sub category" />
+      <CheckBox fx:id="alsoShow_ckb" mnemonicParsing="false" stylesheets="@../Styles/CheckBox.css" text="Also show questions from sub category" />
       <CheckBox mnemonicParsing="false" stylesheets="@../Styles/CheckBox.css" text="Also show old questions" />
       <HBox maxWidth="880.0" minWidth="880.0" prefHeight="450.0" prefWidth="880.0">
          <ScrollPane fitToWidth="true" maxWidth="880.0" minWidth="880.0" prefHeight="450.0" prefWidth="880.0">
