@@ -14,6 +14,7 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.ConnectException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,6 +23,9 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class GUI32ChoiceController implements Initializable{
+    public void setInsertPictureButton(Button insertPictureButton) {
+        this.insertPictureButton = insertPictureButton;
+    }
     @FXML
     private ComboBox<String> gradeComboBox;
     @FXML
@@ -30,6 +34,32 @@ public class GUI32ChoiceController implements Initializable{
     private TextArea textArea;
     @FXML
     private Button insertPictureButton;
+
+    public void setTextArea(String content){
+        textArea.setText(content);
+    }
+
+    public void setImageView(Image image) {
+        imageView.setImage(image);
+    }
+
+    public void setGradeComboBox(Double grade){
+        ObservableList<String> grades = gradeComboBox.getItems();
+        int index=-1;
+        if(grade==0){
+            gradeComboBox.getSelectionModel().select(0);
+            return;
+        }
+        for(int i=1;i<grades.size();i++){
+            String gradeString = grades.get(i);
+            gradeString = gradeString.substring(0,gradeString.indexOf('%'));
+            if(grade.equals(Double.parseDouble(gradeString)/100.0)){
+                index=i;
+                gradeComboBox.getSelectionModel().select(index);
+                return;
+            }
+        }
+    }
     private FileInputStream fileInputStream;
     public Connection getConnection() {
         try {
@@ -43,6 +73,8 @@ public class GUI32ChoiceController implements Initializable{
     public void getGradeComboBox(){
         Choice choice = new Choice();
         ObservableList<String> grades = FXCollections.observableArrayList();
+        String none = new String("None");
+        grades.add(none);
         for(int i = 0; i< choice.listGrade.size(); i++){
             String gradeString=String.format("%.5f", choice.listGrade.get(i));
             grades.add(gradeString+"%");
@@ -55,16 +87,34 @@ public class GUI32ChoiceController implements Initializable{
             PreparedStatement statement = connection.prepareStatement("insert into choice (question_id,content,grade,image) values (?,?,?,?);");
 
             String gradeString = new String(gradeComboBox.getValue());
-            Double grade = Double.parseDouble(gradeString.substring(0,gradeString.length()-1));
-            grade=grade/100.0;
+
+            Double grade;
+            if(gradeString.equals("None")){
+                grade=0.00000;
+            }
+            else{
+                grade = Double.parseDouble(gradeString.substring(0,gradeString.length()-1));
+                grade=grade/100.0;
+            }
 
             statement.setInt(1, questionId);
             statement.setString(2,textArea.getText());
             statement.setDouble(3,grade);
             statement.setBlob(4,fileInputStream);
             statement.executeUpdate();
+            statement.close();
+            connection.close();
 
             System.out.println("Inserted Choice Successfully");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void alterChoice(int questionId){
+        try {
+            Connection connection = getConnection();
+
         }catch (Exception e){
             e.printStackTrace();
         }
