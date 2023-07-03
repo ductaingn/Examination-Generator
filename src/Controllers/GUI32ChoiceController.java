@@ -1,8 +1,10 @@
 package Controllers;
 
 import Models.Choice;
+import com.sun.jdi.DoubleValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -12,14 +14,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.FileInputStream;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.ConnectException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class GUI32ChoiceController implements Initializable{
@@ -51,15 +51,15 @@ public class GUI32ChoiceController implements Initializable{
         }
         for(int i=1;i<grades.size();i++){
             String gradeString = grades.get(i);
-            gradeString = gradeString.substring(0,gradeString.indexOf('%'));
-            if(grade.equals(Double.parseDouble(gradeString)/100.0)){
+            gradeString = gradeString.substring(0,gradeString.length()-1);
+            double diff= Double.parseDouble(gradeString)/100-grade;//Round gradeString
+            if(diff<0.0001){
                 index=i;
                 gradeComboBox.getSelectionModel().select(index);
                 return;
             }
         }
     }
-    private FileInputStream fileInputStream;
     public Connection getConnection() {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
@@ -80,6 +80,8 @@ public class GUI32ChoiceController implements Initializable{
         }
         gradeComboBox.setItems(grades);
     }
+
+    //Insert choice into Database
     public void insertChoice(int questionId){
         try {
             Connection connection = getConnection();
@@ -95,10 +97,19 @@ public class GUI32ChoiceController implements Initializable{
                 grade=grade/100.0;
             }
 
+            Image image = imageView.getImage();
+            InputStream inputStream=null;
+            if(image!=null){
+                BufferedImage bufferedImage= SwingFXUtils.fromFXImage(image,null);
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                ImageIO.write(bufferedImage,"jpg", os);
+                inputStream = new ByteArrayInputStream(os.toByteArray());
+            }
+
             statement.setInt(1, questionId);
             statement.setString(2,textArea.getText());
             statement.setDouble(3,grade);
-            statement.setBlob(4,fileInputStream);
+            statement.setBlob(4,inputStream);
             statement.executeUpdate();
             statement.close();
             connection.close();
@@ -108,14 +119,23 @@ public class GUI32ChoiceController implements Initializable{
             e.printStackTrace();
         }
     }
-    public void alterChoice(int questionId){
-        try {
-            Connection connection = getConnection();
 
+    //Remove all choices with question_id=questionID from Database
+    public void removeChoice(int questionId){
+        try{
+            Connection connection = getConnection();
+            String query="DELETE FROM test.choice WHERE question_id = ?;";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1,questionId);
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
         }catch (Exception e){
             e.printStackTrace();
         }
     }
+
+    //Insert image into ImageView from file
     public void insertImage(){
         try {
             FileChooser fileChooser = new FileChooser();
@@ -124,7 +144,6 @@ public class GUI32ChoiceController implements Initializable{
                 Image image = new Image(file.toURI().toString());
                 imageView.setImage(image);
             }
-            fileInputStream = new FileInputStream(file);
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -12,7 +12,7 @@ public class Choice {
     public List<Double> listGrade=new ArrayList<>();
 
     public Choice(){
-        double[] grade={100,90,500/6.0,80,75,70,400/6.0,60,50,40,200/6.0,30,25,20,100/6.0,100/7.0,100/8.0,100/9.0,10,5};
+        double[] grade={100,90,83.33333,80,75,70,66.66666,60,50,40,33.33333,30,25,20,16.66666,14.28571,12.5,11.11111,10,5};
         for(int i=0;i<grade.length;i++){
             listGrade.add(grade[i]);
         }

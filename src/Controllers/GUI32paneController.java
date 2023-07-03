@@ -96,6 +96,7 @@ public class GUI32paneController implements Initializable {
         }
     }
 
+    //Insert Question into Database
     public void insertQuestion(){
         try {
             Connection connection = getConnection();
@@ -113,7 +114,6 @@ public class GUI32paneController implements Initializable {
                 + questionTextTextArea.getText() + "','"
                 + Integer.parseInt(questionMarkTextField.getText()) + "','"
                 + categoryId +"');" );
-            statement.close();
 
             ResultSet questionIdSet = statement.executeQuery("select last_insert_id();");
             questionIdSet.next();
@@ -123,11 +123,14 @@ public class GUI32paneController implements Initializable {
             for(int i=0;i<choicesControllers.size();i++){
                 choicesControllers.get(i).insertChoice(questionId);
             }
-
+            statement.close();
         }catch (Exception e){
             e.printStackTrace();
         }
+
     }
+
+    //Alter Question when press Edit button in GUI21questionTab.fxml
     public void alterQuestion(Integer questionId){
         try {
             Connection connection = getConnection();
@@ -150,11 +153,12 @@ public class GUI32paneController implements Initializable {
             preparedStatement.executeUpdate();
             preparedStatement.close();
 
-            System.out.println("Modified Successfully, Question ID: " + questionId);
-
+            //Alter choices by removing old choices in Database then insert new ones
+            choicesControllers.get(0).removeChoice(questionId);
             for(int i=0;i<choicesControllers.size();i++){
-                choicesControllers.get(i).alterChoice(questionId);
+                choicesControllers.get(i).insertChoice(questionId);
             }
+            System.out.println("Modified Successfully, Question ID: " + questionId);
         }catch (Exception e){
             e.printStackTrace();
         }
