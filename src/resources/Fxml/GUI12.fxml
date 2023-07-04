@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI12Controller">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="560.0">
+         <children>
+            <Label text="Question Bank" textFill="#192a56">
+               <font>
+                  <Font name="Times New Roman Bold" size="32.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="32.0" top="40.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="450.0">
+         <children>
+            <Label fx:id="questionLabel" text="Questions" textFill="#192a56">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="8.0" top="40.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="categoryLabel" layoutX="10.0" layoutY="50.0" text="Categories" textFill="#192a56">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="8.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="importLabel" layoutX="10.0" layoutY="75.0" text="Import" textFill="#192a56">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="8.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="exportLabel" layoutX="10.0" layoutY="100.0" text="Export" textFill="#192a56">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="8.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</HBox>
