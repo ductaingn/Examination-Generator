@@ -27,8 +27,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class GUI73Controller extends GUI73questionController implements Initializable {
-	private Integer startTime;
-	private Integer count;
+    private Integer count;
 	private Integer hour;
 	private Integer seconds;
 	private Integer minute;
@@ -59,6 +58,7 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         timeData = quiz_time;
     }
     public void getTimeTaken(int time, String start) {
+        //TODO
     	timeTaken1 = time;
     	startedTime1 = start;
     }
@@ -125,8 +125,7 @@ public class GUI73Controller extends GUI73questionController implements Initiali
     	
     	LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-		String formattedDateTime = now.format(formatter);
-		startedTime = formattedDateTime;
+        startedTime = now.format(formatter);
 		
 		
         getQuestionList(idData);
@@ -179,7 +178,7 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         quiz_btn.setOnAction(event -> showGUI61());
         {
             if (timeData!=null) {
-                startTime = Integer.parseInt(timeData);
+                int startTime = Integer.parseInt(timeData);
                 count = startTime * 60;
                 hour = startTime / 60;
                 seconds = 0;

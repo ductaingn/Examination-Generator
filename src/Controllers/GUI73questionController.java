@@ -94,7 +94,6 @@ public class GUI73questionController {
         return list;
     }
     public void getChoiceList(int quesID){
-        // TODO: doi mau navi
         choice_layout.getChildren().clear();
         quesId = quesID;
         List<Choice> choiceList = new ArrayList<>(choiceList());
