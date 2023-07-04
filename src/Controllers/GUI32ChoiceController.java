@@ -1,8 +1,10 @@
 package Controllers;
 
 import Models.Choice;
+import com.sun.jdi.DoubleValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -12,16 +14,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.FileInputStream;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.ConnectException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class GUI32ChoiceController implements Initializable{
+    public void setInsertPictureButton(Button insertPictureButton) {
+        this.insertPictureButton = insertPictureButton;
+    }
     @FXML
     private ComboBox<String> gradeComboBox;
     @FXML
@@ -30,7 +34,33 @@ public class GUI32ChoiceController implements Initializable{
     private TextArea textArea;
     @FXML
     private Button insertPictureButton;
-    private FileInputStream fileInputStream;
+
+    public void setTextArea(String content){
+        textArea.setText(content);
+    }
+
+    public void setImageView(Image image) {
+        imageView.setImage(image);
+    }
+
+    public void setGradeComboBox(Double grade){
+        ObservableList<String> grades = gradeComboBox.getItems();
+        int index=-1;
+        if(grade==0){
+            gradeComboBox.getSelectionModel().select(0);
+            return;
+        }
+        for(int i=1;i<grades.size();i++){
+            String gradeString = grades.get(i);
+            gradeString = gradeString.substring(0,gradeString.length()-1);
+            double diff= Double.parseDouble(gradeString)/100-grade;//Round gradeString
+            if(diff<0.0001){
+                index=i;
+                gradeComboBox.getSelectionModel().select(index);
+                return;
+            }
+        }
+    }
     public Connection getConnection() {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
@@ -43,32 +73,71 @@ public class GUI32ChoiceController implements Initializable{
     public void getGradeComboBox(){
         Choice choice = new Choice();
         ObservableList<String> grades = FXCollections.observableArrayList();
+        String none = new String("None");
+        grades.add(none);
         for(int i = 0; i< choice.listGrade.size(); i++){
             String gradeString=String.format("%.5f", choice.listGrade.get(i));
             grades.add(gradeString+"%");
         }
         gradeComboBox.setItems(grades);
     }
+
+    //Insert choice into Database
     public void insertChoice(int questionId){
         try {
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement("insert into choice (question_id,content,grade,image) values (?,?,?,?);");
 
             String gradeString = new String(gradeComboBox.getValue());
-            Double grade = Double.parseDouble(gradeString.substring(0,gradeString.length()-1));
-            grade=grade/100.0;
+
+            Double grade;
+            if(gradeString.equals("None")){
+                grade=0.00000;
+            }
+            else{
+                grade = Double.parseDouble(gradeString.substring(0,gradeString.length()-1));
+                grade=grade/100.0;
+            }
+
+            Image image = imageView.getImage();
+            InputStream inputStream=null;
+            if(image!=null){
+                BufferedImage bufferedImage= SwingFXUtils.fromFXImage(image,null);
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                ImageIO.write(bufferedImage,"jpg", os);
+                inputStream = new ByteArrayInputStream(os.toByteArray());
+            }
 
             statement.setInt(1, questionId);
             statement.setString(2,textArea.getText());
             statement.setDouble(3,grade);
-            statement.setBlob(4,fileInputStream);
+            statement.setBlob(4,inputStream);
             statement.executeUpdate();
+            statement.close();
+            connection.close();
 
             System.out.println("Inserted Choice Successfully");
         }catch (Exception e){
             e.printStackTrace();
         }
     }
+
+    //Remove all choices with question_id=questionID from Database
+    public void removeChoice(int questionId){
+        try{
+            Connection connection = getConnection();
+            String query="DELETE FROM test.choice WHERE question_id = ?;";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1,questionId);
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //Insert image into ImageView from file
     public void insertImage(){
         try {
             FileChooser fileChooser = new FileChooser();
@@ -77,7 +146,6 @@ public class GUI32ChoiceController implements Initializable{
                 Image image = new Image(file.toURI().toString());
                 imageView.setImage(image);
             }
-            fileInputStream = new FileInputStream(file);
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -1,10 +1,12 @@
 package Controllers;
 
 import Models.Model;
+import Models.QQuestion;
 import Models.Question;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
 public class GUI21questionTabController extends GUI21Controller implements Initializable {
     @FXML
@@ -25,15 +28,26 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
     @FXML
     private javafx.scene.control.Button createNewQuest_btn;
     @FXML
-    private TableView<Question> tableView;
+    private TableView<QQuestion> tableView;
     @FXML
-    private TableColumn<Question, String> tv_actions;
+    private TableColumn<QQuestion, String> tv_actions;
     @FXML
-    private TableColumn<Question, String> tv_question;
+    private TableColumn<QQuestion, String> tv_question;
+    @FXML
+    private TableColumn<QQuestion, Integer> tv_id;
     public void showGUI32() {
         Stage stage = (Stage)SW_lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
         Model.getInstance().getViewFactory().showGUI32();
+    }
+    public GUI32Controller showGUI32Edited(){
+        Stage stage = (Stage)SW_lbl.getScene().getWindow();
+        Model.getInstance().getViewFactory().closeStage(stage);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI32.fxml"));
+        Model.getInstance().getViewFactory().createStage(loader);
+
+        GUI32Controller gui32Controller = loader.getController();
+        return gui32Controller;
     }
     //    connect database
     public Connection getConnection() {
@@ -66,23 +80,31 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
         } catch (Exception e) {e.printStackTrace();}
     }
 
-    public void clickEdit(MouseEvent event) {
-        System.out.println("edit");
+    public void preloadQuestion(Integer questionID) {
+        GUI32Controller gui32Controller = showGUI32Edited();
+        gui32Controller.preloadQuestion(questionID);
     }
+
     private void loadQuestion() {
         try {
-            ObservableList<Question> questionsList = FXCollections.observableArrayList();
-            String query = "SELECT name FROM question";
+            ObservableList<QQuestion> questionsList = FXCollections.observableArrayList();
+            String query = "SELECT * FROM question";
             Connection connection = getConnection();
             ResultSet resultSet = connection.createStatement().executeQuery(query);
             while (resultSet.next()) {
-                Question question = new Question();
-                question.setQuestionName(resultSet.getString("name"));
+                QQuestion question = new QQuestion();
+                question.setName(resultSet.getString("name"));
+                question.setQuestion_id(Integer.parseInt(resultSet.getString("question_id")));
+                question.setCategory_id(Integer.parseInt(resultSet.getString("category_id")));
+                question.setText(resultSet.getString("text"));
+                question.setMark(Integer.parseInt(resultSet.getString("mark")));
                 questionsList.add(question);
             }
-            tv_question.setCellValueFactory((new PropertyValueFactory<>("questionName")));
-            Callback<TableColumn<Question, String>, TableCell<Question, String>> cellFactory = (param) -> {
-                final TableCell<Question, String> cell = new TableCell<>() {
+            tv_question.setCellValueFactory((new PropertyValueFactory<>("name")));
+            tv_id.setCellValueFactory((new PropertyValueFactory<>("question_id")));
+
+            Callback<TableColumn<QQuestion, String>, TableCell<QQuestion, String>> cellFactory = (param) -> {
+                final TableCell<QQuestion, String> cell = new TableCell<>() {
                     @Override
                     public void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
@@ -95,11 +117,12 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
                                     "-fx-text-fill: blue; -fx-font-size: 1em;"
                             );
 //                            adding edit function
-                            edit_lbl.setOnMouseClicked(e -> {
-                                System.out.println("edit question");
-                                //TODO
+                            edit_lbl.setOnMouseClicked(event -> {
+                                Integer index = tableView.getSelectionModel().getSelectedIndex();
+                                Integer questionID = tv_id.getCellData(index);
+                                preloadQuestion(questionID);
                             });
-//
+
                             HBox hBox = new HBox(edit_lbl);
                             setGraphic(hBox);
                             setText(null);

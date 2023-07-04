@@ -29,6 +29,7 @@
      <columns>
        <TableColumn fx:id="tv_question" maxWidth="1.7976931348623157E308" prefWidth="690.0" text="Question" />
        <TableColumn fx:id="tv_actions" editable="false" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="85.0" sortable="false" text="Actions" />
+         <TableColumn fx:id="tv_id" editable="false" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="85.0" sortable="false" text="id" visible="false" />
      </columns>
    </TableView>
 </VBox>

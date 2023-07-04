@@ -11,9 +11,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-public class GUI72Controller implements Initializable {
+public class GUI72Controller extends GUI74Controller implements Initializable {
     @FXML
     private Button cancel_btn;
     @FXML
@@ -27,6 +29,7 @@ public class GUI72Controller implements Initializable {
     @FXML
     private Label content_lbl;
     public static String idData, nameData, timeData;
+    public String startTime;
     public void showGUI61() {
         Stage stage = (Stage)switch_lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
@@ -58,6 +61,8 @@ public class GUI72Controller implements Initializable {
                 "You must finish your attempt before it expires. Are you sure you wish to start now?");
         cancel_btn.setOnAction(event -> showGUI61());
         close_btn.setOnAction(event -> showGUI61());
-        start_btn.setOnAction(event -> showGUI73());
+        start_btn.setOnAction(event -> {
+        	showGUI73();
+        });
     }
 }

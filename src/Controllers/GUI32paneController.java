@@ -49,8 +49,12 @@ public class GUI32paneController implements Initializable {
             return null;
         }
     }
+
+    public Button getSaveChanges_btn() {
+        return saveChanges_btn;
+    }
     public void getComboBox() {
-        String queryCategoryName =""+
+        String queryCategoryName = ""+
                 "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1),' ' ,node.name,' (', " +
                 "(SELECT COUNT(question_id) FROM question " +
                 "WHERE question.category_id=node.category_id),') '  ) AS name " +
@@ -92,14 +96,15 @@ public class GUI32paneController implements Initializable {
         }
     }
 
+    //Insert Question into Database
     public void insertQuestion(){
         try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
             String categoryName = comboBox.getValue().trim();
-            categoryName = categoryName.substring(0, categoryName.indexOf('(') - 1);
 
+            categoryName = categoryName.substring(0,categoryName.indexOf('(') - 1);
             ResultSet categorySet = statement.executeQuery("select * from test.category " +
                     "where name = '" + categoryName + "';");
             categorySet.next();
@@ -119,11 +124,72 @@ public class GUI32paneController implements Initializable {
             for(int i=0;i<choicesControllers.size();i++){
                 choicesControllers.get(i).insertChoice(questionId);
             }
+            statement.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
+    }
+
+    //Alter Question when press Edit button in GUI21questionTab.fxml
+    public void alterQuestion(Integer questionId){
+        try {
+            Connection connection = getConnection();
+
+            Statement statement = connection.createStatement();
+            String categoryName = comboBox.getValue().trim();
+            categoryName = categoryName.substring(0,categoryName.indexOf('(')-1);
+            ResultSet categorySet = statement.executeQuery("select * from test.category " +
+                    "where name = '" + categoryName + "';");
+            categorySet.next();
+            Integer categoryId = Integer.parseInt(categorySet.getString("category_id"));
+
+            String query = "UPDATE test.question SET category_id=?, name=?, text=?, mark=? WHERE question_id=?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,categoryId);
+            preparedStatement.setString(2,questionNameTextField.getText());
+            preparedStatement.setString(3,questionTextTextArea.getText());
+            preparedStatement.setInt(4,Integer.parseInt(questionMarkTextField.getText()));
+            preparedStatement.setInt(5,questionId);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+
+            //Alter choices by removing old choices in Database then insert new ones
+            choicesControllers.get(0).removeChoice(questionId);
+            for(int i=0;i<choicesControllers.size();i++){
+                choicesControllers.get(i).insertChoice(questionId);
+            }
+            System.out.println("Modified Successfully, Question ID: " + questionId);
         }catch (Exception e){
             e.printStackTrace();
         }
     }
+    public void setCategory(String categoryString){
+        ObservableList<String> categoryNames=comboBox.getItems();
+        int index=-1;
+        for(int i=0;i<categoryNames.size();i++){
+            String categoryName = new String(categoryNames.get(i).trim());
+            categoryName=categoryName.substring(0,categoryName.indexOf('(')-1);
+            if (categoryString.equals(categoryName)){
+                index=i;
+            }
+        }
+        comboBox.getSelectionModel().select(index);
+    }
+    public void setQuestionNameTextField(String questionName){
+        this.questionNameTextField.setText(questionName);
+    }
+    public void setQuestionTextTextArea(String questionText){
+        this.questionTextTextArea.setText(questionText);
+    }
+    public void setQuestionMarkTextField(Integer questionMark){
+        this.questionMarkTextField.setText(questionMark.toString());
+    }
+
+    public Vector<GUI32ChoiceController> getChoicesControllers() {
+        return choicesControllers;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getComboBox();
