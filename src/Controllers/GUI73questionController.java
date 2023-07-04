@@ -9,10 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +37,7 @@ public class GUI73questionController {
         }
     }
     public static String idData;
-    public static int quesRank = 0, choiceRank = 0, quesId;
+    public static int quesRank = 0, choiceRank = 0, quesId, maxQues = 100;
 
     public List<QQuestion> qQuestionList() {
         Connection connection = getConnection();
@@ -62,8 +59,7 @@ public class GUI73questionController {
         }
         return list;
     }
-
-    public static boolean[] isSelected = new boolean[14];
+    public static boolean[] isSelected = new boolean[maxQues];
 
     public void setQuesData(QQuestion qQuestion) {
         questionNo_lbl.setText(quesRank+1 + "");
@@ -90,7 +86,6 @@ public class GUI73questionController {
         return list;
     }
     public void getChoiceList(int quesID){
-        // TODO: doi mau navi
         choice_layout.getChildren().clear();
         quesId = quesID;
         List<Choice> choiceList = new ArrayList<>(choiceList());
@@ -125,18 +120,17 @@ public class GUI73questionController {
                 choice_layout.getChildren().add(checkBox);
 
                 checkBox.selectedProperty().addListener(new ChangeListener<>() {
-                    static int selected = 0;
+                    static byte[] selected = new byte[maxQues];
                     @Override
                     public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-
                         if(newValue){
-                            selected++;
+                            selected[Integer.parseInt((questionNo_lbl.getText()))]++;
                             System.out.println(questionNo_lbl.getText() + ". da chon " + checkBox.getText()+" "+ selected);
                         }else{
-                            selected--;
+                            selected[Integer.parseInt((questionNo_lbl.getText()))]--;
                             System.out.println(questionNo_lbl.getText() + ". da huy chon " + checkBox.getText()+" "+ selected);
                         }
-                        isSelected[Integer.parseInt(questionNo_lbl.getText())-1] = selected != 0;
+                        isSelected[Integer.parseInt(questionNo_lbl.getText())-1] = selected[Integer.parseInt((questionNo_lbl.getText()))] != 0;
                         parent.showNavi(qQuestionList().size());
                     }
                 });

@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+
 import java.util.Optional;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -27,8 +28,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class GUI73Controller extends GUI73questionController implements Initializable {
-	private Integer startTime;
-	private Integer count;
+    private Integer count;
 	private Integer hour;
 	private Integer seconds;
 	private Integer minute;
@@ -125,8 +125,7 @@ public class GUI73Controller extends GUI73questionController implements Initiali
   
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-    	
-    	LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 		String formattedDateTime = now.format(formatter);
 		startedTime = formattedDateTime;
@@ -182,7 +181,7 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         quiz_btn.setOnAction(event -> showGUI61());
         {
             if (timeData!=null) {
-                startTime = Integer.parseInt(timeData);
+                Integer startTime = Integer.parseInt(timeData);
                 count = startTime * 60;
                 hour = startTime / 60;
                 seconds = 0;
@@ -259,5 +258,3 @@ public class GUI73Controller extends GUI73questionController implements Initiali
     }
     
 }
-
-
