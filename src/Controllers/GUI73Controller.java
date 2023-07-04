@@ -28,18 +28,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class GUI73Controller extends GUI73questionController implements Initializable {
-    private Integer count;
-	private Integer hour;
-	private Integer seconds;
-	private Integer minute;
-	private Integer timeTaken;
-	private String startedTime;
     @FXML
     private Button quiz_btn;
     @FXML
     private Button home_btn;
     @FXML
-    private VBox question_layout;
+    public VBox question_layout;
     @FXML
     private Label switch_lbl;
     @FXML
@@ -50,15 +44,17 @@ public class GUI73Controller extends GUI73questionController implements Initiali
     private Button finishAttempt_btn;
     @FXML
     public VBox quizNavigation_vbox;
-    public static String nameData, timeData;
+    private Integer count, hour, minute, seconds, timeTaken;
+    private String startedTime;
+    public static String nameData, timeData, startedTime1;
     public static Integer timeTaken1;
-    public static String startedTime1;
     public void getInfo(String quiz_id, String quiz_name, String quiz_time) {
         idData = quiz_id;
         nameData = quiz_name;
         timeData = quiz_time;
     }
     public void getTimeTaken(int time, String start) {
+        //TODO
     	timeTaken1 = time;
     	startedTime1 = start;
     }
@@ -93,9 +89,6 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         }
     }
 
-    public void showNavi(){
-        quizNavigation_vbox.getChildren().clear();
-    }
     public void showNavi(int k){
         quizNavigation_vbox.getChildren().clear();
         int dem = 0;
@@ -122,18 +115,39 @@ public class GUI73Controller extends GUI73questionController implements Initiali
             dem++;
         }
     }
+    public void showNavi(){
+        int dem = 0;
+        while (dem*5 <= qQuestionList().size()) {
+            HBox hBox = new HBox(5);
+            for (int i = 1; i <= 5 && dem*5 + i <= qQuestionList().size(); i++){
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/resources/Fxml/GUI73itemNaviSelected.fxml"));
+                VBox vBox = new VBox();
+                try {
+                    vBox = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                GUI73itemNaviController controller = loader.getController();
+                controller.setQuesNo_navi_lbl(dem * 5 + i);
+                hBox.getChildren().add(vBox);
+            }
+            quizNavigation_vbox.getChildren().add(hBox);
+            dem++;
+        }
+    }
   
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-		String formattedDateTime = now.format(formatter);
-		startedTime = formattedDateTime;
-		
-		
+        startedTime = now.format(formatter);
+
         getQuestionList(idData);
         showNavi(qQuestionList().size());
-//        quizNavigation_vbox.getChildren().clear();
+
+        System.out.println(myAnswer);
 
         title2_lbl.setText(nameData);
         time_lbl.setText("0:00:00");
@@ -181,7 +195,8 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         quiz_btn.setOnAction(event -> showGUI61());
         {
             if (timeData!=null) {
-                Integer startTime = Integer.parseInt(timeData);
+//                Integer startTime = Integer.parseInt(timeData);
+                int startTime = Integer.parseInt(timeData);
                 count = startTime * 60;
                 hour = startTime / 60;
                 seconds = 0;
@@ -256,5 +271,4 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         }
         time.play();
     }
-    
 }

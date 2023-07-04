@@ -2,7 +2,6 @@ package Controllers;
 
 import Models.Model;
 import Models.QQuestion;
-import Models.Question;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -35,15 +34,15 @@ public class GUI65Controller implements Initializable {
     @FXML
     private ComboBox<Integer> comboBox1;
     @FXML
-    private TableColumn<Question, String> questionColumn;
+    private TableColumn<QQuestion, String> questionColumn;
     @FXML
-    private TableView<Question> table;
+    private TableView<QQuestion> table;
     @FXML
     private CheckBox include_ckb;
     @FXML
     private Button add_btn;
     private String selectedCategory;
-    private final ObservableList<Question> questionList = FXCollections.observableArrayList();
+    private final ObservableList<QQuestion> questionList = FXCollections.observableArrayList();
 
     public Connection getConnection() {
         Connection connection;
@@ -127,11 +126,11 @@ public class GUI65Controller implements Initializable {
             while (resultSet.next()) {
                 String questionName = resultSet.getString("name");
                 System.out.println(questionName);
-                Question question = new Question();
-                question.setQuestionName(questionName);
+                QQuestion question = new QQuestion();
+                question.setName(questionName);
                 questionList.add(question);
             }
-            questionColumn.setCellValueFactory(new PropertyValueFactory<>("questionName"));
+            questionColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
             count = questionList.size();
         } catch (Exception e) {
             e.printStackTrace();
@@ -181,7 +180,7 @@ public class GUI65Controller implements Initializable {
     private Node createPage(int pageIndex) {
         int from = pageIndex * itemPerPage;
         int to = Math.min(from + itemPerPage, questionList.size());
-        ObservableList<Question> sublist = FXCollections.observableArrayList(questionList.subList(from, to));
+        ObservableList<QQuestion> sublist = FXCollections.observableArrayList(questionList.subList(from, to));
         table.setItems(sublist);
         if (pageIndex >= pagination.getPageCount()) {
             return null;

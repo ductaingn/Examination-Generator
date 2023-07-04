@@ -13,5 +13,6 @@
     <file url="file://$PROJECT_DIR$/src/Controllers/GUI65Controller.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/Controllers/GUI73Controller.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/Controllers/GUI73questionController.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/Controllers/GUI74correctAnswerController.java" dialect="GenericSQL" />
   </component>
 </project>
