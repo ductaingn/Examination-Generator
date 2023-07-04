@@ -266,6 +266,8 @@ public class GUI21importTabController implements Initializable {
     private static boolean isValidChoiceFormat(String line) {
         Pattern pattern = Pattern.compile("^[A-Z]\\..*");
         Matcher matcher = pattern.matcher(line);
-        return matcher.matches();
+        Pattern pattern2 = Pattern.compile("^[A-Z]\\).*");
+        Matcher matcher2 = pattern2.matcher(line);
+        return  (matcher.matches() || matcher2.matches());
     }
 }
