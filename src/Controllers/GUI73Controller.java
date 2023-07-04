@@ -74,9 +74,6 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         }
     }
 
-    public void showNavi(){
-        quizNavigation_vbox.getChildren().clear();
-    }
     public void showNavi(int k){
         quizNavigation_vbox.getChildren().clear();
         int dem = 0;

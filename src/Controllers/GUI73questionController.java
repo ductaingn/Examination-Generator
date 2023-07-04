@@ -69,6 +69,10 @@ public class GUI73questionController {
         questionNo_lbl.setText(quesRank+1 + "");
         question_text_lbl.setText(qQuestion.getText());
     }
+    public void setStatus(boolean check) {
+        if (check) isAnswer_lbl.setText("Answered");
+        else isAnswer_lbl.setText("Not yet answered");
+    }
     private List<Choice> choiceList() {
         Connection connection = getConnection();
         String query = "SELECT content, grade FROM choice " +
@@ -115,6 +119,7 @@ public class GUI73questionController {
                     RadioButton chk = (RadioButton) t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
                     System.out.println(questionNo_lbl.getText() + ". da chon " + chk.getText());
                     isSelected[Integer.parseInt(questionNo_lbl.getText())-1] = true;
+                    setStatus(isSelected[Integer.parseInt(questionNo_lbl.getText())-1]);
                     parent.showNavi(qQuestionList().size());
                 }
             });
@@ -137,6 +142,7 @@ public class GUI73questionController {
                             System.out.println(questionNo_lbl.getText() + ". da huy chon " + checkBox.getText()+" "+ selected);
                         }
                         isSelected[Integer.parseInt(questionNo_lbl.getText())-1] = selected != 0;
+                        setStatus(isSelected[Integer.parseInt(questionNo_lbl.getText())-1]);
                         parent.showNavi(qQuestionList().size());
                     }
                 });
