@@ -12,6 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
@@ -23,9 +24,6 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class GUI32ChoiceController implements Initializable{
-    public void setInsertPictureButton(Button insertPictureButton) {
-        this.insertPictureButton = insertPictureButton;
-    }
     @FXML
     private ComboBox<String> gradeComboBox;
     @FXML
@@ -34,6 +32,8 @@ public class GUI32ChoiceController implements Initializable{
     private TextArea textArea;
     @FXML
     private Button insertPictureButton;
+    @FXML
+    private HBox imageHbox;
 
     public void setTextArea(String content){
         textArea.setText(content);
@@ -63,7 +63,7 @@ public class GUI32ChoiceController implements Initializable{
     }
     public Connection getConnection() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
             return conn;
         } catch (Exception e) {
             e.printStackTrace();
