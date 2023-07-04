@@ -73,7 +73,7 @@ public class GUI11Controller implements Initializable{
     public Connection getConnection() {
         Connection connection;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
             return connection;
         } catch (Exception e) {
             e.printStackTrace();
