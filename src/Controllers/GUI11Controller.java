@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -35,7 +36,8 @@ public class GUI11Controller implements Initializable{
     @FXML
     private Label it_lbl;
     @FXML
-    private MenuItem questions_btn;
+    private MenuButton menuButton;
+    private GUI12Controller gui12Controller = new GUI12Controller();
     Integer index;
     public void getItem() {
         index = tableView.getSelectionModel().getSelectedIndex();
@@ -51,6 +53,18 @@ public class GUI11Controller implements Initializable{
         Stage stage = (Stage)it_lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
         Model.getInstance().getViewFactory().showGUI51();
+    }
+    public void showGUI12(Stage stage){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI12.fxml"));
+            Scene scene = new Scene(loader.load());
+            gui12Controller = loader.getController();
+            stage.setScene(scene);
+            stage.show();
+            gui12Controller.setGui11Stage((Stage) it_lbl.getScene().getWindow());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     public void showGUI61() {
         try {
@@ -124,7 +138,8 @@ public class GUI11Controller implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadQuiz();
-        questions_btn.setOnAction(event -> showGUI21());
+        Stage gui12Stage = new Stage();
+        menuButton.setOnAction(event -> showGUI12(gui12Stage));
         turnEditingOn_btn.setOnAction(event -> showGUI51());
     }
 }

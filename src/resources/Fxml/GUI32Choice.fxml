@@ -10,20 +10,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="180.0" prefWidth="720.0" style="-fx-background-color: #dcdde1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI32ChoiceController">
+<HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="720.0" prefHeight="180.0" prefWidth="720.0" style="-fx-background-color: #dcdde1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI32ChoiceController">
 
-   <VBox prefWidth="760.0">
-      <HBox fillHeight="false" maxHeight="200.0" maxWidth="-Infinity" prefWidth="720.0">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
+   <VBox maxWidth="720.0" prefWidth="760.0">
+      <HBox fx:id="imageHbox" alignment="CENTER" fillHeight="false" maxHeight="200.0" maxWidth="720.0" prefWidth="720.0">
          <children>
-            <ImageView fx:id="imageView" fitWidth="720.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="720.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
-                  <Insets bottom="16.0" />
+                  <Insets bottom="16.0" top="16.0" />
                </HBox.margin>
             </ImageView>
          </children>
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
       </HBox>
       <HBox maxWidth="-Infinity" prefHeight="98.0" prefWidth="720.0">
          <VBox.margin>
