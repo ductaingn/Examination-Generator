@@ -11,8 +11,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class GUI72Controller extends GUI74Controller implements Initializable {
@@ -26,8 +24,9 @@ public class GUI72Controller extends GUI74Controller implements Initializable {
     private Button export_btn;
     @FXML
     private Label switch_lbl;
+    @FXML
+    private Label content_lbl;
     public static String idData, nameData, timeData;
-    public String startTime;
     public void showGUI61() {
         Stage stage = (Stage)switch_lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
@@ -54,10 +53,11 @@ public class GUI72Controller extends GUI74Controller implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        content_lbl.setText("Your attempt will have a time of limit of " + timeData + " minutes. " +
+                "When you start, the timer will begin to count down and cannot be paused. " +
+                "You must finish your attempt before it expires. Are you sure you wish to start now?");
         cancel_btn.setOnAction(event -> showGUI61());
         close_btn.setOnAction(event -> showGUI61());
-        start_btn.setOnAction(event -> {
-        	showGUI73();
-        });
+        start_btn.setOnAction(event -> showGUI73());
     }
 }

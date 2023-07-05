@@ -11,7 +11,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import java.util.Optional;
+
+import java.util.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,24 +23,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 
 public class GUI73Controller extends GUI73questionController implements Initializable {
-	private Integer startTime;
-	private Integer count;
-	private Integer hour;
-	private Integer seconds;
-	private Integer minute;
-	private Integer timeTaken;
-	private String startedTime;
     @FXML
     private Button quiz_btn;
     @FXML
     private Button home_btn;
     @FXML
-    private VBox question_layout;
+    public VBox question_layout;
     @FXML
     private Label switch_lbl;
     @FXML
@@ -50,9 +41,10 @@ public class GUI73Controller extends GUI73questionController implements Initiali
     private Button finishAttempt_btn;
     @FXML
     public VBox quizNavigation_vbox;
-    public static String nameData, timeData;
+    private Integer count, hour, minute, seconds, timeTaken;
+    private String startedTime;
+    public static String nameData, timeData, startedTime1;
     public static Integer timeTaken1;
-    public static String startedTime1;
     public void getInfo(String quiz_id, String quiz_name, String quiz_time) {
         idData = quiz_id;
         nameData = quiz_name;
@@ -93,9 +85,6 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         }
     }
 
-    public void showNavi(){
-        quizNavigation_vbox.getChildren().clear();
-    }
     public void showNavi(int k){
         quizNavigation_vbox.getChildren().clear();
         int dem = 0;
@@ -122,19 +111,36 @@ public class GUI73Controller extends GUI73questionController implements Initiali
             dem++;
         }
     }
+    public void showNavi(){
+        int dem = 0;
+        while (dem*5 <= qQuestionList().size()) {
+            HBox hBox = new HBox(5);
+            for (int i = 1; i <= 5 && dem*5 + i <= qQuestionList().size(); i++){
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/resources/Fxml/GUI73itemNaviSelected.fxml"));
+                VBox vBox = new VBox();
+                try {
+                    vBox = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                GUI73itemNaviController controller = loader.getController();
+                controller.setQuesNo_navi_lbl(dem * 5 + i);
+                hBox.getChildren().add(vBox);
+            }
+            quizNavigation_vbox.getChildren().add(hBox);
+            dem++;
+        }
+    }
   
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-    	
-    	LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-		String formattedDateTime = now.format(formatter);
-		startedTime = formattedDateTime;
-		
-		
+        startedTime = now.format(formatter);
+
         getQuestionList(idData);
         showNavi(qQuestionList().size());
-//        quizNavigation_vbox.getChildren().clear();
 
         title2_lbl.setText(nameData);
         time_lbl.setText("0:00:00");
@@ -142,7 +148,6 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         	Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Thông báo");
             alert.setHeaderText("Bạn có muốn kết thúc bài kiểm tra");
-//            alert.setContentText("Bạn có muốn kết thúc bài kiểm tra");
             ButtonType buttonTypeOne = new ButtonType("YES");
             ButtonType buttonTypeTwo = new ButtonType("NO");
             alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
@@ -154,52 +159,30 @@ public class GUI73Controller extends GUI73questionController implements Initiali
             if (result.isPresent()) {
                 if (result.get() == buttonTypeOne) {
                     // Xử lý sự kiện khi người dùng chọn Button One
-//                	Stage stage = (Stage)switch_lbl.getScene().getWindow();
-//                    Model.getInstance().getViewFactory().closeStage(stage);
-//                    Model.getInstance().getViewFactory().showGUI74();
-                	 FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI74.fxml"));
-                     try {
-    					 Parent root = loader.load();
-    				 } catch (IOException e) {
-    				 	 // TODO Auto-generated catch block
-    				 	 e.printStackTrace();
-    				 }
-                	 GUI73Controller gui74Controller = loader.getController();
-                     gui74Controller.getTimeTaken(timeTaken, startedTime);
-                     
-                     Stage stage = (Stage)switch_lbl.getScene().getWindow();
-                     Model.getInstance().getViewFactory().closeStage(stage);
-                     Model.getInstance().getViewFactory().showGUI74();
-                    
-                } else if (result.get() == buttonTypeTwo) {
-                    // Xử lý sự kiện khi người dùng chọn Button Two
-
+                    for (int i = 0; i < qQuestionList().size(); i++) {
+                        Collections.sort(myChoice.get(i));
+                    }
+                     getTimeTaken(timeTaken, startedTime);
+                    Stage stage = (Stage)switch_lbl.getScene().getWindow();
+                    Model.getInstance().getViewFactory().closeStage(stage);
+                    Model.getInstance().getViewFactory().showGUI74();
                 }
             }
         });
-      
         home_btn.setOnAction(event -> showGUI11());
         quiz_btn.setOnAction(event -> showGUI61());
         {
             if (timeData!=null) {
-                startTime = Integer.parseInt(timeData);
+                int startTime = Integer.parseInt(timeData);
                 count = startTime * 60;
                 hour = startTime / 60;
                 seconds = 0;
                 minute = startTime % 60;
                 timeTaken = 0;
-                if (seconds < 10) {
-                    if (minute < 10) {
-                        time_lbl.setText(hour.toString() + ":0" + minute.toString() + ":0" + seconds);
-                    } else {
-                        time_lbl.setText(hour + ":" + minute + ":0" + seconds);
-                    }
+                if (minute < 10) {
+                    time_lbl.setText(hour + ":0" + minute + ":0" + seconds);
                 } else {
-                    if (minute < 10) {
-                        time_lbl.setText(hour.toString() + ":0" + minute.toString() + ":" + seconds.toString());
-                    } else {
-                        time_lbl.setText(hour.toString() + ":" + minute.toString() + ":" + seconds.toString());
-                    }
+                    time_lbl.setText(hour + ":" + minute + ":0" + seconds);
                 }
                 doTime();
             }
@@ -238,7 +221,6 @@ public class GUI73Controller extends GUI73questionController implements Initiali
                 try {
 					Parent root = loader.load();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
                 GUI73Controller gui74Controller = loader.getController();
@@ -247,17 +229,11 @@ public class GUI73Controller extends GUI73questionController implements Initiali
                 Stage stage = (Stage)switch_lbl.getScene().getWindow();
                 Model.getInstance().getViewFactory().closeStage(stage);
                 Model.getInstance().getViewFactory().showGUI74();
-                
             }
         });
         time.setCycleCount(Timeline.INDEFINITE);
         time.getKeyFrames().add(frame);
-        if (time != null) {
-            time.stop();
-        }
+        time.stop();
         time.play();
     }
-    
 }
-
-

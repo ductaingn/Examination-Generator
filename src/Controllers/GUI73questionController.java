@@ -5,14 +5,13 @@ import Models.QQuestion;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +21,16 @@ public class GUI73questionController {
         this.parent=parent;
     }
     @FXML
+    public VBox correctChoice_vbox;
+    @FXML
     private Text isAnswer_lbl;
     @FXML
     private Label question_text_lbl;
     @FXML
-    private Label questionNo_lbl;
+    public Label questionNo_lbl;
     @FXML
     private VBox choice_layout;
+    public static int diem;
     public Connection getConnection() {
         Connection connection;
         try {
@@ -40,7 +42,10 @@ public class GUI73questionController {
         }
     }
     public static String idData;
-    public static int quesRank = 0, choiceRank = 0, quesId;
+    public static int quesRank = 0, choiceRank = 0, quesId, maxQues = 100;
+
+    public static ArrayList<ArrayList<Character>> myAnswer = new ArrayList<>();
+    public static ArrayList<ArrayList<Character>> myChoice = new ArrayList<>();
 
     public List<QQuestion> qQuestionList() {
         Connection connection = getConnection();
@@ -62,12 +67,36 @@ public class GUI73questionController {
         }
         return list;
     }
-
-    public static boolean[] isSelected = new boolean[14];
+    public static boolean[] isSelected = new boolean[maxQues];
+    static final byte[] selected = new byte[maxQues];
 
     public void setQuesData(QQuestion qQuestion) {
         questionNo_lbl.setText(quesRank+1 + "");
         question_text_lbl.setText(qQuestion.getText());
+    }
+    public void setQuesDataAndAnswer(QQuestion qQuestion) {
+        questionNo_lbl.setText(quesRank+1 + "");
+        question_text_lbl.setText(qQuestion.getText());
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/resources/Fxml/GUI74correctAnswer.fxml"));
+        VBox vBox = new VBox();
+        try {
+            vBox = loader.load();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        GUI74correctAnswerController controller = loader.getController();
+        controller.setCorrectChoice_lbl(qQuestion);
+        correctChoice_vbox.getChildren().add(vBox);
+    }
+    public void setStatus(boolean check) {
+        if (check) isAnswer_lbl.setText("Answered");
+        else isAnswer_lbl.setText("Not yet answered");
+    }
+    public void setStatusAnswer(boolean check) {
+        if (check) isAnswer_lbl.setText("Answered");
+        else isAnswer_lbl.setText("Not answered");
     }
     private List<Choice> choiceList() {
         Connection connection = getConnection();
@@ -90,14 +119,18 @@ public class GUI73questionController {
         return list;
     }
     public void getChoiceList(int quesID){
-        // TODO: doi mau navi
         choice_layout.getChildren().clear();
         quesId = quesID;
         List<Choice> choiceList = new ArrayList<>(choiceList());
-
         int dem = 0;
+        //dem so dap an dung, if dem = 1 -> single choice else multiple choice
+        myAnswer.add(new ArrayList<>());
+        myChoice.add(new ArrayList<>());
         for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++){
-            if (choiceList.get(choiceRank).getChoiceGrade() > 0.0) dem++;
+            if (choiceList.get(choiceRank).getChoiceGrade() > 0.0) {
+                myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).add(myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size(), (char)(97 + choiceRank));
+                dem++;
+            }
         }
 
         if (dem == 1) {
@@ -113,8 +146,11 @@ public class GUI73questionController {
                 @Override
                 public void changed(ObservableValue<? extends Toggle> ov, Toggle t, Toggle t1) {
                     RadioButton chk = (RadioButton) t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
-                    System.out.println(questionNo_lbl.getText() + ". da chon " + chk.getText());
+                    if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() != 0)
+                        myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).remove(0);
+                    myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).add(0, chk.getText().charAt(0));
                     isSelected[Integer.parseInt(questionNo_lbl.getText())-1] = true;
+                    setStatus(isSelected[Integer.parseInt(questionNo_lbl.getText())-1]);
                     parent.showNavi(qQuestionList().size());
                 }
             });
@@ -125,22 +161,63 @@ public class GUI73questionController {
                 choice_layout.getChildren().add(checkBox);
 
                 checkBox.selectedProperty().addListener(new ChangeListener<>() {
-                    static int selected = 0;
                     @Override
                     public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-
                         if(newValue){
-                            selected++;
-                            System.out.println(questionNo_lbl.getText() + ". da chon " + checkBox.getText()+" "+ selected);
+                            myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).add(0, checkBox.getText().charAt(0));
+                            selected[Integer.parseInt((questionNo_lbl.getText()))]++;
                         }else{
-                            selected--;
-                            System.out.println(questionNo_lbl.getText() + ". da huy chon " + checkBox.getText()+" "+ selected);
+                            myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).remove(Character.valueOf(checkBox.getText().charAt(0)));
+                            selected[Integer.parseInt((questionNo_lbl.getText()))]--;
                         }
-                        isSelected[Integer.parseInt(questionNo_lbl.getText())-1] = selected != 0;
+                        isSelected[Integer.parseInt(questionNo_lbl.getText())-1] = selected[Integer.parseInt((questionNo_lbl.getText()))] != 0;
+                        setStatus(isSelected[Integer.parseInt(questionNo_lbl.getText())-1]);
                         parent.showNavi(qQuestionList().size());
                     }
                 });
             }
+        }
+    }
+    public void getChoiceListAnswer(int quesID){
+        choice_layout.getChildren().clear();
+        quesId = quesID;
+        List<Choice> choiceList = new ArrayList<>(choiceList());
+        int dem = 0;
+        for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++){
+            if (choiceList.get(choiceRank).getChoiceGrade() > 0.0) {
+                dem++;
+            }
+        }
+        if (dem == 1) {
+            for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++) {
+                RadioButton radioButton = new RadioButton((char)(97 + choiceRank) + ".  " + choiceList.get(choiceRank).getChoiceText());
+                radioButton.setStyle("-fx-font-size: 16");
+                if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() > 0) {
+                    if ((char) (97 + choiceRank) == myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).get(0)) {
+                        radioButton.setSelected(true);
+                    }
+                }
+                radioButton.setDisable(true);
+                choice_layout.getChildren().add(radioButton);
+            }
+        } else {
+            for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++) {
+                CheckBox checkBox = new CheckBox((char)(97 + choiceRank) + ".  " + choiceList.get(choiceRank).getChoiceText());
+                checkBox.setStyle("-fx-font-size: 16");
+                if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() > 0) {
+                    for (int i = 0; i < myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size(); i++) {
+                        if ((char) (97 + choiceRank) == myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).get(i)) {
+                            checkBox.setSelected(true);
+                        }
+                    }
+                }
+                checkBox.setDisable(true);
+                choice_layout.getChildren().add(checkBox);
+            }
+        }
+        if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).equals(myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1))
+            && myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() > 0) {
+            diem++;
         }
     }
 }

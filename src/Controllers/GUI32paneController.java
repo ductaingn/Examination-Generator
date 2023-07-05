@@ -41,9 +41,10 @@ public class GUI32paneController implements Initializable {
     private Vector<GUI32ChoiceController> choicesControllers = new Vector<>();
 
     public Connection getConnection() {
+        Connection connection;
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
-            return conn;
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+            return connection;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -128,9 +129,7 @@ public class GUI32paneController implements Initializable {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
-
     //Alter Question when press Edit button in GUI21questionTab.fxml
     public void alterQuestion(Integer questionId){
         try {
@@ -185,19 +184,18 @@ public class GUI32paneController implements Initializable {
     public void setQuestionMarkTextField(Integer questionMark){
         this.questionMarkTextField.setText(questionMark.toString());
     }
-
     public Vector<GUI32ChoiceController> getChoicesControllers() {
         return choicesControllers;
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getComboBox();
         insertKMoreChoices(2);
-
         cancel_btn.setOnAction(event -> showGUI21());
-        saveChanges_btn.setOnAction(event -> insertQuestion());
+        saveChanges_btn.setOnAction(event -> {
+            insertQuestion();
+            showGUI21();
+        });
         blanks_btn.setOnAction(event -> insertKMoreChoices(3));
-
     }
 }
