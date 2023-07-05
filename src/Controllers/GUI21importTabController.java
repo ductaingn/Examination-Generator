@@ -36,14 +36,16 @@ public class GUI21importTabController implements Initializable {
     @FXML 
     private Button import_btn;
  // Liên kết với cơ sở dữ liệu :))
-    public Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+ public Connection getConnection() {
+     Connection connection;
+     try {
+         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+         return connection;
+     } catch (Exception e) {
+         e.printStackTrace();
+         return null;
+     }
+ }
     //---------------
     class Question{
     	public String questionText;
@@ -122,13 +124,16 @@ public class GUI21importTabController implements Initializable {
                         Connection connection = getConnection();
                         Statement statement = connection.createStatement();
                         for (int i = 0; i < question_List.size(); i++) {
-                            statement.executeUpdate("INSERT INTO question(category_id, mark,name, text) VALUES (1, 1, '" + question_List.elementAt(i).questionText +"','" + question_List.elementAt(i).questionText + "');");
+                            statement.executeUpdate("INSERT INTO question(category_id, mark,name, text) VALUES (1, 1, '"
+                                    + question_List.elementAt(i).questionText +"','" + question_List.elementAt(i).questionText + "');");
                             statement.executeUpdate("set @id = LAST_INSERT_ID();");
                             for (int j = 0; j < question_List.elementAt(i).choiceList.size(); j++) {
                                 if (question_List.elementAt(i).choiceList.elementAt(j).charAt(0) == question_List.elementAt(i).questionAnswer.charAt(8))
-                                    statement.executeUpdate("INSERT INTO choice(question_id, grade, content) VALUES(@id, 100, '" + question_List.elementAt(i).choiceList.elementAt(j).substring(3) +"');");
+                                    statement.executeUpdate("INSERT INTO choice(question_id, grade, content) VALUES(@id, 100, '"
+                                            + question_List.elementAt(i).choiceList.elementAt(j).substring(3) +"');");
                                 else
-                                    statement.executeUpdate("INSERT INTO choice(question_id, grade, content) VALUES(@id, 0, '" + question_List.elementAt(i).choiceList.elementAt(j).substring(3) +"');");
+                                    statement.executeUpdate("INSERT INTO choice(question_id, grade, content) VALUES(@id, 0, '"
+                                            + question_List.elementAt(i).choiceList.elementAt(j).substring(3) +"');");
                             }
                         }
                     } catch (Exception exception) {

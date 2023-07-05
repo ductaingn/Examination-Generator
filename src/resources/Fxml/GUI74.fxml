@@ -86,7 +86,7 @@
                </font>
             </Label>
             <Label fx:id="started_on" layoutX="189.0" layoutY="5.0" prefHeight="18.0" prefWidth="461.0" style="-fx-background-color: #fafafa;" text="Tuesday, 21 March 2023, 8:33 PM" />
-            <Label fx:id="state" layoutX="189.0" layoutY="23.0" prefHeight="18.0" prefWidth="461.0" text="Finished" />
+            <Label layoutX="189.0" layoutY="23.0" prefHeight="18.0" prefWidth="461.0" text="Finished" />
             <Label fx:id="completed_on" layoutX="189.0" layoutY="41.0" prefHeight="18.0" prefWidth="461.0" style="-fx-background-color: #fafafa;" text="Tuesday, 21 March 2023, 8:34 PM" />
             <Label fx:id="timeTaken" layoutX="189.0" layoutY="59.0" prefHeight="18.0" prefWidth="461.0" text="1 min 27 secs" />
             <Label fx:id="marks" layoutX="189.0" layoutY="77.0" prefHeight="18.0" prefWidth="461.0" style="-fx-background-color: #fafafa;" text="0.00/67.00" />

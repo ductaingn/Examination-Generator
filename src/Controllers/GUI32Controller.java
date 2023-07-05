@@ -1,15 +1,11 @@
 package Controllers;
 
-import Models.Choice;
 import Models.QQuestion;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
-import javafx.stage.Window;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -20,14 +16,10 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.Vector;
 import Models.Model;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class GUI32Controller implements Initializable {
     @FXML // ResourceBundle that was given to the FXMLLoader
@@ -38,20 +30,19 @@ public class GUI32Controller implements Initializable {
     @FXML
     private ScrollPane scrollPane;
     public Connection getConnection() {
+        Connection connection;
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
-            return conn;
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+            return connection;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-
     public void preloadQuestion(Integer questionId){
         try{
             FXMLLoader fxmlLoader= new FXMLLoader();
-
             fxmlLoader.setLocation(getClass().getResource("/resources/Fxml/GUI32pane.fxml"));
             scrollPane.setContent(fxmlLoader.load());
             location=fxmlLoader.getLocation();
@@ -60,9 +51,9 @@ public class GUI32Controller implements Initializable {
             GUI32paneController gui32paneController=fxmlLoader.getController();
             QQuestion question = new QQuestion();
 
-            String categoryName = new String();
-            String questionName = new String();
-            String questionText = new String();
+            String categoryName = "";
+            String questionName = "";
+            String questionText = "";
             int questionMark=0;
             try{
                 Connection connection = getConnection();
@@ -150,6 +141,5 @@ public class GUI32Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         home_btn.setOnAction(event -> showGUI11());
         gui21_btn.setOnAction(event -> showGUI21());
-
     }
 }

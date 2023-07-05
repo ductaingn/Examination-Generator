@@ -1,7 +1,6 @@
 package Controllers;
 
 import Models.Choice;
-import com.sun.jdi.DoubleValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -18,7 +17,6 @@ import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.ConnectException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
@@ -62,9 +60,10 @@ public class GUI32ChoiceController implements Initializable{
         }
     }
     public Connection getConnection() {
+        Connection connection;
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "0000");
-            return conn;
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+            return connection;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

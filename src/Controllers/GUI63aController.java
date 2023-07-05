@@ -133,7 +133,6 @@ public class GUI63aController extends GUI63aItemController implements Initializa
         });
         add_btn.setOnAction(event -> {
             showGUI62a_add();
-            System.out.println(prepareToAdd.size());
             prepareToAdd.clear();
         });
         List<QQuestion> qQuestionList = new ArrayList<>(qQuestionList("SELECT * FROM question"));

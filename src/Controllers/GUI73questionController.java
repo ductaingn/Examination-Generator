@@ -7,7 +7,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -31,6 +30,7 @@ public class GUI73questionController {
     public Label questionNo_lbl;
     @FXML
     private VBox choice_layout;
+    public static int diem;
     public Connection getConnection() {
         Connection connection;
         try {
@@ -123,11 +123,12 @@ public class GUI73questionController {
         quesId = quesID;
         List<Choice> choiceList = new ArrayList<>(choiceList());
         int dem = 0;
+        //dem so dap an dung, if dem = 1 -> single choice else multiple choice
         myAnswer.add(new ArrayList<>());
         myChoice.add(new ArrayList<>());
         for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++){
             if (choiceList.get(choiceRank).getChoiceGrade() > 0.0) {
-                myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).add(0, (char)(97 + choiceRank));
+                myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).add(myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size(), (char)(97 + choiceRank));
                 dem++;
             }
         }
@@ -145,14 +146,10 @@ public class GUI73questionController {
                 @Override
                 public void changed(ObservableValue<? extends Toggle> ov, Toggle t, Toggle t1) {
                     RadioButton chk = (RadioButton) t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
-                    System.out.println(questionNo_lbl.getText() + ". da chon " + chk.getText());
                     if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() != 0)
                         myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).remove(0);
                     myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).add(0, chk.getText().charAt(0));
                     isSelected[Integer.parseInt(questionNo_lbl.getText())-1] = true;
-
-                    System.out.println(myChoice);
-
                     setStatus(isSelected[Integer.parseInt(questionNo_lbl.getText())-1]);
                     parent.showNavi(qQuestionList().size());
                 }
@@ -169,21 +166,58 @@ public class GUI73questionController {
                         if(newValue){
                             myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).add(0, checkBox.getText().charAt(0));
                             selected[Integer.parseInt((questionNo_lbl.getText()))]++;
-                            System.out.println(questionNo_lbl.getText() + ". da chon " + checkBox.getText()+" "+ selected[Integer.parseInt((questionNo_lbl.getText()))]);
                         }else{
                             myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).remove(Character.valueOf(checkBox.getText().charAt(0)));
                             selected[Integer.parseInt((questionNo_lbl.getText()))]--;
-                            System.out.println(questionNo_lbl.getText() + ". da huy chon " + checkBox.getText()+" "+ selected[Integer.parseInt((questionNo_lbl.getText()))]);
                         }
-
-                        System.out.println(myChoice);
-
                         isSelected[Integer.parseInt(questionNo_lbl.getText())-1] = selected[Integer.parseInt((questionNo_lbl.getText()))] != 0;
                         setStatus(isSelected[Integer.parseInt(questionNo_lbl.getText())-1]);
                         parent.showNavi(qQuestionList().size());
                     }
                 });
             }
+        }
+    }
+    public void getChoiceListAnswer(int quesID){
+        choice_layout.getChildren().clear();
+        quesId = quesID;
+        List<Choice> choiceList = new ArrayList<>(choiceList());
+        int dem = 0;
+        for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++){
+            if (choiceList.get(choiceRank).getChoiceGrade() > 0.0) {
+                dem++;
+            }
+        }
+        if (dem == 1) {
+            for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++) {
+                RadioButton radioButton = new RadioButton((char)(97 + choiceRank) + ".  " + choiceList.get(choiceRank).getChoiceText());
+                radioButton.setStyle("-fx-font-size: 16");
+                if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() > 0) {
+                    if ((char) (97 + choiceRank) == myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).get(0)) {
+                        radioButton.setSelected(true);
+                    }
+                }
+                radioButton.setDisable(true);
+                choice_layout.getChildren().add(radioButton);
+            }
+        } else {
+            for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++) {
+                CheckBox checkBox = new CheckBox((char)(97 + choiceRank) + ".  " + choiceList.get(choiceRank).getChoiceText());
+                checkBox.setStyle("-fx-font-size: 16");
+                if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() > 0) {
+                    for (int i = 0; i < myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size(); i++) {
+                        if ((char) (97 + choiceRank) == myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).get(i)) {
+                            checkBox.setSelected(true);
+                        }
+                    }
+                }
+                checkBox.setDisable(true);
+                choice_layout.getChildren().add(checkBox);
+            }
+        }
+        if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).equals(myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1))
+            && myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() > 0) {
+            diem++;
         }
     }
 }

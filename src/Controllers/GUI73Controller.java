@@ -12,7 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 
-import java.util.Optional;
+import java.util.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,9 +23,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 
 public class GUI73Controller extends GUI73questionController implements Initializable {
     @FXML
@@ -54,7 +51,6 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         timeData = quiz_time;
     }
     public void getTimeTaken(int time, String start) {
-        //TODO
     	timeTaken1 = time;
     	startedTime1 = start;
     }
@@ -139,7 +135,6 @@ public class GUI73Controller extends GUI73questionController implements Initiali
   
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         startedTime = now.format(formatter);
@@ -147,15 +142,12 @@ public class GUI73Controller extends GUI73questionController implements Initiali
         getQuestionList(idData);
         showNavi(qQuestionList().size());
 
-        System.out.println(myAnswer);
-
         title2_lbl.setText(nameData);
         time_lbl.setText("0:00:00");
         finishAttempt_btn.setOnAction(event -> {
         	Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Thông báo");
             alert.setHeaderText("Bạn có muốn kết thúc bài kiểm tra");
-//            alert.setContentText("Bạn có muốn kết thúc bài kiểm tra");
             ButtonType buttonTypeOne = new ButtonType("YES");
             ButtonType buttonTypeTwo = new ButtonType("NO");
             alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
@@ -167,53 +159,30 @@ public class GUI73Controller extends GUI73questionController implements Initiali
             if (result.isPresent()) {
                 if (result.get() == buttonTypeOne) {
                     // Xử lý sự kiện khi người dùng chọn Button One
-//                	Stage stage = (Stage)switch_lbl.getScene().getWindow();
-//                    Model.getInstance().getViewFactory().closeStage(stage);
-//                    Model.getInstance().getViewFactory().showGUI74();
-                	 FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI74.fxml"));
-                     try {
-    					 Parent root = loader.load();
-    				 } catch (IOException e) {
-    				 	 // TODO Auto-generated catch block
-    				 	 e.printStackTrace();
-    				 }
-                	 GUI73Controller gui74Controller = loader.getController();
-                     gui74Controller.getTimeTaken(timeTaken, startedTime);
-                     
-                     Stage stage = (Stage)switch_lbl.getScene().getWindow();
-                     Model.getInstance().getViewFactory().closeStage(stage);
-                     Model.getInstance().getViewFactory().showGUI74();
-                    
-                } else if (result.get() == buttonTypeTwo) {
-                    // Xử lý sự kiện khi người dùng chọn Button Two
-
+                    for (int i = 0; i < qQuestionList().size(); i++) {
+                        Collections.sort(myChoice.get(i));
+                    }
+                     getTimeTaken(timeTaken, startedTime);
+                    Stage stage = (Stage)switch_lbl.getScene().getWindow();
+                    Model.getInstance().getViewFactory().closeStage(stage);
+                    Model.getInstance().getViewFactory().showGUI74();
                 }
             }
         });
-      
         home_btn.setOnAction(event -> showGUI11());
         quiz_btn.setOnAction(event -> showGUI61());
         {
             if (timeData!=null) {
-//                Integer startTime = Integer.parseInt(timeData);
                 int startTime = Integer.parseInt(timeData);
                 count = startTime * 60;
                 hour = startTime / 60;
                 seconds = 0;
                 minute = startTime % 60;
                 timeTaken = 0;
-                if (seconds < 10) {
-                    if (minute < 10) {
-                        time_lbl.setText(hour.toString() + ":0" + minute.toString() + ":0" + seconds);
-                    } else {
-                        time_lbl.setText(hour + ":" + minute + ":0" + seconds);
-                    }
+                if (minute < 10) {
+                    time_lbl.setText(hour + ":0" + minute + ":0" + seconds);
                 } else {
-                    if (minute < 10) {
-                        time_lbl.setText(hour.toString() + ":0" + minute.toString() + ":" + seconds.toString());
-                    } else {
-                        time_lbl.setText(hour.toString() + ":" + minute.toString() + ":" + seconds.toString());
-                    }
+                    time_lbl.setText(hour + ":" + minute + ":0" + seconds);
                 }
                 doTime();
             }
@@ -252,7 +221,6 @@ public class GUI73Controller extends GUI73questionController implements Initiali
                 try {
 					Parent root = loader.load();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
                 GUI73Controller gui74Controller = loader.getController();
@@ -261,14 +229,11 @@ public class GUI73Controller extends GUI73questionController implements Initiali
                 Stage stage = (Stage)switch_lbl.getScene().getWindow();
                 Model.getInstance().getViewFactory().closeStage(stage);
                 Model.getInstance().getViewFactory().showGUI74();
-                
             }
         });
         time.setCycleCount(Timeline.INDEFINITE);
         time.getKeyFrames().add(frame);
-        if (time != null) {
-            time.stop();
-        }
+        time.stop();
         time.play();
     }
 }

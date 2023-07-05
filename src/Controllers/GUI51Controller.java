@@ -132,7 +132,10 @@ public class GUI51Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cancel_btn.setOnAction(event -> showGUI11());
-        create_btn.setOnAction(event -> insertQuiz());
+        create_btn.setOnAction(event -> {
+            insertQuiz();
+            showGUI11();
+        });
         delete_btn.setOnAction(event -> deleteQuiz());
         {
             opnDay_comb.getItems().addAll(generatorFrom1(31));
@@ -161,14 +164,12 @@ public class GUI51Controller implements Initializable {
         }
         opn_ckb.setOnAction(event -> {
             if (opn_ckb.isSelected()){
-                System.out.println("Enable time open");
                 opnMin_comb.setDisable(false);
                 opnHour_comb.setDisable(false);
                 opnDay_comb.setDisable(false);
                 opnMonth_comb.setDisable(false);
                 opnYear_comb.setDisable(false);
             } else {
-                System.out.println("Disable time open");
                 opnMin_comb.setDisable(true);
                 opnHour_comb.setDisable(true);
                 opnDay_comb.setDisable(true);
@@ -178,14 +179,12 @@ public class GUI51Controller implements Initializable {
         });
         cls_ckb.setOnAction(event -> {
             if (cls_ckb.isSelected()){
-                System.out.println("Enable time close");
                 clsMin_comb.setDisable(false);
                 clsHour_comb.setDisable(false);
                 clsDay_comb.setDisable(false);
                 clsMonth_comb.setDisable(false);
                 clsYear_comb.setDisable(false);
             } else {
-                System.out.println("Disable time close");
                 clsMin_comb.setDisable(true);
                 clsHour_comb.setDisable(true);
                 clsDay_comb.setDisable(true);
@@ -195,11 +194,9 @@ public class GUI51Controller implements Initializable {
         });
         timeLimit_ckb.setOnAction(event -> {
             if (timeLimit_ckb.isSelected()){
-                System.out.println("Enable time limit");
                 timeLimit_fld.setDisable(false);
                 timeLimit_comb.setDisable(false);
             } else {
-                System.out.println("Disable time limit");
                 timeLimit_fld.setDisable(true);
                 timeLimit_comb.setDisable(true);
             }

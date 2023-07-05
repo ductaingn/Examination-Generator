@@ -2,7 +2,6 @@ package Controllers;
 
 import Models.Model;
 import Models.QQuestion;
-import Models.Question;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,11 +13,9 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 public class GUI21questionTabController extends GUI21Controller implements Initializable {
     @FXML
@@ -51,9 +48,10 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
     }
     //    connect database
     public Connection getConnection() {
+        Connection connection;
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
-            return conn;
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+            return connection;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

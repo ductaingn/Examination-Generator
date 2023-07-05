@@ -31,15 +31,11 @@ public class GUI74Controller extends GUI73Controller implements Initializable {
     @FXML
     private Label started_on;
     @FXML
-    private Label state;
-    @FXML
     private Label switch_lbl;
     @FXML
     private Label timeTaken;
     @FXML
     private Label title2_lbl;
-    public String beginTime;
-
 	public void getQuestionList(String quizID){
 		question_layout.getChildren().clear();
 		idData = quizID;
@@ -51,7 +47,7 @@ public class GUI74Controller extends GUI73Controller implements Initializable {
 				HBox hBox = loader.load();
 				GUI73questionController controller = loader.getController();
 				controller.setQuesDataAndAnswer(qQuestionList.get(quesRank));
-				controller.getChoiceList(qQuestionList.get(quesRank).getQuestion_id());
+				controller.getChoiceListAnswer(qQuestionList.get(quesRank).getQuestion_id());
 				controller.setStatusAnswer(isSelected[quesRank]);
 				question_layout.getChildren().add(hBox);
 			} catch (IOException e) {
@@ -59,16 +55,16 @@ public class GUI74Controller extends GUI73Controller implements Initializable {
 			}
 		}
 	}
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		getQuestionList(idData);
 		showNavi();
 		finishReview_btn.setOnAction(event -> showGUI11());
 		{
-			int seconds = 0;
-			int hours = 0;
-			int minutes = 0;
+			title2_lbl.setText(nameData);
+			marks.setText(diem + ".00/" + qQuestionList().size() + ".00");
+			grade.setText((float) Math.round((float) diem / qQuestionList().size() * 1000) / 100 + " out of 10.00 (" +(float) Math.round((float) diem /qQuestionList().size() * 10000) / 100 + "%)");
+			int seconds, hours, minutes;
 			if (timeTaken1 != null) {
 				seconds = timeTaken1;
 				hours = seconds / 3600;
@@ -94,6 +90,4 @@ public class GUI74Controller extends GUI73Controller implements Initializable {
 			}
 		}
 	}
-
-
 }
