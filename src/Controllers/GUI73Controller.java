@@ -76,7 +76,7 @@ public class GUI73Controller extends GUI73questionController implements Initiali
                 GUI73questionController controller = loader.getController();
                 controller.getInfo(this);
                 controller.setQuesData(qQuestionList.get(quesRank));
-                controller.getChoiceList(qQuestionList.get(quesRank).getQuestion_id());
+                controller.getChoiceList(qQuestionList.get(quesRank).getQuestion_id());  //TODO
 
                 question_layout.getChildren().add(hBox);
             }catch (IOException e){
