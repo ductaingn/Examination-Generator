@@ -54,6 +54,9 @@ public class GUI32paneController implements Initializable {
     public Button getSaveChanges_btn() {
         return saveChanges_btn;
     }
+    public Button getSaveAndContinue_btn() {
+        return saveAndContinue_btn;
+    }
     public void getComboBox() {
         String queryCategoryName = ""+
                 "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1),' ' ,node.name,' (', " +
@@ -192,10 +195,6 @@ public class GUI32paneController implements Initializable {
         getComboBox();
         insertKMoreChoices(2);
         cancel_btn.setOnAction(event -> showGUI21());
-        saveChanges_btn.setOnAction(event -> {
-            insertQuestion();
-            showGUI21();
-        });
         blanks_btn.setOnAction(event -> insertKMoreChoices(3));
     }
 }

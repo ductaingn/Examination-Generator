@@ -74,7 +74,12 @@ public class GUI32Controller implements Initializable {
                 e.printStackTrace();
             }
 
-            gui32paneController.getSaveChanges_btn().setOnAction(event -> gui32paneController.alterQuestion(questionId));
+            gui32paneController.getSaveChanges_btn().setOnAction(event -> {
+                gui32paneController.alterQuestion(questionId);
+                gui32paneController.showGUI21();
+            });
+            gui32paneController.getSaveAndContinue_btn().setOnAction(event ->
+                    gui32paneController.alterQuestion(questionId));
             gui32paneController.setCategory(categoryName);
             gui32paneController.setQuestionNameTextField(questionName);
             gui32paneController.setQuestionTextTextArea(questionText);
