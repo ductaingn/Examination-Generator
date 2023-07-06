@@ -24,9 +24,6 @@ public class GUI63aItemController implements Initializable {
         text_lbl.setText(qQuestion.getText());
         id_lbl.setText(qQuestion.getQuestion_id()+"");
     }
-    public void test() {
-        System.out.println("ac");
-    }
     public static Vector<String> prepareToAdd = new Vector<>();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
