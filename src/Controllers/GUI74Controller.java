@@ -2,10 +2,7 @@ package Controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -59,7 +56,11 @@ public class GUI74Controller extends GUI73Controller implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		getQuestionList(idData);
 		showNavi();
-		finishReview_btn.setOnAction(event -> showGUI11());
+		finishReview_btn.setOnAction(event -> {
+			myAnswer.clear();
+			myChoice.clear();
+			showGUI11();
+		});
 		{
 			title2_lbl.setText(nameData);
 			marks.setText(diem + ".00/" + qQuestionList().size() + ".00");

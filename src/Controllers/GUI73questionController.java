@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GUI73questionController {
@@ -68,7 +69,7 @@ public class GUI73questionController {
         return list;
     }
     public static boolean[] isSelected = new boolean[maxQues];
-    static final byte[] selected = new byte[maxQues];
+    public static int[] selected = new int[maxQues];
 
     public void setQuesData(QQuestion qQuestion) {
         questionNo_lbl.setText(quesRank+1 + "");
@@ -126,7 +127,9 @@ public class GUI73questionController {
         //dem so dap an dung, if dem = 1 -> single choice else multiple choice
         myAnswer.add(new ArrayList<>());
         myChoice.add(new ArrayList<>());
-        for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++){
+        Arrays.fill(isSelected, false);
+        Arrays.fill(selected, 0);
+         for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++){
             if (choiceList.get(choiceRank).getChoiceGrade() > 0.0) {
                 myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).add(myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size(), (char)(97 + choiceRank));
                 dem++;
@@ -140,7 +143,6 @@ public class GUI73questionController {
                 radioButton.setStyle("-fx-font-size: 16");
                 toggleGroup.getToggles().add(radioButton);
                 choice_layout.getChildren().add(radioButton);
-                //TODO deselected radioButton and set isSelected to false
             }
             toggleGroup.selectedToggleProperty().addListener(new ChangeListener<>() {
                 @Override

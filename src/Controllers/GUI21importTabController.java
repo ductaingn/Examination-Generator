@@ -182,7 +182,7 @@ public class GUI21importTabController implements Initializable {
                         Connection connection = getConnection();
                         Statement statement = connection.createStatement();
                         for (int i = 0; i < question_List.size(); i++) {
-                            statement.executeUpdate("INSERT INTO question(category_id, mark,name, text) VALUES (1, 1, '" + question_List.elementAt(i).questionText +"','" + question_List.elementAt(i).questionText + "');");
+                            statement.executeUpdate("INSERT INTO question(category_id, mark,name, text) VALUES (1, 1, '" + question_List.elementAt(i).questionText.substring(0,45) +"','" + question_List.elementAt(i).questionText + "');");
                             statement.executeUpdate("set @id = LAST_INSERT_ID();");
                             for (int j = 0; j < question_List.elementAt(i).choiceList.size(); j++) {
                                 if (question_List.elementAt(i).choiceList.elementAt(j).charAt(0) == question_List.elementAt(i).questionAnswer.charAt(8))
