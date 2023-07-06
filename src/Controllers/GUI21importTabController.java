@@ -226,7 +226,7 @@ public class GUI21importTabController implements Initializable {
                     count++;
                 } else if (count == 1) {
                     if (line.startsWith("A. ") || line.startsWith("B. ") || line.startsWith("C. ")
-                            || line.startsWith("D. ")) {
+                            || line.startsWith("D. ") || line.startsWith("E. ") || line.startsWith("F. ") || line.startsWith("G. ") || line.startsWith("H. ") || line.startsWith("I. ") || line.startsWith("K. ")) {
                         // TODO
                     	qs.choiceList.add(line);
                     } else {
