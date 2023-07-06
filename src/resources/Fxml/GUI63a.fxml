@@ -56,7 +56,7 @@
          </VBox>
       </HBox>
       <CheckBox fx:id="alsoShow_ckb" mnemonicParsing="false" stylesheets="@../Styles/CheckBox.css" text="Also show questions from sub category" />
-      <CheckBox mnemonicParsing="false" stylesheets="@../Styles/CheckBox.css" text="Also show old questions" />
+      <CheckBox fx:id="selectAll_ckb" mnemonicParsing="false" stylesheets="@../Styles/CheckBox.css" text="Select all" />
       <HBox maxWidth="880.0" minWidth="880.0" prefHeight="450.0" prefWidth="880.0">
          <ScrollPane fitToWidth="true" maxWidth="880.0" minWidth="880.0" prefHeight="450.0" prefWidth="880.0">
             <VBox fx:id="listQues" prefHeight="442.0" prefWidth="878.0" style="-fx-background-color: #FFFFFF;" />
