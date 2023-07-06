@@ -119,6 +119,14 @@ public class GUI21importTabController implements Initializable {
                 	Stage stage = (Stage)import_btn.getScene().getWindow();
                     Model.getInstance().getViewFactory().closeStage(stage);
                     Model.getInstance().getViewFactory().showGUI21();
+                    
+                    for(int i = 0; i < question_List.size(); i++) {
+                    	System.out.println(question_List.elementAt(i).questionText);
+                    	for(int j = 0; j < question_List.elementAt(i).choiceList.size(); j++) {
+                    		System.out.println(question_List.elementAt(i).choiceList.elementAt(j));
+                    	}
+                    	System.out.println(question_List.elementAt(i).questionAnswer);
+                    }
 
                     try {
                         Connection connection = getConnection();
@@ -205,74 +213,47 @@ public class GUI21importTabController implements Initializable {
     }
     // Check Aiken format
     public boolean checkAndAddAikenStructure(String filePath) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(filePath));
-        String line; // Các
-        boolean isValid = true; // Bool check
-
-        // Dùng để Check Choice format
-        String regex = "[A-Z]\\.";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher;
-        // --------//
-        
-        Question qs = new Question();
-        
-        while ((line = reader.readLine()) != null) {
-            if (!line.isEmpty()) {
-                if (line.startsWith("Câu")) {
-                    if (!isValidQuestionFormat(line)) {
-                        isValid = false;
-                        break;
+    	try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line = "";
+            Question qs = new Question();
+            
+            // Kiểm tra các dòng tiếp theo theo định dạng Aiken
+            int count = 0;
+            while ((line = reader.readLine()) != null) {
+                if (count == 0) {
+                    // TODO
+                	qs.questionText = line; 
+                    count++;
+                } else if (count == 1) {
+                    if (line.startsWith("A. ") || line.startsWith("B. ") || line.startsWith("C. ")
+                            || line.startsWith("D. ")) {
+                        // TODO
+                    	qs.choiceList.add(line);
                     } else {
-                        qs.questionText = line;     //TODO
+                        if (line.startsWith("ANSWER: ")) {
+                            // TODO
+                        	qs.questionAnswer = line;
+                        	question_List.add(qs);
+                        	qs = new Question();
+                            count++;
+                        } else {
+                            return false;
+                        }
                     }
-                } else if (line.startsWith("ANSWER:")) {
-                    if (!isValidAnswerFormat(line)) {
-                        isValid = false;
-                        break;
+                } else if (count == 2) {
+                    if (!line.isEmpty()) {
+                        return false;
                     } else {
-                    	qs.questionAnswer = line;
-                        question_List.add(qs);
-                        qs = new Question();
-                        
-                    }
-                } else {
-                    if (!isValidChoiceFormat(line)) {
-                        isValid = false;
-                        break;
-                    } else {
-                        qs.choiceList.add(line);
+                        count = 0;
                     }
                 }
             }
+
+            // Đã kiểm tra qua tất cả các điều kiện, file đúng định dạng Aiken
+            return true;
+        } catch (IOException e) {
+            System.out.println("Đã xảy ra lỗi khi đọc file: " + e.getMessage());
+            return false;
         }
-
-        reader.close();
-        
-        return isValid;
-    }
-
-    // Check answer format
-    private static boolean isValidAnswerFormat(String line) {
-        Pattern pattern = Pattern.compile("^ANSWER: [A-Z]$");
-        Matcher matcher = pattern.matcher(line);
-        return matcher.matches();
-    }
-    // --------------------//
-
-    // Check questions format
-    private static boolean isValidQuestionFormat(String line) {
-        Pattern pattern = Pattern.compile("^Câu \\d+: .+");
-        Matcher matcher = pattern.matcher(line);
-        return matcher.matches();
-    }
-    // --------------------//
-    // Check choice format
-    private static boolean isValidChoiceFormat(String line) {
-        Pattern pattern = Pattern.compile("^[A-Z]\\..*");
-        Matcher matcher = pattern.matcher(line);
-        Pattern pattern2 = Pattern.compile("^[A-Z]\\).*");
-        Matcher matcher2 = pattern2.matcher(line);
-        return  (matcher.matches() || matcher2.matches());
     }
 }
