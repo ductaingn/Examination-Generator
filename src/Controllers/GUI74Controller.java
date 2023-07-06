@@ -56,11 +56,6 @@ public class GUI74Controller extends GUI73Controller implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		getQuestionList(idData);
 		showNavi();
-		finishReview_btn.setOnAction(event -> {
-			myAnswer.clear();
-			myChoice.clear();
-			showGUI11();
-		});
 		{
 			title2_lbl.setText(nameData);
 			marks.setText(diem + ".00/" + qQuestionList().size() + ".00");
@@ -90,5 +85,11 @@ public class GUI74Controller extends GUI73Controller implements Initializable {
 				System.out.println(formattedDateTime1);
 			}
 		}
+		finishReview_btn.setOnAction(event -> {
+			myAnswer.clear();
+			myChoice.clear();
+			diem = 0;
+			showGUI11();
+		});
 	}
 }
