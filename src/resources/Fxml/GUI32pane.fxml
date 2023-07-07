@@ -105,6 +105,30 @@
             </HBox.margin>
          </TextField>
       </HBox>
+      <VBox alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER">
+               <children>
+                  <Button fx:id="blanks_btn1" mnemonicParsing="false" style="-fx-background-color: #192a56;" text="Insert Picture" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="8.0" right="8.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="blanks_btn11" mnemonicParsing="false" style="-fx-background-color: #192a56;" text="Insert Video" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="8.0" right="8.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
       <VBox fx:id="choicesLayout" prefWidth="740.0" spacing="10.0">
          <AnchorPane>
             <opaqueInsets>
