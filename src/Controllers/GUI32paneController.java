@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
@@ -43,11 +44,14 @@ public class GUI32paneController implements Initializable {
     @FXML
     private VBox videoVBox;
     @FXML
+    private VBox pictureVBox;
+    @FXML
     private Button insertPictureButton;
     @FXML
     private Button insertVideoButton;
     private Vector<GUI32ChoiceController> choicesControllers = new Vector<>();
     private GUI32MediaPaneController gui32MediaPaneController = new GUI32MediaPaneController();
+    private GUI32PicturePaneController gui32PicturePaneController = new GUI32PicturePaneController();
 
     public Connection getConnection() {
         Connection connection;
@@ -120,6 +124,19 @@ public class GUI32paneController implements Initializable {
         gui32MediaPaneController.setMediaView(link);
         gui32MediaPaneController.setParentController(this);
     }
+    public void setQuestionPictureView(InputStream inputStream){
+        FXMLLoader loader= new FXMLLoader();
+        loader.setLocation(getClass().getResource("/resources/Fxml/GUI32PicturePane.fxml"));
+        try {
+            VBox vBox = loader.load();
+            gui32PicturePaneController = loader.getController();
+            pictureVBox.getChildren().add(vBox);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        gui32PicturePaneController.setParentController(this);
+        gui32PicturePaneController.setImageView(inputStream);
+    }
 
     public void insertVideo(){
         removeVideo();
@@ -140,20 +157,20 @@ public class GUI32paneController implements Initializable {
     }
 
     public void insertPicture(){
-        if(videoVBox.getChildren().size()>1){
-            removeVideo();
-        }
         FXMLLoader loader= new FXMLLoader();
-        loader.setLocation(getClass().getResource("/resources/Fxml/GUI32MediaPane.fxml"));
+        loader.setLocation(getClass().getResource("/resources/Fxml/GUI32PicturePane.fxml"));
         try {
             VBox vBox = loader.load();
-            gui32MediaPaneController = loader.getController();
-            videoVBox.getChildren().add(vBox);
+            gui32PicturePaneController = loader.getController();
+            pictureVBox.getChildren().add(vBox);
         }catch (Exception e){
             e.printStackTrace();
         }
-        gui32MediaPaneController.setMediaView();
-        gui32MediaPaneController.setParentController(this);
+        gui32PicturePaneController.setImageView();
+        gui32PicturePaneController.setParentController(this);
+    }
+    public void removePicture(){
+        pictureVBox.getChildren().clear();
     }
 
     //Insert Question into Database
@@ -170,7 +187,7 @@ public class GUI32paneController implements Initializable {
             categorySet.next();
             Integer categoryId = Integer.parseInt(categorySet.getString("category_id"));
 
-            statement.executeUpdate("insert into question (name,text,mark,category_id,mediaLink)"
+            statement.executeUpdate("insert into question (name,text,mark,category_id,mediaLink,image)"
                 + "value ('" + questionNameTextField.getText() + "','"
                 + questionTextTextArea.getText() + "','"
                 + Integer.parseInt(questionMarkTextField.getText()) + "','"
@@ -181,6 +198,7 @@ public class GUI32paneController implements Initializable {
             questionIdSet.next();
             Integer questionId= Integer.parseInt(questionIdSet.getString("last_insert_id()"));
             System.out.println("Inserted Successfully, Question ID: " + questionId);
+            gui32PicturePaneController.insertPicture(questionId);
 
             for(int i=0;i<choicesControllers.size();i++){
                 choicesControllers.get(i).insertChoice(questionId);
@@ -213,6 +231,7 @@ public class GUI32paneController implements Initializable {
             preparedStatement.setInt(6,questionId);
             preparedStatement.executeUpdate();
             preparedStatement.close();
+            gui32PicturePaneController.insertPicture(questionId);
 
             //Alter choices by removing old choices in Database then insert new ones
             choicesControllers.get(0).removeChoice(questionId);
@@ -253,6 +272,7 @@ public class GUI32paneController implements Initializable {
         getComboBox();
         insertKMoreChoices(2);
         insertVideoButton.setOnAction(event -> insertVideo());
+        insertPictureButton.setOnAction(event -> insertPicture());
         cancel_btn.setOnAction(event -> showGUI21());
         blanks_btn.setOnAction(event -> insertKMoreChoices(3));
         saveChanges_btn.setOnAction(event -> insertQuestion());

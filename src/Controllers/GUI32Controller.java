@@ -55,6 +55,7 @@ public class GUI32Controller implements Initializable {
             String questionName = "";
             String questionText = "";
             String questionMediaLink = "";
+            InputStream questionImageInputStream=null;
             int questionMark=0;
             try{
                 Connection connection = getConnection();
@@ -66,6 +67,7 @@ public class GUI32Controller implements Initializable {
                 questionText=resultSet.getString("text");
                 questionMark=resultSet.getInt("mark");
                 questionMediaLink=resultSet.getString("mediaLink");
+                questionImageInputStream=resultSet.getBinaryStream("image");
                 query="SELECT * FROM category WHERE category_id = "+ resultSet.getInt("category_id")+" ;";
                 resultSet=connection.createStatement().executeQuery(query);
                 resultSet.next();
@@ -88,6 +90,9 @@ public class GUI32Controller implements Initializable {
             gui32paneController.setQuestionMarkTextField(questionMark);
             if(questionMediaLink!=null){
                 gui32paneController.setQuestionMediaView(questionMediaLink);
+            }
+            if(questionImageInputStream!=null){
+                gui32paneController.setQuestionPictureView(questionImageInputStream);
             }
 
             //Load Choices
