@@ -43,13 +43,12 @@ public class ViewFactory {
     }
     public void showGUI73() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI73.fxml"));
-        createStage(loader);
+        createFullScreenStage(loader);
     }
     public void showGUI74() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI74.fxml"));
-        createStage(loader);
+        createFullScreenStage(loader);
     }
-
     public void createStage(FXMLLoader loader) {
         Scene scene = null;
         try {
@@ -59,7 +58,18 @@ public class ViewFactory {
         }
         Stage stage = new Stage();
         stage.setScene(scene);
-//        stage.setResizable(false);
+        stage.show();
+    }
+    public void createFullScreenStage(FXMLLoader loader){
+        Scene scene = null;
+        try {
+            scene = new Scene(loader.load());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
     }
     public void closeStage(Stage stage) {
