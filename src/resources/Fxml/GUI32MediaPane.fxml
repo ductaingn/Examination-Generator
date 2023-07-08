@@ -7,15 +7,14 @@
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="720.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI32MediaPaneController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="720.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI32MediaPaneController">
    <children>
       <MediaView fx:id="mediaView" fitHeight="400.0" fitWidth="720.0" />
       <HBox alignment="CENTER" prefWidth="200.0">
          <children>
             <Button fx:id="playButton" mnemonicParsing="false" text="Play">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
                <HBox.margin>
                   <Insets left="30.0" right="30.0" />
@@ -23,7 +22,7 @@
             </Button>
             <Button fx:id="pauseButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Pause">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
                <HBox.margin>
                   <Insets left="30.0" right="30.0" />
@@ -31,7 +30,7 @@
             </Button>
             <Button fx:id="replayButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" text="Replay">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
                <HBox.margin>
                   <Insets left="30.0" right="30.0" />
@@ -45,5 +44,10 @@
             <Insets bottom="8.0" top="8.0" />
          </padding>
       </HBox>
+      <VBox alignment="CENTER_RIGHT">
+         <children>
+            <Button fx:id="removeVideoButton" mnemonicParsing="false" style="-fx-background-color: #192a56;" text="Remove Video" textFill="WHITE" />
+         </children>
+      </VBox>
    </children>
 </VBox>

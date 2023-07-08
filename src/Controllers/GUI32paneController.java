@@ -38,7 +38,16 @@ public class GUI32paneController implements Initializable {
     private TextField questionNameTextField;
     @FXML
     private TextArea questionTextTextArea;
+    @FXML
+    private VBox mediaVBox;
+    @FXML
+    private VBox videoVBox;
+    @FXML
+    private Button insertPictureButton;
+    @FXML
+    private Button insertVideoButton;
     private Vector<GUI32ChoiceController> choicesControllers = new Vector<>();
+    private GUI32MediaPaneController gui32MediaPaneController = new GUI32MediaPaneController();
 
     public Connection getConnection() {
         Connection connection;
@@ -50,7 +59,6 @@ public class GUI32paneController implements Initializable {
             return null;
         }
     }
-
     public Button getSaveChanges_btn() {
         return saveChanges_btn;
     }
@@ -99,6 +107,54 @@ public class GUI32paneController implements Initializable {
             }
         }
     }
+    public void setQuestionMediaView(String link){
+        FXMLLoader loader= new FXMLLoader();
+        loader.setLocation(getClass().getResource("/resources/Fxml/GUI32MediaPane.fxml"));
+        try {
+            VBox vBox = loader.load();
+            gui32MediaPaneController = loader.getController();
+            videoVBox.getChildren().add(vBox);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        gui32MediaPaneController.setMediaView(link);
+        gui32MediaPaneController.setParentController(this);
+    }
+
+    public void insertVideo(){
+        removeVideo();
+        FXMLLoader loader= new FXMLLoader();
+        loader.setLocation(getClass().getResource("/resources/Fxml/GUI32MediaPane.fxml"));
+        try {
+            VBox vBox = loader.load();
+            gui32MediaPaneController = loader.getController();
+            videoVBox.getChildren().add(vBox);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        gui32MediaPaneController.setMediaView();
+        gui32MediaPaneController.setParentController(this);
+    }
+    public void removeVideo(){
+        videoVBox.getChildren().clear();
+    }
+
+    public void insertPicture(){
+        if(videoVBox.getChildren().size()>1){
+            removeVideo();
+        }
+        FXMLLoader loader= new FXMLLoader();
+        loader.setLocation(getClass().getResource("/resources/Fxml/GUI32MediaPane.fxml"));
+        try {
+            VBox vBox = loader.load();
+            gui32MediaPaneController = loader.getController();
+            videoVBox.getChildren().add(vBox);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        gui32MediaPaneController.setMediaView();
+        gui32MediaPaneController.setParentController(this);
+    }
 
     //Insert Question into Database
     public void insertQuestion(){
@@ -114,11 +170,12 @@ public class GUI32paneController implements Initializable {
             categorySet.next();
             Integer categoryId = Integer.parseInt(categorySet.getString("category_id"));
 
-            statement.executeUpdate("insert into question (name,text,mark,category_id)"
+            statement.executeUpdate("insert into question (name,text,mark,category_id,mediaLink)"
                 + "value ('" + questionNameTextField.getText() + "','"
                 + questionTextTextArea.getText() + "','"
                 + Integer.parseInt(questionMarkTextField.getText()) + "','"
-                + categoryId +"');" );
+                + categoryId + "','"
+                + gui32MediaPaneController.getMediaLink() + "');" );
 
             ResultSet questionIdSet = statement.executeQuery("select last_insert_id();");
             questionIdSet.next();
@@ -146,13 +203,14 @@ public class GUI32paneController implements Initializable {
             categorySet.next();
             Integer categoryId = Integer.parseInt(categorySet.getString("category_id"));
 
-            String query = "UPDATE test.question SET category_id=?, name=?, text=?, mark=? WHERE question_id=?;";
+            String query = "UPDATE test.question SET category_id=?, name=?, text=?, mark=?, mediaLink=? WHERE question_id=?;";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1,categoryId);
             preparedStatement.setString(2,questionNameTextField.getText());
             preparedStatement.setString(3,questionTextTextArea.getText());
             preparedStatement.setInt(4,Integer.parseInt(questionMarkTextField.getText()));
-            preparedStatement.setInt(5,questionId);
+            preparedStatement.setString(5, gui32MediaPaneController.getMediaLink());
+            preparedStatement.setInt(6,questionId);
             preparedStatement.executeUpdate();
             preparedStatement.close();
 
@@ -194,7 +252,9 @@ public class GUI32paneController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getComboBox();
         insertKMoreChoices(2);
+        insertVideoButton.setOnAction(event -> insertVideo());
         cancel_btn.setOnAction(event -> showGUI21());
         blanks_btn.setOnAction(event -> insertKMoreChoices(3));
+        saveChanges_btn.setOnAction(event -> insertQuestion());
     }
 }
