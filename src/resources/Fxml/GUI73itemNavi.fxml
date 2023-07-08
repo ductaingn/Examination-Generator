@@ -10,4 +10,5 @@
           <Font name="System Bold" size="15.0" />
         </font>
     </Label>
+   <VBox prefHeight="18.0" />
 </VBox>

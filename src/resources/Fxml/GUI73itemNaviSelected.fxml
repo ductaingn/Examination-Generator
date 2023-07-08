@@ -4,10 +4,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="isSelected_vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="36.0" style="-fx-border-color: #192a56; -fx-border-width: 3px; -fx-background-color: #ccae62;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI73itemNaviController">
+<VBox fx:id="isSelected_vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="36.0" style="-fx-border-color: #192a56; -fx-border-width: 3px; -fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI73itemNaviController">
     <Label fx:id="quesNo_navi_lbl" text="67" textFill="#192a56">
         <font>
           <Font name="System Bold" size="15.0" />
         </font>
     </Label>
+   <VBox prefHeight="18.0" style="-fx-background-color: #7f8fa6;" />
 </VBox>
