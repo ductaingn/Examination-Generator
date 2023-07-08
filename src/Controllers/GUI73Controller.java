@@ -76,15 +76,13 @@ public class GUI73Controller extends GUI73questionController implements Initiali
                 GUI73questionController controller = loader.getController();
                 controller.getInfo(this);
                 controller.setQuesData(qQuestionList.get(quesRank));
-                controller.getChoiceList(qQuestionList.get(quesRank).getQuestion_id());  //TODO
-
+                controller.setChoiceList(quesRank);
                 question_layout.getChildren().add(hBox);
             }catch (IOException e){
                 throw new RuntimeException(e);
             }
         }
     }
-
     public void showNavi(int k){
         quizNavigation_vbox.getChildren().clear();
         int dem = 0;
@@ -135,13 +133,14 @@ public class GUI73Controller extends GUI73questionController implements Initiali
   
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (idData != null) {
+            getchoiceList();
+            getQuestionList(idData);
+            showNavi(qQuestionList().size());
+        }
         LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         startedTime = now.format(formatter);
-
-        getQuestionList(idData);
-        showNavi(qQuestionList().size());
-
         title2_lbl.setText(nameData);
         time_lbl.setText("0:00:00");
         finishAttempt_btn.setOnAction(event -> {

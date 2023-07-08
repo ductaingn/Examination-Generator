@@ -20,6 +20,8 @@ import java.util.*;
 
 public class GUI62aController extends GUI62aItemController implements Initializable{
     @FXML
+    private Button save_btn;
+    @FXML
     private CheckBox shuffle_ckb;
     @FXML
     private MenuItem aRandomQues_mit;
@@ -101,25 +103,6 @@ public class GUI62aController extends GUI62aItemController implements Initializa
             }
         }
     }
-    public void getQuestionList(String quizId, List shuffle_list){
-        listQues.getChildren().clear();
-        quiz_id_data = quizId;
-        List<QQuestion> shuffle = new ArrayList<>(shuffle_list);
-        numOfQues_lbl.setText(""+shuffle_list.size());
-        totalMark_lbl.setText(shuffle_list.size()+".00");
-        for (rank = 0; rank < shuffle_list.size(); rank++) {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/resources/Fxml/GUI62aItem.fxml"));
-            try {
-                HBox hBox = loader.load();
-                GUI62aItemController itemController62 = loader.getController();
-                itemController62.setData(shuffle.get(rank));
-                listQues.getChildren().add(hBox);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
     public void getTitle(String quizName) {
         nameData = quizName;
         title_lbl.setText("Editting quiz: " + quizName);
@@ -137,24 +120,42 @@ public class GUI62aController extends GUI62aItemController implements Initializa
             throw new RuntimeException(e);
         }
     }
+    public void setShuffle() {
+        Connection connection = getConnection();
+        String query;
+        if (shuffle_ckb.isSelected()) query = "UPDATE quiz SET isShuffle = 1 WHERE quiz_id = " + quiz_id_data + ";";
+            else query = "UPDATE quiz SET isShuffle = 0 WHERE quiz_id = " + quiz_id_data + ";";
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void getShuffleCkb() {
+        if (quiz_id_data != null) {
+            Connection connection = getConnection();
+            String query = "SELECT isShuffle FROM quiz WHERE quiz_id = " + quiz_id_data + ";";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                resultSet.next();
+                if (resultSet.getBoolean("isShuffle")) shuffle_ckb.setSelected(true);
+                else shuffle_ckb.setSelected(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getTitle(nameData);
         getQuestionList(quiz_id_data);
+        getShuffleCkb();
         home_btn.setOnAction(event -> showGUI11());
         quiz_btn.setOnAction(event -> showGUI61());
         fromQuesBank_mit.setOnAction(event -> showGUI63a());
         aRandomQues_mit.setOnAction(event -> showGUI65());
-        shuffle_ckb.setOnAction(event -> {
-            if (shuffle_ckb.isSelected()) {
-                List shuffle_list = qQuestionList();
-                Collections.shuffle(shuffle_list);
-                getQuestionList(quiz_id_data, shuffle_list);
-                System.out.println("shuffle list");
-            } else {
-                getQuestionList(quiz_id_data);
-                System.out.println("non-shuffle list");
-            }
-        });
+        save_btn.setOnAction(event -> setShuffle());
     }
 }
