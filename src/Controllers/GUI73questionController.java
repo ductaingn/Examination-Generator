@@ -6,15 +6,17 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class GUI73questionController {
     GUI73Controller parent;
@@ -31,7 +33,6 @@ public class GUI73questionController {
     public Label questionNo_lbl;
     @FXML
     private VBox choice_layout;
-    public static int diem;
     public Connection getConnection() {
         Connection connection;
         try {
@@ -43,11 +44,10 @@ public class GUI73questionController {
         }
     }
     public static String idData;
-    public static int quesRank = 0, choiceRank = 0, quesId, maxQues = 100;
-
+    public static int quesRank = 0, choiceRank = 0, quesId, maxQues = 100, diem;
     public static ArrayList<ArrayList<Character>> myAnswer = new ArrayList<>();
     public static ArrayList<ArrayList<Character>> myChoice = new ArrayList<>();
-
+    public static ArrayList<ArrayList<Choice>> choiceList = new ArrayList<>();
     public List<QQuestion> qQuestionList() {
         Connection connection = getConnection();
         String query = "SELECT text, q.question_id FROM question q, ques_quiz qq " +
@@ -70,7 +70,6 @@ public class GUI73questionController {
     }
     public static boolean[] isSelected = new boolean[maxQues];
     public static int[] selected = new int[maxQues];
-
     public void setQuesData(QQuestion qQuestion) {
         questionNo_lbl.setText(quesRank+1 + "");
         question_text_lbl.setText(qQuestion.getText());
@@ -78,7 +77,7 @@ public class GUI73questionController {
     public void setQuesDataAndAnswer(QQuestion qQuestion) {
         questionNo_lbl.setText(quesRank+1 + "");
         question_text_lbl.setText(qQuestion.getText());
-
+        System.out.println(qQuestion.getText()); //TODO pdf
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/resources/Fxml/GUI74correctAnswer.fxml"));
         VBox vBox = new VBox();
@@ -99,47 +98,83 @@ public class GUI73questionController {
         if (check) isAnswer_lbl.setText("Answered");
         else isAnswer_lbl.setText("Not answered");
     }
-    private List<Choice> choiceList() {
+    public boolean shuffleCheck() {
         Connection connection = getConnection();
-        String query = "SELECT content, grade FROM choice " +
-                "WHERE question_id = " + quesId;
-        List<Choice> list = new ArrayList<>();
-        Choice choice;
+        String query = "SELECT isShuffle FROM quiz WHERE quiz_id = " + idData;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                choice = new Choice();
+            if (resultSet.next())
+                if (resultSet.getBoolean("isShuffle")) return true;
+                    else return false;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public void getchoiceList() {
+//        lay cac choice tu database
+        choiceList.clear();
+        myAnswer.clear();
+        myChoice.clear();
+        Connection connection = getConnection();
+        String query = "SELECT choice.content, choice.grade, question.question_id " +
+                "FROM choice, question, ques_quiz " +
+                "WHERE choice.question_id = question.question_id AND " +
+                "question.question_id = ques_quiz.question_id AND ques_quiz.quiz_id = " + idData +
+                " order by question_id;";
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            int currentQuesID, numOfQues = 0;
+            {
+                resultSet.next();
+                Choice choice = new Choice();
                 choice.setChoiceText(resultSet.getString("content"));
                 choice.setChoiceGrade(resultSet.getDouble("grade"));
-                list.add(choice);
+                currentQuesID = resultSet.getInt("question_id");
+                choiceList.add(new ArrayList<>());
+                choiceList.get(numOfQues).add(choice);
+            }
+            while (resultSet.next()) {
+                Choice choice = new Choice();
+                choice.setChoiceText(resultSet.getString("content"));
+                choice.setChoiceGrade(resultSet.getDouble("grade"));
+                if (resultSet.getInt("question_id") == currentQuesID) {
+                    choiceList.get(numOfQues).add(choice);
+                } else {
+                    currentQuesID = resultSet.getInt("question_id");
+                    numOfQues++;
+                    choiceList.add(new ArrayList<>());
+                    choiceList.get(numOfQues).add(choice);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+        for (int i = 0; i < choiceList.size(); i++) {
+            if (shuffleCheck()) Collections.shuffle(choiceList.get(i));
+        }
     }
-    public void getChoiceList(int quesID){
+    public void setChoiceList(int i){
         choice_layout.getChildren().clear();
-        quesId = quesID;
-        List<Choice> choiceList = new ArrayList<>(choiceList());
-        int dem = 0;
         //dem so dap an dung, if dem = 1 -> single choice else multiple choice
         myAnswer.add(new ArrayList<>());
         myChoice.add(new ArrayList<>());
         Arrays.fill(isSelected, false);
         Arrays.fill(selected, 0);
-         for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++){
-            if (choiceList.get(choiceRank).getChoiceGrade() > 0.0) {
-                myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).add(myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size(), (char)(97 + choiceRank));
-                dem++;
+        int countCorrectAnswer = 0;
+        for (int j = 0; j < choiceList.get(i).size(); j++){     //duyet tung dap an trong 1 cau hoi
+            if (choiceList.get(i).get(j).getChoiceGrade() > 0){
+                myAnswer.get(i).add((char)(97+j));
+                countCorrectAnswer++;
             }
         }
-
-        if (dem == 1) {
+        if (countCorrectAnswer == 1) {
             ToggleGroup toggleGroup = new ToggleGroup();
-            for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++) {
-                RadioButton radioButton = new RadioButton((char)(97 + choiceRank) + ".  " + choiceList.get(choiceRank).getChoiceText());
+            for (int j = 0; j < choiceList.get(i).size(); j++) {
+                RadioButton radioButton = new RadioButton((char)(97 + j) + ".  " + choiceList.get(i).get(j).getChoiceText());
+                radioButton.setWrapText(true);
                 radioButton.setStyle("-fx-font-size: 16");
                 toggleGroup.getToggles().add(radioButton);
                 choice_layout.getChildren().add(radioButton);
@@ -157,11 +192,11 @@ public class GUI73questionController {
                 }
             });
         } else {
-            for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++) {
-                CheckBox checkBox = new CheckBox((char)(97 + choiceRank) + ".  " + choiceList.get(choiceRank).getChoiceText());
+            for (int j = 0; j < choiceList.get(i).size(); j++) {
+                CheckBox checkBox = new CheckBox((char)(97 + j) + ".  " + choiceList.get(i).get(j).getChoiceText());
+                checkBox.setWrapText(true);
                 checkBox.setStyle("-fx-font-size: 16");
                 choice_layout.getChildren().add(checkBox);
-
                 checkBox.selectedProperty().addListener(new ChangeListener<>() {
                     @Override
                     public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -180,46 +215,89 @@ public class GUI73questionController {
             }
         }
     }
-    public void getChoiceListAnswer(int quesID){
+    public Image trueImage = new Image("/resources/Image/true.png");
+    public Image falseImage = new Image("/resources/Image/false.png");
+    public ImageView getTrueImage(){
+        ImageView trueIv = new ImageView();
+        trueIv.setImage(trueImage);
+        trueIv.setFitHeight(16);
+        trueIv.setFitWidth(16);
+        trueIv.setSmooth(true);
+        trueIv.setPreserveRatio(true);
+        trueIv.setCache(true);
+        return trueIv;
+    }
+    public ImageView getFalseImage(){
+        ImageView falseIv = new ImageView();
+        falseIv.setImage(falseImage);
+        falseIv.setFitHeight(14);
+        falseIv.setFitWidth(14);
+        falseIv.setSmooth(true);
+        falseIv.setPreserveRatio(true);
+        falseIv.setCache(true);
+        return falseIv;
+    }
+
+    public void setChoiceListAnswer(int i){
         choice_layout.getChildren().clear();
-        quesId = quesID;
-        List<Choice> choiceList = new ArrayList<>(choiceList());
-        int dem = 0;
-        for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++){
-            if (choiceList.get(choiceRank).getChoiceGrade() > 0.0) {
-                dem++;
+        int countCorrectAnswer = 0;
+        for (int j = 0; j < choiceList.get(i).size(); j++){
+            if (choiceList.get(i).get(j).getChoiceGrade() > 0.0) {
+                countCorrectAnswer++;
             }
         }
-        if (dem == 1) {
-            for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++) {
-                RadioButton radioButton = new RadioButton((char)(97 + choiceRank) + ".  " + choiceList.get(choiceRank).getChoiceText());
+        if (countCorrectAnswer == 1) {
+            for (int j = 0; j < choiceList.get(i).size(); j++) {
+                HBox hBox = new HBox(5);
+                hBox.setAlignment(Pos.CENTER_LEFT);
+                RadioButton radioButton = new RadioButton((char)(97 + j) + ".  " + choiceList.get(i).get(j).getChoiceText());
+                System.out.println((char)(97 + j) + ".  " + choiceList.get(i).get(j).getChoiceText()); //TODO pdf
                 radioButton.setStyle("-fx-font-size: 16");
+                radioButton.setWrapText(true);
+                hBox.getChildren().add(radioButton);
                 if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() > 0) {
-                    if ((char) (97 + choiceRank) == myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).get(0)) {
+                    if ((char) (97 + j) == myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).get(0)) {
                         radioButton.setSelected(true);
+                        if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).equals(myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1))
+                                && myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() > 0) {
+                            diem++;
+                            hBox.getChildren().add(getTrueImage());
+                        } else {
+                            hBox.getChildren().add(getFalseImage());
+                        }
                     }
                 }
                 radioButton.setDisable(true);
-                choice_layout.getChildren().add(radioButton);
+                choice_layout.getChildren().add(hBox);
             }
         } else {
-            for (choiceRank = 0; choiceRank < choiceList.size(); choiceRank++) {
-                CheckBox checkBox = new CheckBox((char)(97 + choiceRank) + ".  " + choiceList.get(choiceRank).getChoiceText());
+            for (int j = 0; j < choiceList.get(i).size(); j++) {
+                HBox hBox = new HBox(5);
+                hBox.setAlignment(Pos.CENTER_LEFT);
+                CheckBox checkBox = new CheckBox((char)(97 + j) + ".  " + choiceList.get(i).get(j).getChoiceText());
+                System.out.println((char)(97 + j) + ".  " + choiceList.get(i).get(j).getChoiceText()); //TODO pdf
+                checkBox.setWrapText(true);
+                hBox.getChildren().add(checkBox);
                 checkBox.setStyle("-fx-font-size: 16");
                 if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() > 0) {
-                    for (int i = 0; i < myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size(); i++) {
-                        if ((char) (97 + choiceRank) == myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).get(i)) {
+                    for (int k = 0; k < myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size(); k++) {
+                        if ((char) (97 + j) == myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).get(k)) {
                             checkBox.setSelected(true);
+                            if ((myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).contains((char)(97+j)))) {
+                                hBox.getChildren().add(getTrueImage());
+                            } else {
+                                hBox.getChildren().add(getFalseImage());
+                            }
                         }
                     }
                 }
                 checkBox.setDisable(true);
-                choice_layout.getChildren().add(checkBox);
+                choice_layout.getChildren().add(hBox);
             }
-        }
-        if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).equals(myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1))
-            && myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() > 0) {
-            diem++;
+            if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).equals(myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1))
+                    && myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() > 0) {
+                diem++;
+            }
         }
     }
 }

@@ -44,7 +44,7 @@ public class GUI74Controller extends GUI73Controller implements Initializable {
 				HBox hBox = loader.load();
 				GUI73questionController controller = loader.getController();
 				controller.setQuesDataAndAnswer(qQuestionList.get(quesRank));
-				controller.getChoiceListAnswer(qQuestionList.get(quesRank).getQuestion_id());
+				controller.setChoiceListAnswer(quesRank);
 				controller.setStatusAnswer(isSelected[quesRank]);
 				question_layout.getChildren().add(hBox);
 			} catch (IOException e) {
@@ -88,6 +88,8 @@ public class GUI74Controller extends GUI73Controller implements Initializable {
 		finishReview_btn.setOnAction(event -> {
 			myAnswer.clear();
 			myChoice.clear();
+			System.out.println(myAnswer);
+			System.out.println(myChoice);
 			diem = 0;
 			showGUI11();
 		});

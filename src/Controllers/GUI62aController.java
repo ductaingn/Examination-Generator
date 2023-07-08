@@ -133,16 +133,18 @@ public class GUI62aController extends GUI62aItemController implements Initializa
         }
     }
     public void getShuffleCkb() {
-        Connection connection = getConnection();
-        String query = "SELECT isShuffle FROM quiz WHERE quiz_id = " + quiz_id_data + ";";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            if (resultSet.getBoolean("isShuffle")) shuffle_ckb.setSelected(true);
+        if (quiz_id_data != null) {
+            Connection connection = getConnection();
+            String query = "SELECT isShuffle FROM quiz WHERE quiz_id = " + quiz_id_data + ";";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                resultSet.next();
+                if (resultSet.getBoolean("isShuffle")) shuffle_ckb.setSelected(true);
                 else shuffle_ckb.setSelected(false);
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
     @Override

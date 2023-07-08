@@ -150,7 +150,6 @@ public class GUI63aController extends GUI63aItemController implements Initializa
                 throw new RuntimeException(e);
             }
         }
-        //TODO
         comboBox.setOnAction(event -> {
             listQues.getChildren().clear();
             categoryName = comboBox.getValue().trim();
@@ -171,7 +170,6 @@ public class GUI63aController extends GUI63aItemController implements Initializa
                 }
             }
         });
-
         alsoShow_ckb.setOnAction(event -> {
             if (alsoShow_ckb.isSelected()) {
                 System.out.println("also show questions from sub categories");
@@ -236,6 +234,7 @@ public class GUI63aController extends GUI63aItemController implements Initializa
                         GUI63aItemController itemController = loader.getController();
                         itemController.setData(qQuestionList3.get(i));
                         itemController.question_cbx.setSelected(true);
+                        itemController.setQuestion_cbx();
                         listQues.getChildren().add(hBox);
                     }
                 } else {
@@ -257,6 +256,7 @@ public class GUI63aController extends GUI63aItemController implements Initializa
                         GUI63aItemController itemController = loader.getController();
                         itemController.setData(qQuestionList2.get(i));
                         itemController.question_cbx.setSelected(true);
+                        itemController.setQuestion_cbx();
                         listQues.getChildren().add(hBox);
                     }
                 }
