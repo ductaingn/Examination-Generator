@@ -24,6 +24,7 @@ public class GUI32PicturePaneController implements Initializable {
     private Button removePictureButton;
     private Image image;
     private GUI32paneController parentController;
+    private File imageFile=null;
     public Connection getConnection() {
         Connection connection;
         try {
@@ -45,6 +46,8 @@ public class GUI32PicturePaneController implements Initializable {
                 image = new Image(file.toURI().toString());
                 imageView.setImage(image);
             }
+            InputStream inputStream = new FileInputStream(file);
+            imageFile=file;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -62,22 +65,22 @@ public class GUI32PicturePaneController implements Initializable {
     }
     public void insertPicture(Integer questionId){
         try {
-            InputStream inputStream = null;
-            if(image!=null){
-                BufferedImage bufferedImage= SwingFXUtils.fromFXImage(image,null);
-                ByteArrayOutputStream os = new ByteArrayOutputStream();
-                ImageIO.write(bufferedImage,"gif", os);
-                inputStream = new ByteArrayInputStream(os.toByteArray());
-            }
-
             Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement("UPDATE test.question SET image=? WHERE question_id=?;");
-            statement.setBlob(1,inputStream);
-            statement.setInt(2,questionId);
-            statement.executeUpdate();
-            statement.close();
+            if(imageFile!=null){
+                InputStream inputStream = new FileInputStream(imageFile);
+                PreparedStatement statement = connection.prepareStatement("UPDATE test.question SET image=? WHERE question_id=?;");
+                statement.setBlob(1,inputStream);
+                statement.setInt(2,questionId);
+                statement.executeUpdate();
+                statement.close();
+            }
+            else{
+                PreparedStatement statement = connection.prepareStatement("UPDATE test.question SET image=NULL WHERE question_id=?;");
+                statement.setInt(1,questionId);
+                statement.executeUpdate();
+                statement.close();
+            }
             connection.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
