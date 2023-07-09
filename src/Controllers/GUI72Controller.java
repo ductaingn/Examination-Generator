@@ -11,9 +11,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
-public class GUI72Controller extends GUI74Controller implements Initializable {
+public class GUI72Controller implements Initializable {
     @FXML
     private Button cancel_btn;
     @FXML
@@ -46,10 +50,44 @@ public class GUI72Controller extends GUI74Controller implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    public Connection getConnection() {
+        Connection connection;
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+            return connection;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public void getInfo(String quiz_id, String quiz_name, String quiz_time) {
         idData = quiz_id;
         nameData = quiz_name;
         timeData = quiz_time;
+    }
+    public void getPdf(){
+        Connection connection = getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("" +
+                    "select qs.question_id, qs.text, c.content " +
+                    "from question qs join choice c on qs.question_id = c.question_id " +
+                    "join ques_quiz qq on qq.question_id = qs.question_id where qq.quiz_id = " + idData);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int currentId = 0; int count = 0;
+            while (resultSet.next()) {
+                if (resultSet.getInt("question_id") == currentId) {
+                    System.out.println((char)(98+count) + ".  " + resultSet.getString("content"));
+                    count++;
+                } else {
+                    System.out.println(resultSet.getString("text"));
+                    System.out.println("a.  " + resultSet.getString("content"));
+                    currentId = resultSet.getInt("question_id");
+                    count = 0;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -59,5 +97,9 @@ public class GUI72Controller extends GUI74Controller implements Initializable {
         cancel_btn.setOnAction(event -> showGUI61());
         close_btn.setOnAction(event -> showGUI61());
         start_btn.setOnAction(event -> showGUI73());
+        export_btn.setOnAction(event -> {
+            showGUI61();
+            getPdf();
+        });
     }
 }
