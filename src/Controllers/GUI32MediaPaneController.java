@@ -99,7 +99,6 @@ public class GUI32MediaPaneController implements Initializable {
     public void insertVideo(Integer questionId){
         try {
             Connection connection = getConnection();
-
             if(mediaLink!=null){
                 PreparedStatement statement = connection.prepareStatement("UPDATE test.question SET mediaLink=? WHERE question_id=?;");
                 statement.setString(1,mediaLink);
