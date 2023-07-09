@@ -57,16 +57,18 @@ public class GUI32PicturePaneController implements Initializable {
         return image;
     }
     public void removePicture(){
-        image =null;
+        image = null;
         parentController.removePicture();
     }
     public void insertPicture(Integer questionId){
         try {
             InputStream inputStream = null;
-            BufferedImage bufferedImage= SwingFXUtils.fromFXImage(image,null);
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage,"jpg", os);
-            inputStream = new ByteArrayInputStream(os.toByteArray());
+            if(image!=null){
+                BufferedImage bufferedImage= SwingFXUtils.fromFXImage(image,null);
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                ImageIO.write(bufferedImage,"gif", os);
+                inputStream = new ByteArrayInputStream(os.toByteArray());
+            }
 
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement("UPDATE test.question SET image=? WHERE question_id=?;");

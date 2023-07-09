@@ -187,7 +187,7 @@ public class GUI32paneController implements Initializable {
             categorySet.next();
             Integer categoryId = Integer.parseInt(categorySet.getString("category_id"));
 
-            statement.executeUpdate("insert into question (name,text,mark,category_id,mediaLink,image)"
+            statement.executeUpdate("insert into question (name,text,mark,category_id,mediaLink)"
                 + "value ('" + questionNameTextField.getText() + "','"
                 + questionTextTextArea.getText() + "','"
                 + Integer.parseInt(questionMarkTextField.getText()) + "','"
@@ -275,6 +275,13 @@ public class GUI32paneController implements Initializable {
         insertPictureButton.setOnAction(event -> insertPicture());
         cancel_btn.setOnAction(event -> showGUI21());
         blanks_btn.setOnAction(event -> insertKMoreChoices(3));
-        saveChanges_btn.setOnAction(event -> insertQuestion());
+        saveChanges_btn.setOnAction(event -> {
+            insertQuestion();
+            showGUI21();
+        });
+        saveAndContinue_btn.setOnAction(event -> {
+            insertQuestion();
+//            saveAndContinue_btn.setOnAction(event -> alterQuestion(questionID));
+        });
     }
 }
