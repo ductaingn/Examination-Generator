@@ -221,16 +221,16 @@ public class GUI32paneController implements Initializable {
             categorySet.next();
             Integer categoryId = Integer.parseInt(categorySet.getString("category_id"));
 
-            String query = "UPDATE test.question SET category_id=?, name=?, text=?, mark=?, mediaLink=? WHERE question_id=?;";
+            String query = "UPDATE test.question SET category_id=?, name=?, text=?, mark=? WHERE question_id=?;";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1,categoryId);
             preparedStatement.setString(2,questionNameTextField.getText());
             preparedStatement.setString(3,questionTextTextArea.getText());
             preparedStatement.setInt(4,Integer.parseInt(questionMarkTextField.getText()));
-            preparedStatement.setString(5, gui32MediaPaneController.getMediaLink());
-            preparedStatement.setInt(6,questionId);
+            preparedStatement.setInt(5,questionId);
             preparedStatement.executeUpdate();
             preparedStatement.close();
+            gui32MediaPaneController.insertVideo(questionId);
             gui32PicturePaneController.insertPicture(questionId);
 
             //Alter choices by removing old choices in Database then insert new ones

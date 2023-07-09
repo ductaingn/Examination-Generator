@@ -103,7 +103,7 @@ public class GUI32ChoiceController implements Initializable{
             if(image!=null){
                 BufferedImage bufferedImage= SwingFXUtils.fromFXImage(image,null);
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
-                ImageIO.write(bufferedImage,"jpg", os);
+                ImageIO.write(bufferedImage,"png", os);
                 inputStream = new ByteArrayInputStream(os.toByteArray());
             }
 
