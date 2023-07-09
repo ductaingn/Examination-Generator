@@ -1,12 +1,15 @@
 package Models;
 
+import javafx.scene.image.Image;
+
 public class QQuestion {
     private int question_id;
     private int category_id;
     private String name;
     private String text;
     private int mark;
-    private String image;
+    private Image image;
+    private String mediaLink;
 
     public int getCategory_id() {
         return category_id;
@@ -24,8 +27,16 @@ public class QQuestion {
         return mark;
     }
 
-    public String getImage() {
+    public String getMediaLink() {
+        return mediaLink;
+    }
+
+    public Image getImage() {
         return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public void setCategory_id(int category_id) {
@@ -44,8 +55,8 @@ public class QQuestion {
         this.mark = mark;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setMediaLink(String mediaLink) {
+        this.mediaLink = mediaLink;
     }
 
     public int getQuestion_id() {

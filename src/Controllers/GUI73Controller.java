@@ -134,7 +134,7 @@ public class GUI73Controller extends GUI73questionController implements Initiali
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (idData != null) {
-            getchoiceList();
+            getChoiceList();
             getQuestionList(idData);
             showNavi(qQuestionList().size());
         }

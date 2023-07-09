@@ -13,8 +13,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
 
@@ -33,6 +37,11 @@ public class GUI73questionController {
     public Label questionNo_lbl;
     @FXML
     private VBox choice_layout;
+    @FXML
+    private VBox videoVBox;
+    @FXML
+    private VBox imageVBox;
+
     public Connection getConnection() {
         Connection connection;
         try {
@@ -50,7 +59,7 @@ public class GUI73questionController {
     public static ArrayList<ArrayList<Choice>> choiceList = new ArrayList<>();
     public List<QQuestion> qQuestionList() {
         Connection connection = getConnection();
-        String query = "SELECT text, q.question_id FROM question q, ques_quiz qq " +
+        String query = "SELECT text, image, mediaLink, q.question_id FROM question q, ques_quiz qq " +
                 "WHERE q.question_id = qq.question_id AND qq.quiz_id = " + idData;
         List<QQuestion> list = new ArrayList<>();
         QQuestion qQuestion;
@@ -61,6 +70,15 @@ public class GUI73questionController {
                 qQuestion = new QQuestion();
                 qQuestion.setText(resultSet.getString("text"));
                 qQuestion.setQuestion_id(resultSet.getInt("question_id"));
+                InputStream inputStream = resultSet.getBinaryStream("image");
+                String videoLink = resultSet.getString("mediaLink");
+                if(inputStream!=null){
+                    Image image = new Image(inputStream);
+                    qQuestion.setImage(image);
+                }
+                if(videoLink!=null){
+                    qQuestion.setMediaLink(videoLink);
+                }
                 list.add(qQuestion);
             }
         } catch (Exception e) {
@@ -73,10 +91,62 @@ public class GUI73questionController {
     public void setQuesData(QQuestion qQuestion) {
         questionNo_lbl.setText(quesRank+1 + "");
         question_text_lbl.setText(qQuestion.getText());
+        if(qQuestion.getMediaLink()!=null){
+            try{
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/resources/Fxml/GUI32MediaPane.fxml"));
+                VBox vBox = loader.load();
+                vBox.getChildren().remove(vBox.getChildren().size()-1);//Xóa nút Remove Video
+                GUI32MediaPaneController gui32MediaPaneController = loader.getController();
+                gui32MediaPaneController.setMediaView(qQuestion.getMediaLink());
+                videoVBox.getChildren().add(vBox);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        if(qQuestion.getImage()!=null){
+            try{
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/resources/Fxml/GUI32PicturePane.fxml"));
+                VBox vBox = loader.load();
+                vBox.getChildren().remove(vBox.getChildren().size()-1);//Xóa nút Remove Picture
+                GUI32PicturePaneController gui32PicturePaneController = loader.getController();
+                gui32PicturePaneController.setImageView(qQuestion.getImage());
+                imageVBox.getChildren().add(vBox);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
     public void setQuesDataAndAnswer(QQuestion qQuestion) {
         questionNo_lbl.setText(quesRank+1 + "");
         question_text_lbl.setText(qQuestion.getText());
+        if(qQuestion.getMediaLink()!=null){
+            try{
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/resources/Fxml/GUI32MediaPane.fxml"));
+                VBox vBox = loader.load();
+                vBox.getChildren().remove(vBox.getChildren().size()-1);//Xóa nút Remove Video
+                GUI32MediaPaneController gui32MediaPaneController = loader.getController();
+                gui32MediaPaneController.setMediaView(qQuestion.getMediaLink());
+                videoVBox.getChildren().add(vBox);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        if(qQuestion.getImage()!=null){
+            try{
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/resources/Fxml/GUI32PicturePane.fxml"));
+                VBox vBox = loader.load();
+                vBox.getChildren().remove(vBox.getChildren().size()-1);//Xóa nút Remove Picture
+                GUI32PicturePaneController gui32PicturePaneController = loader.getController();
+                gui32PicturePaneController.setImageView(qQuestion.getImage());
+                imageVBox.getChildren().add(vBox);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
         System.out.println(qQuestion.getText()); //TODO pdf
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/resources/Fxml/GUI74correctAnswer.fxml"));
@@ -112,13 +182,13 @@ public class GUI73questionController {
         }
         return false;
     }
-    public void getchoiceList() {
+    public void getChoiceList() {
 //        lay cac choice tu database
         choiceList.clear();
         myAnswer.clear();
         myChoice.clear();
         Connection connection = getConnection();
-        String query = "SELECT choice.content, choice.grade, question.question_id " +
+        String query = "SELECT choice.content, choice.grade, choice.image, question.question_id " +
                 "FROM choice, question, ques_quiz " +
                 "WHERE choice.question_id = question.question_id AND " +
                 "question.question_id = ques_quiz.question_id AND ques_quiz.quiz_id = " + idData +
@@ -132,6 +202,10 @@ public class GUI73questionController {
                 Choice choice = new Choice();
                 choice.setChoiceText(resultSet.getString("content"));
                 choice.setChoiceGrade(resultSet.getDouble("grade"));
+                InputStream inputStream = resultSet.getBinaryStream("image");
+                if(inputStream!=null){
+                    choice.setChoiceImage(new Image(inputStream));
+                }
                 currentQuesID = resultSet.getInt("question_id");
                 choiceList.add(new ArrayList<>());
                 choiceList.get(numOfQues).add(choice);
