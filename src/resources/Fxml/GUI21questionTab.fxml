@@ -23,7 +23,7 @@
       <ComboBox fx:id="comboBox" prefHeight="32.0" prefWidth="281.0" promptText="Default" />
     </HBox>
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The default category for questions shared incontext" />
-    <CheckBox mnemonicParsing="false" text="Also show questions from subcategories" />
+    <CheckBox fx:id="alsoShow_ckb" mnemonicParsing="false" text="Also show questions from subcategories" />
     <Button fx:id="createNewQuest_btn" mnemonicParsing="false" prefHeight="38.0" prefWidth="262.0" text="CREATE A NEW QUESTION ..." />
    <TableView fx:id="tableView" prefHeight="186.0" prefWidth="763.0" VBox.vgrow="ALWAYS">
      <columns>

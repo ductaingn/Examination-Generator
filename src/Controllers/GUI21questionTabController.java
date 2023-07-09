@@ -32,6 +32,8 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
     private TableColumn<QQuestion, String> tv_question;
     @FXML
     private TableColumn<QQuestion, Integer> tv_id;
+    @FXML
+    private CheckBox alsoShow_ckb;
     public void showGUI32() {
         Stage stage = (Stage)SW_lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
@@ -46,7 +48,6 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
         GUI32Controller gui32Controller = loader.getController();
         return gui32Controller;
     }
-    //    connect database
     public Connection getConnection() {
         Connection connection;
         try {
@@ -100,7 +101,6 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
             }
             tv_question.setCellValueFactory((new PropertyValueFactory<>("name")));
             tv_id.setCellValueFactory((new PropertyValueFactory<>("question_id")));
-
             Callback<TableColumn<QQuestion, String>, TableCell<QQuestion, String>> cellFactory = (param) -> {
                 final TableCell<QQuestion, String> cell = new TableCell<>() {
                     @Override
@@ -157,37 +157,6 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
             }
             tv_question.setCellValueFactory((new PropertyValueFactory<>("name")));
             tv_id.setCellValueFactory((new PropertyValueFactory<>("question_id")));
-
-            Callback<TableColumn<QQuestion, String>, TableCell<QQuestion, String>> cellFactory = (param) -> {
-                final TableCell<QQuestion, String> cell = new TableCell<>() {
-                    @Override
-                    public void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-                        } else {
-                            Label edit_lbl = new Label("Edit");
-                            edit_lbl.setStyle(
-                                    "-fx-text-fill: blue; -fx-font-size: 1em;"
-                            );
-//                            adding edit function
-                            edit_lbl.setOnMouseClicked(event -> {
-                                Integer index = tableView.getSelectionModel().getSelectedIndex();
-                                Integer questionID = tv_id.getCellData(index);
-                                preloadQuestion(questionID);
-                            });
-
-                            HBox hBox = new HBox(edit_lbl);
-                            setGraphic(hBox);
-                            setText(null);
-                        }
-                    }
-
-                };
-                return cell;
-            };
-            tv_actions.setCellFactory(cellFactory);
             tableView.setItems(questionsList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -199,5 +168,37 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
         getComboBox();
         comboBox.setOnAction(event -> loadQuestionSub());
         createNewQuest_btn.setOnAction(event -> showGUI32());
+        alsoShow_ckb.setOnAction(event -> {
+            if (alsoShow_ckb.isSelected()) {
+                System.out.println("also show questions from sub categories");
+                tableView.getItems().clear();
+                String categoryName = comboBox.getValue().trim();
+                categoryName = categoryName.substring(0, categoryName.indexOf('(') - 1);
+                ObservableList<QQuestion> questionsList = FXCollections.observableArrayList();
+                Connection connection = getConnection();
+                try {
+                    CallableStatement callableStatement = connection.prepareCall("{call subCategory(?)}");
+                    callableStatement.setString(1, categoryName);
+                    callableStatement.execute();
+                    ResultSet resultSet = callableStatement.getResultSet();
+                    while (resultSet.next()) {
+                        QQuestion question = new QQuestion();
+                        question.setName(resultSet.getString("name"));
+                        question.setText(resultSet.getString("text"));
+                        question.setQuestion_id(resultSet.getInt("question_id"));
+                        question.setCategory_id(resultSet.getInt("category_id"));
+                        questionsList.add(question);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                tv_question.setCellValueFactory((new PropertyValueFactory<>("name")));
+                tv_id.setCellValueFactory((new PropertyValueFactory<>("question_id")));
+                tableView.setItems(questionsList);
+            } else {
+                System.out.println("don't show questions from sub categories");
+                loadQuestionSub();
+            }
+        });
     }
 }
