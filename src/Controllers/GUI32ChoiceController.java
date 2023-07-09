@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GUI32ChoiceController implements Initializable{
@@ -72,8 +73,7 @@ public class GUI32ChoiceController implements Initializable{
     public void getGradeComboBox(){
         Choice choice = new Choice();
         ObservableList<String> grades = FXCollections.observableArrayList();
-        String none = new String("None");
-        grades.add(none);
+        grades.add("None");
         for(int i = 0; i< choice.listGrade.size(); i++){
             String gradeString=String.format("%.5f", choice.listGrade.get(i));
             grades.add(gradeString+"%");
@@ -83,40 +83,41 @@ public class GUI32ChoiceController implements Initializable{
 
     //Insert choice into Database
     public void insertChoice(int questionId){
-        try {
-            Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement("insert into choice (question_id,content,grade,image) values (?,?,?,?);");
+        System.out.println(textArea.getText());
+        if (!Objects.equals(textArea.getText(), "") || gradeComboBox.getValue() != null) {
+            try {
+                Connection connection = getConnection();
+                PreparedStatement statement = connection.prepareStatement("insert into choice (question_id,content,grade,image) values (?,?,?,?);");
 
-            String gradeString = gradeComboBox.getValue();
-            double grade;
-            if(gradeString == null || gradeString.equals("None")){
-                grade=0.00000;
+                String gradeString = gradeComboBox.getValue();
+                double grade;
+                if (gradeString == null || gradeString.equals("None")) {
+                    grade = 0.00000;
+                } else {
+                    grade = Double.parseDouble(gradeString.substring(0, gradeString.length() - 1));
+                    grade = grade / 100.0;
+                }
+
+                Image image = imageView.getImage();
+                InputStream inputStream = null;
+                if (image != null) {
+                    BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+                    ByteArrayOutputStream os = new ByteArrayOutputStream();
+                    ImageIO.write(bufferedImage, "png", os);
+                    inputStream = new ByteArrayInputStream(os.toByteArray());
+                }
+
+                statement.setInt(1, questionId);
+                statement.setString(2, textArea.getText());
+                statement.setDouble(3, grade);
+                statement.setBlob(4, inputStream);
+                statement.executeUpdate();
+                statement.close();
+                connection.close();
+                System.out.println("Inserted Choice Successfully");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            else{
-                grade = Double.parseDouble(gradeString.substring(0,gradeString.length()-1));
-                grade=grade/100.0;
-            }
-
-            Image image = imageView.getImage();
-            InputStream inputStream = null;
-            if(image != null){
-                BufferedImage bufferedImage= SwingFXUtils.fromFXImage(image,null);
-                ByteArrayOutputStream os = new ByteArrayOutputStream();
-                ImageIO.write(bufferedImage,"png", os);
-                inputStream = new ByteArrayInputStream(os.toByteArray());
-            }
-
-            statement.setInt(1, questionId);
-            statement.setString(2,textArea.getText());
-            statement.setDouble(3,grade);
-            statement.setBlob(4,inputStream);
-            statement.executeUpdate();
-            statement.close();
-            connection.close();
-
-            System.out.println("Inserted Choice Successfully");
-        }catch (Exception e){
-            e.printStackTrace();
         }
     }
     //Remove all choices with question_id=questionID from Database

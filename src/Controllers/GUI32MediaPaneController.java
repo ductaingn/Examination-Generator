@@ -104,7 +104,7 @@ public class GUI32MediaPaneController implements Initializable {
             }
             else {
                 Statement statement = connection.createStatement();
-                String query = "UPDATE test.question SET mediaLink=NULL WHERE question_id = '" + questionId + "';";
+                String query = "UPDATE test.question SET mediaLink = NULL WHERE question_id = '" + questionId + "';";
                 statement.executeUpdate(query);
             }
             connection.close();
