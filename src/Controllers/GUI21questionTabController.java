@@ -32,6 +32,8 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
     private TableColumn<QQuestion, String> tv_question;
     @FXML
     private TableColumn<QQuestion, Integer> tv_id;
+    @FXML
+    private CheckBox alsoShow_ckb;
     public void showGUI32() {
         Stage stage = (Stage)SW_lbl.getScene().getWindow();
         Model.getInstance().getViewFactory().closeStage(stage);
@@ -46,7 +48,6 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
         GUI32Controller gui32Controller = loader.getController();
         return gui32Controller;
     }
-    //    connect database
     public Connection getConnection() {
         Connection connection;
         try {
@@ -100,7 +101,6 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
             }
             tv_question.setCellValueFactory((new PropertyValueFactory<>("name")));
             tv_id.setCellValueFactory((new PropertyValueFactory<>("question_id")));
-
             Callback<TableColumn<QQuestion, String>, TableCell<QQuestion, String>> cellFactory = (param) -> {
                 final TableCell<QQuestion, String> cell = new TableCell<>() {
                     @Override
@@ -136,10 +136,69 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
             e.printStackTrace();
         }
     }
+    public void loadQuestionSub(){
+        try {
+            String category_name = comboBox.getValue().trim();
+            category_name = category_name.substring(0, category_name.indexOf('(') - 1);
+            ObservableList<QQuestion> questionsList = FXCollections.observableArrayList();
+            String query = "SELECT qs.name, qs.text, qs.category_id, qs.question_id, qs.mark " +
+                    "FROM question qs, category ct " +
+                    "WHERE qs.category_id = ct.category_id AND ct.name = '" + category_name + "';";
+            Connection connection = getConnection();
+            ResultSet resultSet = connection.createStatement().executeQuery(query);
+            while (resultSet.next()) {
+                QQuestion question = new QQuestion();
+                question.setName(resultSet.getString("name"));
+                question.setQuestion_id(Integer.parseInt(resultSet.getString("question_id")));
+                question.setCategory_id(Integer.parseInt(resultSet.getString("category_id")));
+                question.setText(resultSet.getString("text"));
+                question.setMark(Integer.parseInt(resultSet.getString("mark")));
+                questionsList.add(question);
+            }
+            tv_question.setCellValueFactory((new PropertyValueFactory<>("name")));
+            tv_id.setCellValueFactory((new PropertyValueFactory<>("question_id")));
+            tableView.setItems(questionsList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadQuestion();
         getComboBox();
+        comboBox.setOnAction(event -> loadQuestionSub());
         createNewQuest_btn.setOnAction(event -> showGUI32());
+        alsoShow_ckb.setOnAction(event -> {
+            if (alsoShow_ckb.isSelected()) {
+                System.out.println("also show questions from sub categories");
+                tableView.getItems().clear();
+                String categoryName = comboBox.getValue().trim();
+                categoryName = categoryName.substring(0, categoryName.indexOf('(') - 1);
+                ObservableList<QQuestion> questionsList = FXCollections.observableArrayList();
+                Connection connection = getConnection();
+                try {
+                    CallableStatement callableStatement = connection.prepareCall("{call subCategory(?)}");
+                    callableStatement.setString(1, categoryName);
+                    callableStatement.execute();
+                    ResultSet resultSet = callableStatement.getResultSet();
+                    while (resultSet.next()) {
+                        QQuestion question = new QQuestion();
+                        question.setName(resultSet.getString("name"));
+                        question.setText(resultSet.getString("text"));
+                        question.setQuestion_id(resultSet.getInt("question_id"));
+                        question.setCategory_id(resultSet.getInt("category_id"));
+                        questionsList.add(question);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                tv_question.setCellValueFactory((new PropertyValueFactory<>("name")));
+                tv_id.setCellValueFactory((new PropertyValueFactory<>("question_id")));
+                tableView.setItems(questionsList);
+            } else {
+                System.out.println("don't show questions from sub categories");
+                loadQuestionSub();
+            }
+        });
     }
 }
