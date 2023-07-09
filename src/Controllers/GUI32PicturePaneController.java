@@ -56,6 +56,12 @@ public class GUI32PicturePaneController implements Initializable {
         image = new Image(inputStream);
         imageView.setImage(image);
     }
+
+    public void setImageView(Image image) {
+        this.image = image;
+        imageView.setImage(image);
+    }
+
     public Image getImage(){
         return image;
     }

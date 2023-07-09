@@ -1,6 +1,8 @@
 package Models;
 
-import java.awt.*;
+
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 import java.util.List;
 
