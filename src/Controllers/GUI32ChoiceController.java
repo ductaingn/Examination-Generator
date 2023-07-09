@@ -87,10 +87,9 @@ public class GUI32ChoiceController implements Initializable{
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement("insert into choice (question_id,content,grade,image) values (?,?,?,?);");
 
-            String gradeString = new String(gradeComboBox.getValue());
-
-            Double grade;
-            if(gradeString.equals("None")){
+            String gradeString = gradeComboBox.getValue();
+            double grade;
+            if(gradeString == null || gradeString.equals("None")){
                 grade=0.00000;
             }
             else{
@@ -99,8 +98,8 @@ public class GUI32ChoiceController implements Initializable{
             }
 
             Image image = imageView.getImage();
-            InputStream inputStream=null;
-            if(image!=null){
+            InputStream inputStream = null;
+            if(image != null){
                 BufferedImage bufferedImage= SwingFXUtils.fromFXImage(image,null);
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
                 ImageIO.write(bufferedImage,"png", os);
@@ -120,7 +119,6 @@ public class GUI32ChoiceController implements Initializable{
             e.printStackTrace();
         }
     }
-
     //Remove all choices with question_id=questionID from Database
     public void removeChoice(int questionId){
         try{
@@ -149,7 +147,6 @@ public class GUI32ChoiceController implements Initializable{
             e.printStackTrace();
         }
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getGradeComboBox();
