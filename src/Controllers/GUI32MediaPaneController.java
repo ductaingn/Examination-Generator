@@ -9,6 +9,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -26,13 +27,10 @@ import java.util.ResourceBundle;
 public class GUI32MediaPaneController implements Initializable {
     @FXML
     private MediaView mediaView;
-
     @FXML
     private Button pauseButton;
-
     @FXML
     private Button playButton;
-
     @FXML
     private Button replayButton;
     @FXML
@@ -61,16 +59,15 @@ public class GUI32MediaPaneController implements Initializable {
         mediaPlayer.pause();
     }
     public void replayMedia(){
+        mediaPlayer.seek(Duration.ZERO);
+        mediaPlayer.play();
     }
-
     public String getMediaLink() {
         return mediaLink;
     }
-
     public void setMediaLink(String mediaLink) {
         this.mediaLink = mediaLink;
     }
-
     public void setMediaView() {
         try {
             FileChooser fileChooser = new FileChooser();
@@ -91,7 +88,6 @@ public class GUI32MediaPaneController implements Initializable {
         mediaView.setMediaPlayer(mediaPlayer);
         setMediaLink(link);
     }
-
     private void removeVideo() {
         mediaLink=null;
         parentController.removeVideo();
@@ -112,18 +108,16 @@ public class GUI32MediaPaneController implements Initializable {
                 String query = "UPDATE test.question SET mediaLink=NULL WHERE question_id = '" + questionId + "';";
                 statement.executeUpdate(query);
             }
-
             connection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         playButton.setOnAction(event -> playMedia());
         pauseButton.setOnAction(event -> pauseMedia());
+        replayButton.setOnAction(event -> replayMedia());
         removeVideoButton.setOnAction(event -> removeVideo());
     }
-
 }

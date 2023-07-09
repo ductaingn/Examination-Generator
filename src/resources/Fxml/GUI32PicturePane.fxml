@@ -5,19 +5,19 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GUI32PicturePaneController">
-   <children>
-      <ImageView fx:id="imageView" fitHeight="400.0" fitWidth="720.0" pickOnBounds="true" preserveRatio="true" />
-      <VBox alignment="CENTER_RIGHT">
-         <children>
-            <Button fx:id="removePictureButton" mnemonicParsing="false" style="-fx-background-color: #192a56;" text="Remove Picture" textFill="WHITE">
-               <VBox.margin>
-                  <Insets top="4.0" />
-               </VBox.margin></Button>
-         </children>
-      </VBox>
-   </children>
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controllers.GUI32PicturePaneController">
    <padding>
-      <Insets bottom="8.0" top="8.0" />
+      <Insets bottom="8.0" top="8.0"/>
    </padding>
+   <ImageView fx:id="imageView" fitHeight="400.0" fitWidth="720.0" pickOnBounds="true" preserveRatio="true"/>
+   <VBox alignment="CENTER_RIGHT">
+      <Button fx:id="removePictureButton" mnemonicParsing="false" style="-fx-background-color: #192a56;"
+              text="Remove Picture" textFill="WHITE">
+         <VBox.margin>
+            <Insets top="4.0"/>
+         </VBox.margin>
+      </Button>
+   </VBox>
 </VBox>

@@ -106,33 +106,31 @@
          </TextField>
       </HBox>
       <VBox fx:id="mediaVBox" alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER">
-               <children>
-                  <Button fx:id="insertPictureButton" mnemonicParsing="false" style="-fx-background-color: #192a56;" text="Insert Picture" textFill="WHITE">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="8.0" right="8.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="insertVideoButton" mnemonicParsing="false" style="-fx-background-color: #192a56;" text="Insert Video" textFill="WHITE">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="8.0" right="8.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="8.0" top="8.0" />
-               </VBox.margin>
-            </HBox>
-            <VBox fx:id="videoVBox" alignment="CENTER" />
-            <VBox fx:id="pictureVBox" alignment="CENTER" layoutX="10.0" layoutY="58.0" />
-         </children>
+         <HBox alignment="CENTER">
+            <VBox.margin>
+               <Insets bottom="8.0" top="8.0"/>
+            </VBox.margin>
+            <Button fx:id="insertPictureButton" mnemonicParsing="false" style="-fx-background-color: #192a56;"
+                    text="Insert Picture" textFill="WHITE">
+               <font>
+                  <Font size="15.0"/>
+               </font>
+               <HBox.margin>
+                  <Insets left="8.0" right="8.0"/>
+               </HBox.margin>
+            </Button>
+            <Button fx:id="insertVideoButton" mnemonicParsing="false" style="-fx-background-color: #192a56;"
+                    text="Insert Video" textFill="WHITE">
+               <font>
+                  <Font size="15.0"/>
+               </font>
+               <HBox.margin>
+                  <Insets left="8.0" right="8.0"/>
+               </HBox.margin>
+            </Button>
+         </HBox>
+         <VBox fx:id="videoVBox" alignment="CENTER"/>
+         <VBox fx:id="pictureVBox" alignment="CENTER" layoutX="10.0" layoutY="58.0"/>
       </VBox>
       <VBox fx:id="choicesLayout" prefWidth="740.0" spacing="10.0">
          <AnchorPane>
