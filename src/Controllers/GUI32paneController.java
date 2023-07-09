@@ -187,18 +187,18 @@ public class GUI32paneController implements Initializable {
             categorySet.next();
             Integer categoryId = Integer.parseInt(categorySet.getString("category_id"));
 
-            statement.executeUpdate("insert into question (name,text,mark,category_id,mediaLink)"
+            statement.executeUpdate("insert into question (name,text,mark,category_id)"
                 + "value ('" + questionNameTextField.getText() + "','"
                 + questionTextTextArea.getText() + "','"
                 + Integer.parseInt(questionMarkTextField.getText()) + "','"
-                + categoryId + "','"
-                + gui32MediaPaneController.getMediaLink() + "');" );
+                + categoryId + "');" );
 
             ResultSet questionIdSet = statement.executeQuery("select last_insert_id();");
             questionIdSet.next();
             Integer questionId= Integer.parseInt(questionIdSet.getString("last_insert_id()"));
             System.out.println("Inserted Successfully, Question ID: " + questionId);
             gui32PicturePaneController.insertPicture(questionId);
+            gui32MediaPaneController.insertVideo(questionId);
 
             for(int i=0;i<choicesControllers.size();i++){
                 choicesControllers.get(i).insertChoice(questionId);
