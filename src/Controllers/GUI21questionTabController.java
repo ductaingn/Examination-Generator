@@ -136,10 +136,68 @@ public class GUI21questionTabController extends GUI21Controller implements Initi
             e.printStackTrace();
         }
     }
+    public void loadQuestionSub(){
+        try {
+            String category_name = comboBox.getValue().trim();
+            category_name = category_name.substring(0, category_name.indexOf('(') - 1);
+            ObservableList<QQuestion> questionsList = FXCollections.observableArrayList();
+            String query = "SELECT qs.name, qs.text, qs.category_id, qs.question_id, qs.mark " +
+                    "FROM question qs, category ct " +
+                    "WHERE qs.category_id = ct.category_id AND ct.name = '" + category_name + "';";
+            Connection connection = getConnection();
+            ResultSet resultSet = connection.createStatement().executeQuery(query);
+            while (resultSet.next()) {
+                QQuestion question = new QQuestion();
+                question.setName(resultSet.getString("name"));
+                question.setQuestion_id(Integer.parseInt(resultSet.getString("question_id")));
+                question.setCategory_id(Integer.parseInt(resultSet.getString("category_id")));
+                question.setText(resultSet.getString("text"));
+                question.setMark(Integer.parseInt(resultSet.getString("mark")));
+                questionsList.add(question);
+            }
+            tv_question.setCellValueFactory((new PropertyValueFactory<>("name")));
+            tv_id.setCellValueFactory((new PropertyValueFactory<>("question_id")));
+
+            Callback<TableColumn<QQuestion, String>, TableCell<QQuestion, String>> cellFactory = (param) -> {
+                final TableCell<QQuestion, String> cell = new TableCell<>() {
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                            Label edit_lbl = new Label("Edit");
+                            edit_lbl.setStyle(
+                                    "-fx-text-fill: blue; -fx-font-size: 1em;"
+                            );
+//                            adding edit function
+                            edit_lbl.setOnMouseClicked(event -> {
+                                Integer index = tableView.getSelectionModel().getSelectedIndex();
+                                Integer questionID = tv_id.getCellData(index);
+                                preloadQuestion(questionID);
+                            });
+
+                            HBox hBox = new HBox(edit_lbl);
+                            setGraphic(hBox);
+                            setText(null);
+                        }
+                    }
+
+                };
+                return cell;
+            };
+            tv_actions.setCellFactory(cellFactory);
+            tableView.setItems(questionsList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadQuestion();
         getComboBox();
+        comboBox.setOnAction(event -> loadQuestionSub());
         createNewQuest_btn.setOnAction(event -> showGUI32());
     }
 }
