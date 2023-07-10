@@ -38,6 +38,7 @@ public class GUI21importTabController implements Initializable {
     private Button button;
     @FXML 
     private Button import_btn;
+    
  // Liên kết với cơ sở dữ liệu :))
  public Connection getConnection() {
      Connection connection;
@@ -113,6 +114,8 @@ public class GUI21importTabController implements Initializable {
         });
         // Xử lý sự kiện khi file được thả vào
         image.setOnDragDropped((DragEvent event) -> {
+        	int num_line = 0;
+        	int num_qs = 0;
             Dragboard dragboard = event.getDragboard();
             boolean success = false;
             if (dragboard.hasFiles()) {
@@ -121,7 +124,7 @@ public class GUI21importTabController implements Initializable {
                 try {
                     Image img = new Image("resources//Image//file.png");
                     image.setImage(img);
-                    if (checkAndAddAikenStructure(filePath)) {
+                    if (checkAndAddAikenStructure(filePath, num_line, num_qs)) {
                         success = true;
                     }
                 } catch (IOException e) {
@@ -136,7 +139,7 @@ public class GUI21importTabController implements Initializable {
             		 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                      alert.setTitle("Thông báo");
                      alert.setHeaderText(null);
-                     alert.setContentText("File không đúng cú pháp Aiken!");
+                     alert.setContentText("Import File thất bại!");
                      alert.showAndWait();
                      
                      Stage stage = (Stage)import_btn.getScene().getWindow();
@@ -203,7 +206,9 @@ public class GUI21importTabController implements Initializable {
                 filePath = selectedFile.getAbsolutePath();
             }
             try {
-                if (checkAndAddAikenStructure(filePath)) {
+            	int num_line = 0;
+            	int num_qs = 0;
+                if (checkAndAddAikenStructure(filePath, num_line, num_qs)) {
                 	Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Thông báo");
                     alert.setHeaderText(null);
@@ -247,18 +252,20 @@ public class GUI21importTabController implements Initializable {
         });
     }
     // Check Aiken format
-    public boolean checkAndAddAikenStructure(String filePath) throws IOException {
+    public boolean checkAndAddAikenStructure(String filePath, int num_line, int num_qs) throws IOException {
     	try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line = "";
             Question qs = new Question();
             
             // Kiểm tra các dòng tiếp theo theo định dạng Aiken
             int count = 0;
-            int num = 0;
+            num_line = 1;
+            num_qs = 0;
      
             while ((line = reader.readLine()) != null) {
                 if (count == 0) {
-                	num++;
+                	num_line++;
+                	num_qs++;
                 	qs.questionText = line; 
                     count++;
                 } else if (count == 1) {
@@ -269,31 +276,49 @@ public class GUI21importTabController implements Initializable {
                             || line.startsWith("C) ") || line.startsWith("D) ") || line.startsWith("E) ")
                             || line.startsWith("F) ") || line.startsWith("G) ") || line.startsWith("H) ")
                             || line.startsWith("I) ") || line.startsWith("K) ")){
+                    	num_line++;
                     	qs.choiceList.add(line);
-                    	num++;
+                    	
                     } else {
                         if (line.startsWith("ANSWER: ")) {
                             // TODO
                         	qs.questionAnswer = line;
                         	question_List.add(qs);
                         	qs = new Question();
+                        	num_line++;
                             count++;
-                            num++;
+                            
                         } else {
+                        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Thông báo");
+                            alert.setHeaderText(null);
+                            alert.setContentText("ERROR AT " + num_line);
+                            alert.showAndWait();
                             return false;
                         }
                     }
                 } else if (count == 2) {
                     if (!line.isEmpty()) {
-                    	num++;
+                    	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Thông báo");
+                        alert.setHeaderText(null);
+                        alert.setContentText("ERROR AT " + num_line);
+                        alert.showAndWait();
                         return false;
                     } else {
+                    	num_line++;
                         count = 0;
                     }
                 }
             }
 
             // Đã kiểm tra qua tất cả các điều kiện, file đúng định dạng Aiken
+            System.out.println("Success");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Thông báo");
+            alert.setHeaderText(null);
+            alert.setContentText("SUCCESS " + num_qs + "Questions");
+            alert.showAndWait();
             return true;
         } catch (IOException e) {
             System.out.println("Đã xảy ra lỗi khi đọc file: " + e.getMessage());
