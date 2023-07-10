@@ -20,6 +20,7 @@ import javafx.scene.control.ButtonType;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Image;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,6 +31,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
+import java.sql.SQLException;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.encryption.AccessPermission;
@@ -100,28 +102,7 @@ public class GUI72Controller implements Initializable {
         File file = fileChooser.showSaveDialog(null);
 
 
-//        if (file != null) {
-//            try {
-//                // Tạo một đối tượng Document mới
-//                Document document = new Document();
-//
-//                // Tạo đối tượng PdfWriter để ghi dữ liệu vào tệp PDF
-//                PdfWriter.getInstance(document, new FileOutputStream(file));
-//
-//                // Mở tài liệu để bắt đầu ghi
-//                document.open();
-//
-//                // Ghi nội dung vào tài liệu
-//                document.add(new Paragraph("Hello, World!"));
-//
-//                // Đóng tài liệu
-//                document.close();
-//
-//                System.out.println("PDF exported successfully.");
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
+
         Connection connection = getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("" +
@@ -147,12 +128,15 @@ public class GUI72Controller implements Initializable {
                         }
             			count++;
             		} else {
+            			
             			String s1 = resultSet.getString("text");
+            			
             			String s2 = "a.  " + resultSet.getString("content");
             			System.out.println("---");
             			document.add(new Paragraph("\n"));
             			System.out.println(s1);
             			System.out.println(s2);
+            			
             			document.add(new Paragraph(s1));
                         if(resultSet.getBinaryStream("qs.image")!=null){
                             com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance(resultSet.getBytes("qs.image"));
@@ -162,10 +146,11 @@ public class GUI72Controller implements Initializable {
 
             			document.add(new Paragraph(s2));
                         if(resultSet.getBinaryStream("c.image")!=null){
-                            com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance(resultSet.getBytes("c.image"));
+                            Image image = Image.getInstance(resultSet.getBytes("c.image"));
                             image.scaleToFit(400,800);
                             document.add(image);
                         }
+                        
             			currentId = resultSet.getInt("question_id");
             			count = 0;                  
             		}
