@@ -15,6 +15,8 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class GUI32PicturePaneController implements Initializable {
@@ -41,13 +43,13 @@ public class GUI32PicturePaneController implements Initializable {
     public void setImageView(){
         try {
             FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Chose image for question");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("GIF files","*.gif"));
             File file = fileChooser.showOpenDialog(null);
             if (file!=null){
                 image = new Image(file.toURI().toString());
                 imageView.setImage(image);
             }
-            InputStream inputStream = new FileInputStream(file);
-            imageFile=file;
         }catch (Exception e){
             e.printStackTrace();
         }

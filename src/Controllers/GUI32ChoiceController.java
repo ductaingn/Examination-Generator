@@ -19,8 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class GUI32ChoiceController implements Initializable{
     @FXML
@@ -139,6 +138,9 @@ public class GUI32ChoiceController implements Initializable{
     public void insertImage(){
         try {
             FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Chose image for choice");
+            List<String> fileExtensions = Arrays.asList(new String[]{"*.png","*.jpg"});
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG and JPG files",fileExtensions));
             File file = fileChooser.showOpenDialog(null);
             if (file!=null){
                 Image image = new Image(file.toURI().toString());

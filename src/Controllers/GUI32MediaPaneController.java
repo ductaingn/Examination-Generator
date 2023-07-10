@@ -22,6 +22,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class GUI32MediaPaneController implements Initializable {
@@ -71,6 +73,8 @@ public class GUI32MediaPaneController implements Initializable {
     public void setMediaView() {
         try {
             FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Chose video for question");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MP4 files","*.mp4"));
             File file = fileChooser.showOpenDialog(null);
             if (file!=null){
                 media= new Media(file.toURI().toString());
