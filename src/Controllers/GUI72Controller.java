@@ -125,7 +125,7 @@ public class GUI72Controller implements Initializable {
         Connection connection = getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("" +
-                    "select qs.question_id, qs.text, c.content " +
+                    "select qs.question_id, qs.text, qs.image, c.content, c.image " +
                     "from question qs join choice c on qs.question_id = c.question_id " +
                     "join ques_quiz qq on qq.question_id = qs.question_id where qq.quiz_id = " + idData);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -140,6 +140,11 @@ public class GUI72Controller implements Initializable {
             			String s = (char)(98+count) + ".  " + resultSet.getString("content");
             			System.out.println(s);
             			document.add(new Paragraph(s));
+                        if(resultSet.getBinaryStream("c.image")!=null){
+                            com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance(resultSet.getBytes("c.image"));
+                            image.scaleToFit(400,800);
+                            document.add(image);
+                        }
             			count++;
             		} else {
             			String s1 = resultSet.getString("text");
@@ -149,7 +154,18 @@ public class GUI72Controller implements Initializable {
             			System.out.println(s1);
             			System.out.println(s2);
             			document.add(new Paragraph(s1));
+                        if(resultSet.getBinaryStream("qs.image")!=null){
+                            com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance(resultSet.getBytes("qs.image"));
+                            image.scaleToFit(400,800);
+                            document.add(image);
+                        }
+
             			document.add(new Paragraph(s2));
+                        if(resultSet.getBinaryStream("c.image")!=null){
+                            com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance(resultSet.getBytes("c.image"));
+                            image.scaleToFit(400,800);
+                            document.add(image);
+                        }
             			currentId = resultSet.getInt("question_id");
             			count = 0;                  
             		}
