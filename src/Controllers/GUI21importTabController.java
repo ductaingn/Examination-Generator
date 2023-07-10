@@ -219,9 +219,12 @@ public class GUI21importTabController implements Initializable {
             
             // Kiểm tra các dòng tiếp theo theo định dạng Aiken
             int count = 0;
+            int num = 0;
+     
             while ((line = reader.readLine()) != null) {
                 if (count == 0) {
                     // TODO
+                	num++;
                 	qs.questionText = line; 
                     count++;
                 } else if (count == 1) {
@@ -229,6 +232,7 @@ public class GUI21importTabController implements Initializable {
                             || line.startsWith("D. ") || line.startsWith("E. ") || line.startsWith("F. ") || line.startsWith("G. ") || line.startsWith("H. ") || line.startsWith("I. ") || line.startsWith("K. ")) {
                         // TODO
                     	qs.choiceList.add(line);
+                    	num++;
                     } else {
                         if (line.startsWith("ANSWER: ")) {
                             // TODO
@@ -236,12 +240,14 @@ public class GUI21importTabController implements Initializable {
                         	question_List.add(qs);
                         	qs = new Question();
                             count++;
+                            num++;
                         } else {
                             return false;
                         }
                     }
                 } else if (count == 2) {
                     if (!line.isEmpty()) {
+                    	num++;
                         return false;
                     } else {
                         count = 0;
