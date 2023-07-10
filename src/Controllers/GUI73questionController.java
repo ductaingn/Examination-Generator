@@ -13,9 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -147,7 +144,6 @@ public class GUI73questionController {
                 e.printStackTrace();
             }
         }
-        System.out.println(qQuestion.getText()); //TODO pdf
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/resources/Fxml/GUI74correctAnswer.fxml"));
         VBox vBox = new VBox();
@@ -214,6 +210,10 @@ public class GUI73questionController {
                 Choice choice = new Choice();
                 choice.setChoiceText(resultSet.getString("content"));
                 choice.setChoiceGrade(resultSet.getDouble("grade"));
+                InputStream inputStream = resultSet.getBinaryStream("image");
+                if(inputStream!=null){
+                    choice.setChoiceImage(new Image(inputStream));
+                }
                 if (resultSet.getInt("question_id") == currentQuesID) {
                     choiceList.get(numOfQues).add(choice);
                 } else {
@@ -252,6 +252,13 @@ public class GUI73questionController {
                 radioButton.setStyle("-fx-font-size: 16");
                 toggleGroup.getToggles().add(radioButton);
                 choice_layout.getChildren().add(radioButton);
+                if (choiceList.get(i).get(j).getChoiceImage() != null) {
+                    ImageView imageView = new ImageView(choiceList.get(i).get(j).getChoiceImage());
+                    imageView.setFitHeight(500);
+                    imageView.setFitWidth(900);
+                    imageView.setPreserveRatio(true);
+                    choice_layout.getChildren().add(imageView);
+                }
             }
             toggleGroup.selectedToggleProperty().addListener(new ChangeListener<>() {
                 @Override
@@ -271,6 +278,13 @@ public class GUI73questionController {
                 checkBox.setWrapText(true);
                 checkBox.setStyle("-fx-font-size: 16");
                 choice_layout.getChildren().add(checkBox);
+                if (choiceList.get(i).get(j).getChoiceImage() != null) {
+                    ImageView imageView = new ImageView(choiceList.get(i).get(j).getChoiceImage());
+                    imageView.setFitHeight(500);
+                    imageView.setFitWidth(900);
+                    imageView.setPreserveRatio(true);
+                    choice_layout.getChildren().add(imageView);
+                }
                 checkBox.selectedProperty().addListener(new ChangeListener<>() {
                     @Override
                     public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -325,7 +339,6 @@ public class GUI73questionController {
                 HBox hBox = new HBox(5);
                 hBox.setAlignment(Pos.CENTER_LEFT);
                 RadioButton radioButton = new RadioButton((char)(97 + j) + ".  " + choiceList.get(i).get(j).getChoiceText());
-                System.out.println((char)(97 + j) + ".  " + choiceList.get(i).get(j).getChoiceText()); //TODO pdf
                 radioButton.setStyle("-fx-font-size: 16");
                 radioButton.setWrapText(true);
                 hBox.getChildren().add(radioButton);
@@ -349,7 +362,6 @@ public class GUI73questionController {
                 HBox hBox = new HBox(5);
                 hBox.setAlignment(Pos.CENTER_LEFT);
                 CheckBox checkBox = new CheckBox((char)(97 + j) + ".  " + choiceList.get(i).get(j).getChoiceText());
-                System.out.println((char)(97 + j) + ".  " + choiceList.get(i).get(j).getChoiceText()); //TODO pdf
                 checkBox.setWrapText(true);
                 hBox.getChildren().add(checkBox);
                 checkBox.setStyle("-fx-font-size: 16");

@@ -77,19 +77,15 @@ public class GUI74Controller extends GUI73Controller implements Initializable {
 				String formattedDateTime = dateTime.format(outputFormatter);
 
 				completed_on.setText(formattedDateTime);
-				System.out.println(formattedDateTime);
 
 				LocalDateTime dateTime1 = LocalDateTime.parse(startedTime1, formatter);
 				String formattedDateTime1 = dateTime1.format(outputFormatter);
 				started_on.setText(formattedDateTime1);
-				System.out.println(formattedDateTime1);
 			}
 		}
 		finishReview_btn.setOnAction(event -> {
 			myAnswer.clear();
 			myChoice.clear();
-			System.out.println(myAnswer);
-			System.out.println(myChoice);
 			diem = 0;
 			showGUI11();
 		});
