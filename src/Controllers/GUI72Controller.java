@@ -123,7 +123,7 @@ public class GUI72Controller implements Initializable {
             			document.add(new Paragraph(s));
                         if(resultSet.getBinaryStream("c.image")!=null){
                             com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance(resultSet.getBytes("c.image"));
-                            image.scaleToFit(400,800);
+                            image.scaleToFit(400,200);
                             document.add(image);
                         }
             			count++;
@@ -140,14 +140,14 @@ public class GUI72Controller implements Initializable {
             			document.add(new Paragraph(s1));
                         if(resultSet.getBinaryStream("qs.image")!=null){
                             com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance(resultSet.getBytes("qs.image"));
-                            image.scaleToFit(400,800);
+                            image.scaleToFit(400,200);
                             document.add(image);
                         }
 
             			document.add(new Paragraph(s2));
                         if(resultSet.getBinaryStream("c.image")!=null){
-                            Image image = Image.getInstance(resultSet.getBytes("c.image"));
-                            image.scaleToFit(400,800);
+                            com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance(resultSet.getBytes("c.image"));
+                            image.scaleToFit(400,200);
                             document.add(image);
                         }
                         
