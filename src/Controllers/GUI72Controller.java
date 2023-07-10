@@ -99,6 +99,7 @@ public class GUI72Controller implements Initializable {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
         File file = fileChooser.showSaveDialog(null);
 
+
 //        if (file != null) {
 //            try {
 //                // Tạo một đối tượng Document mới
