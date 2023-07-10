@@ -325,7 +325,6 @@ public class GUI73questionController {
         falseIv.setCache(true);
         return falseIv;
     }
-
     public void setChoiceListAnswer(int i){
         choice_layout.getChildren().clear();
         int countCorrectAnswer = 0;
@@ -356,6 +355,13 @@ public class GUI73questionController {
                 }
                 radioButton.setDisable(true);
                 choice_layout.getChildren().add(hBox);
+                if (choiceList.get(i).get(j).getChoiceImage() != null) {
+                    ImageView imageView = new ImageView(choiceList.get(i).get(j).getChoiceImage());
+                    imageView.setFitHeight(500);
+                    imageView.setFitWidth(900);
+                    imageView.setPreserveRatio(true);
+                    choice_layout.getChildren().add(imageView);
+                }
             }
         } else {
             for (int j = 0; j < choiceList.get(i).size(); j++) {
@@ -379,6 +385,13 @@ public class GUI73questionController {
                 }
                 checkBox.setDisable(true);
                 choice_layout.getChildren().add(hBox);
+                if (choiceList.get(i).get(j).getChoiceImage() != null) {
+                    ImageView imageView = new ImageView(choiceList.get(i).get(j).getChoiceImage());
+                    imageView.setFitHeight(500);
+                    imageView.setFitWidth(900);
+                    imageView.setPreserveRatio(true);
+                    choice_layout.getChildren().add(imageView);
+                }
             }
             if (myChoice.get(Integer.parseInt((questionNo_lbl.getText())) - 1).equals(myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1))
                     && myAnswer.get(Integer.parseInt((questionNo_lbl.getText())) - 1).size() > 0) {
