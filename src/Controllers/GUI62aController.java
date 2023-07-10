@@ -120,6 +120,18 @@ public class GUI62aController extends GUI62aItemController implements Initializa
             throw new RuntimeException(e);
         }
     }
+    public void insertQuesToQuizI(List<String> quesList){
+        Connection connection = getConnection();
+        try {
+            Statement statement = connection.createStatement();
+            for (int i = 0; i < quesList.size(); i++) {
+                statement.executeUpdate("INSERT INTO ques_quiz(question_id, quiz_id) VALUES (" + quesList.get(i) + ", " + quiz_id_data + ")");
+            }
+            System.out.println(quesList.size()+" question added to quiz " + quiz_id_data);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void setShuffle() {
         Connection connection = getConnection();
         String query;

@@ -15,14 +15,17 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.*;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
 import static Controllers.GUI63aItemController.prepareToAdd;
 
 public class GUI65Controller implements Initializable {
-    private int itemPerPage = 1;
-
+    private final int itemPerPage = 10;
+    @FXML
+    private CheckBox Include_ckb;
     @FXML
     private Pagination pagination;
     @FXML
@@ -41,8 +44,8 @@ public class GUI65Controller implements Initializable {
     private CheckBox include_ckb;
     @FXML
     private Button add_btn;
-    private String selectedCategory;
-    private final ObservableList<QQuestion> questionList = FXCollections.observableArrayList();
+    private static String selectedCategory;
+    private static ObservableList<QQuestion> questionList = FXCollections.observableArrayList();
 
     public Connection getConnection() {
         Connection connection;
@@ -101,12 +104,19 @@ public class GUI65Controller implements Initializable {
         Model.getInstance().getViewFactory().showGUI62a();
     }
     public void showGUI62a_add() {
+        for (int i = 0; i < questionList.size(); i++){
+            prepareToAdd.add(String.valueOf(questionList.get(i).getQuestion_id()));
+        }
+        Collections.shuffle(prepareToAdd);
+        for (int i = 0; i < comboBox1.getValue(); i++) {
+            System.out.println(prepareToAdd.get(i) + " fas");
+        }
+        List<String> sub  = prepareToAdd.subList(0, comboBox1.getValue());
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI62a.fxml"));
             Parent root = loader.load();
             GUI62aController gui62aController = loader.getController();
-            Vector<String> quesList = prepareToAdd;
-            gui62aController.insertQuesToQuiz(quesList);
+            gui62aController.insertQuesToQuizI(sub);
 
             Stage stage = (Stage) switch_lbl.getScene().getWindow();
             Model.getInstance().getViewFactory().closeStage(stage);
@@ -114,30 +124,27 @@ public class GUI65Controller implements Initializable {
         } catch (Exception e) {e.printStackTrace();}
     }
     private void loadQuestion() {
-        int count = 0;
         try {
             questionList.clear();
-            String query = "SELECT q.name FROM question q, category c WHERE q.category_id = c.category_id AND c.name = ?";
+            String query = "SELECT q.name, q.question_id FROM question q, category c WHERE q.category_id = c.category_id AND c.name = ?";
             String selectedCategory2 = selectedCategory.substring(0, selectedCategory.indexOf('(')-1).trim();
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, selectedCategory2);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                String questionName = resultSet.getString("name");
-                System.out.println(questionName);
                 QQuestion question = new QQuestion();
-                question.setName(questionName);
+                question.setName(resultSet.getString("name"));
+                question.setQuestion_id(resultSet.getInt("question_id"));
                 questionList.add(question);
             }
             questionColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            count = questionList.size();
         } catch (Exception e) {
             e.printStackTrace();
         }
         table.setItems(questionList);
         table.refresh();
-        pagination.setPageCount(count / itemPerPage + 1);
+        pagination.setPageCount(questionList.size() / itemPerPage + 1);
         pagination.setPageFactory(this::createPage);
     }
 
@@ -145,33 +152,12 @@ public class GUI65Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getComboBox();
         getComboBox1();
-        int count = 0;
-        try {
-            Connection connection = getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT count(*) FROM question");
-            resultSet.first();
-            count = resultSet.getInt(1);
-            count = Math.max(count, itemPerPage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         comboBox.setOnAction(event -> {
             selectedCategory = comboBox.getValue();
-            if (comboBox1.getValue() != null) {
-                loadQuestion();
-            }
-        });
-
-        comboBox1.setOnAction(event -> {
-            itemPerPage = comboBox1.getValue();
-            if (comboBox.getValue() != null) {
-                loadQuestion();
-            }
+            loadQuestion();
         });
         add_btn.setOnAction(event -> {
             showGUI62a_add();
-            System.out.println(prepareToAdd.size());
             prepareToAdd.clear();
         });
         close_btn.setOnAction(event -> showGUI62a());
