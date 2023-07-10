@@ -69,7 +69,7 @@
             <Label layoutX="77.0" layoutY="10.0" text="THI CUỐI KÌ" textFill="#c23616" />
         </HBox>
     </VBox>
-    <TabPane layoutX="31.0" layoutY="234.0" prefHeight="440.0" prefWidth="840.0" styleClass="container1" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="234.0">
+    <TabPane fx:id="tabPane" layoutX="31.0" layoutY="234.0" prefHeight="440.0" prefWidth="840.0" styleClass="container1" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="234.0">
         <Tab text="Questions">
             <fx:include source="GUI21questionTab.fxml" />
         </Tab>

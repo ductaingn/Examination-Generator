@@ -79,8 +79,9 @@ public class GUI32PicturePaneController implements Initializable {
                 statement.setInt(2,questionId);
                 statement.executeUpdate();
                 statement.close();
-            }
-            else{
+            } else if (imageFile==null && imageView.getImage()!=null) {
+                return;
+            } else{
                 PreparedStatement statement = connection.prepareStatement("UPDATE test.question SET image=NULL WHERE question_id=?;");
                 statement.setInt(1,questionId);
                 statement.executeUpdate();
