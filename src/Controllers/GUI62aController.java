@@ -120,7 +120,7 @@ public class GUI62aController extends GUI62aItemController implements Initializa
             throw new RuntimeException(e);
         }
     }
-    public void insertQuesToQuizI(List<String> quesList){
+    public void insertQuesToQuiz(List<String> quesList){
         Connection connection = getConnection();
         try {
             Statement statement = connection.createStatement();

@@ -18,14 +18,13 @@ import java.sql.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import static Controllers.GUI63aItemController.prepareToAdd;
 
 public class GUI65Controller implements Initializable {
     private final int itemPerPage = 10;
     @FXML
-    private CheckBox Include_ckb;
+    private CheckBox include_ckb;
     @FXML
     private Pagination pagination;
     @FXML
@@ -41,11 +40,9 @@ public class GUI65Controller implements Initializable {
     @FXML
     private TableView<QQuestion> table;
     @FXML
-    private CheckBox include_ckb;
-    @FXML
     private Button add_btn;
     private static String selectedCategory;
-    private static ObservableList<QQuestion> questionList = FXCollections.observableArrayList();
+    private static final ObservableList<QQuestion> questionList = FXCollections.observableArrayList();
 
     public Connection getConnection() {
         Connection connection;
@@ -57,7 +54,6 @@ public class GUI65Controller implements Initializable {
             return null;
         }
     }
-
     public void getComboBox() {
         String queryCategoryName = "" +
                 "SELECT CONCAT( REPEAT(' ', COUNT(parent.name) - 1),' ' ,node.name,' (', " +
@@ -80,22 +76,12 @@ public class GUI65Controller implements Initializable {
             e.printStackTrace();
         }
     }
-
     public void getComboBox1() {
-        comboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-            String selectedItem = newValue.toString();
-            int max = Integer.parseInt(selectedItem.substring(selectedItem.lastIndexOf("(") + 1, selectedItem.lastIndexOf(")")));
-            comboBox1.getItems().clear();
-            if (max == 0) {
-                comboBox1.setDisable(true);
-            } else {
-                comboBox1.setDisable(false);
-                for (int i = 1; i <= max; i++) {
-                    comboBox1.getItems().add(i);
-                }
-                comboBox1.setValue(1);
-            }
-        });
+        comboBox1.getItems().clear();
+        for (int i = 1; i <= questionList.size(); i++){
+            comboBox1.getItems().add(i);
+        }
+        comboBox1.setValue(1);
     }
 
     public void showGUI62a(){
@@ -108,15 +94,12 @@ public class GUI65Controller implements Initializable {
             prepareToAdd.add(String.valueOf(questionList.get(i).getQuestion_id()));
         }
         Collections.shuffle(prepareToAdd);
-        for (int i = 0; i < comboBox1.getValue(); i++) {
-            System.out.println(prepareToAdd.get(i) + " fas");
-        }
         List<String> sub  = prepareToAdd.subList(0, comboBox1.getValue());
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI62a.fxml"));
             Parent root = loader.load();
             GUI62aController gui62aController = loader.getController();
-            gui62aController.insertQuesToQuizI(sub);
+            gui62aController.insertQuesToQuiz(sub);
 
             Stage stage = (Stage) switch_lbl.getScene().getWindow();
             Model.getInstance().getViewFactory().closeStage(stage);
@@ -147,22 +130,52 @@ public class GUI65Controller implements Initializable {
         pagination.setPageCount(questionList.size() / itemPerPage + 1);
         pagination.setPageFactory(this::createPage);
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getComboBox();
-        getComboBox1();
         comboBox.setOnAction(event -> {
             selectedCategory = comboBox.getValue();
             loadQuestion();
+            getComboBox1();
         });
         add_btn.setOnAction(event -> {
             showGUI62a_add();
             prepareToAdd.clear();
         });
         close_btn.setOnAction(event -> showGUI62a());
+        include_ckb.setOnAction(event -> {
+            if (include_ckb.isSelected()) {
+                System.out.println("also show questions from sub categories");
+                questionList.clear();
+                String categoryName = comboBox.getValue().trim();
+                categoryName = categoryName.substring(0, categoryName.indexOf('(') - 1);
+                Connection connection = getConnection();
+                try {
+                    CallableStatement callableStatement = connection.prepareCall("{call subCategory(?)}");
+                    callableStatement.setString(1, categoryName);
+                    callableStatement.execute();
+                    ResultSet resultSet = callableStatement.getResultSet();
+                    while (resultSet.next()) {
+                        QQuestion question = new QQuestion();
+                        question.setName(resultSet.getString("name"));
+                        question.setQuestion_id(resultSet.getInt("question_id"));
+                        questionList.add(question);
+                    }
+                    questionColumn.setCellValueFactory((new PropertyValueFactory<>("name")));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                table.setItems(questionList);
+                table.refresh();
+                pagination.setPageCount(questionList.size() / itemPerPage + 1);
+                pagination.setPageFactory(this::createPage);
+            } else {
+                System.out.println("don't show questions from sub categories");
+                loadQuestion();
+            }
+            getComboBox1();
+        });
     }
-
     private Node createPage(int pageIndex) {
         int from = pageIndex * itemPerPage;
         int to = Math.min(from + itemPerPage, questionList.size());
