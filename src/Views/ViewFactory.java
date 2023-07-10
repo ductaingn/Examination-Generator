@@ -1,5 +1,6 @@
 package Views;
 
+import Controllers.GUI21Controller;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -12,6 +13,11 @@ public class ViewFactory {
     public void showGUI21() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI21.fxml"));
         createStage(loader);
+    }
+    public GUI21Controller showGUI21(String tabName){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI21.fxml"));
+        createStage(loader);
+        return loader.getController();
     }
     public void showGUI32() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Fxml/GUI32.fxml"));
