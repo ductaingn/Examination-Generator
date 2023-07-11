@@ -254,7 +254,7 @@ public class GUI73questionController {
                 choice_layout.getChildren().add(radioButton);
                 if (choiceList.get(i).get(j).getChoiceImage() != null) {
                     ImageView imageView = new ImageView(choiceList.get(i).get(j).getChoiceImage());
-                    imageView.setFitHeight(500);
+                    imageView.setFitHeight(300);
                     imageView.setFitWidth(900);
                     imageView.setPreserveRatio(true);
                     choice_layout.getChildren().add(imageView);
@@ -280,7 +280,7 @@ public class GUI73questionController {
                 choice_layout.getChildren().add(checkBox);
                 if (choiceList.get(i).get(j).getChoiceImage() != null) {
                     ImageView imageView = new ImageView(choiceList.get(i).get(j).getChoiceImage());
-                    imageView.setFitHeight(500);
+                    imageView.setFitHeight(300);
                     imageView.setFitWidth(900);
                     imageView.setPreserveRatio(true);
                     choice_layout.getChildren().add(imageView);
@@ -357,7 +357,7 @@ public class GUI73questionController {
                 choice_layout.getChildren().add(hBox);
                 if (choiceList.get(i).get(j).getChoiceImage() != null) {
                     ImageView imageView = new ImageView(choiceList.get(i).get(j).getChoiceImage());
-                    imageView.setFitHeight(500);
+                    imageView.setFitHeight(300);
                     imageView.setFitWidth(900);
                     imageView.setPreserveRatio(true);
                     choice_layout.getChildren().add(imageView);
@@ -387,7 +387,7 @@ public class GUI73questionController {
                 choice_layout.getChildren().add(hBox);
                 if (choiceList.get(i).get(j).getChoiceImage() != null) {
                     ImageView imageView = new ImageView(choiceList.get(i).get(j).getChoiceImage());
-                    imageView.setFitHeight(500);
+                    imageView.setFitHeight(300);
                     imageView.setFitWidth(900);
                     imageView.setPreserveRatio(true);
                     choice_layout.getChildren().add(imageView);
