@@ -292,7 +292,7 @@ public class GUI21importTabController implements Initializable {
                         	Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setTitle("Thông báo");
                             alert.setHeaderText(null);
-                            alert.setContentText("ERROR AT " + num_line);
+                            alert.setContentText("ERROR AT LINE " + num_line);
                             alert.showAndWait();
                             return false;
                         }
@@ -302,7 +302,7 @@ public class GUI21importTabController implements Initializable {
                     	Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Thông báo");
                         alert.setHeaderText(null);
-                        alert.setContentText("ERROR AT " + num_line);
+                        alert.setContentText("ERROR AT LINE " + num_line);
                         alert.showAndWait();
                         return false;
                     } else {
@@ -317,7 +317,7 @@ public class GUI21importTabController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Thông báo");
             alert.setHeaderText(null);
-            alert.setContentText("SUCCESS " + num_qs + "Questions");
+            alert.setContentText("SUCCESS: " + num_qs + " Questions");
             alert.showAndWait();
             return true;
         } catch (IOException e) {
