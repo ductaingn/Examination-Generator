@@ -43,6 +43,11 @@ public class GUI32paneController implements Initializable {
     private VBox mediaVBox;
     @FXML
     private VBox videoVBox;
+
+    public VBox getPictureVBox() {
+        return pictureVBox;
+    }
+
     @FXML
     private VBox pictureVBox;
     @FXML
@@ -197,7 +202,13 @@ public class GUI32paneController implements Initializable {
             questionIdSet.next();
             Integer questionId= Integer.parseInt(questionIdSet.getString("last_insert_id()"));
             System.out.println("Inserted Successfully, Question ID: " + questionId);
-            gui32PicturePaneController.insertPicture(questionId);
+            if(pictureVBox.getChildren().size()>=1){
+                gui32PicturePaneController.insertPicture(questionId);
+            }
+            else{
+                gui32PicturePaneController.removePicture();
+                gui32PicturePaneController.insertPicture(questionId);
+            }
             gui32MediaPaneController.insertVideo(questionId);
 
             for(int i=0;i<choicesControllers.size();i++){
@@ -231,7 +242,13 @@ public class GUI32paneController implements Initializable {
             preparedStatement.executeUpdate();
             preparedStatement.close();
             gui32MediaPaneController.insertVideo(questionId);
-            gui32PicturePaneController.insertPicture(questionId);
+            if(pictureVBox.getChildren().size()>=1){
+                gui32PicturePaneController.insertPicture(questionId);
+            }
+            else{
+                gui32PicturePaneController.removePicture();
+                gui32PicturePaneController.insertPicture(questionId);
+            }
 
             //Alter choices by removing old choices in Database then insert new ones
             choicesControllers.get(0).removeChoice(questionId);
