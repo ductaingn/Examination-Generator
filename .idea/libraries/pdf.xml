@@ -3,7 +3,6 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/Downloads/itextpdf-5.1.0.jar!/" />
       <root url="jar://$USER_HOME$/Downloads/pdfbox-5.0.0.jar!/" />
-      <root url="jar://$USER_HOME$/Downloads/commons-logging-1.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
