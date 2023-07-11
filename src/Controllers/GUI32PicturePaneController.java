@@ -49,6 +49,7 @@ public class GUI32PicturePaneController implements Initializable {
             if (file!=null){
                 image = new Image(file.toURI().toString());
                 imageView.setImage(image);
+                imageFile = file;
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -69,6 +70,7 @@ public class GUI32PicturePaneController implements Initializable {
     }
     public void removePicture(){
         image = null;
+        imageFile=null;
         parentController.removePicture();
     }
     public void insertPicture(Integer questionId){
@@ -81,9 +83,11 @@ public class GUI32PicturePaneController implements Initializable {
                 statement.setInt(2,questionId);
                 statement.executeUpdate();
                 statement.close();
-            } else if (imageFile==null && image!=null) {
+            }
+            else if (imageFile==null && image!=null) {
                 return;
-            } else{
+            }
+            else{
                 PreparedStatement statement = connection.prepareStatement("UPDATE test.question SET image=NULL WHERE question_id=?;");
                 statement.setInt(1,questionId);
                 statement.executeUpdate();
